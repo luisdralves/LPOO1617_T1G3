@@ -23,8 +23,10 @@ public class HelloWorld
 		int leverX = 7, leverY = 8;
 		int exitX = 0, exit1Y = 5, exit2Y = 6;
 		int guardX = 8, guardY = 1;
+		String guardMovement = "assssaaaaaasdddddddwwwww";
 		char move;
 		boolean gameNotOver = true;
+		int iterator = 0;
 		
 		
 		for (int i = 0; i < 10; i++)
@@ -78,6 +80,23 @@ public class HelloWorld
 			else
 				board[heroY][heroX] = 'H';
 			
+			board[guardY][guardX] = ' ';
+			switch (guardMovement.charAt(iterator)) {
+			case 'w':
+				guardY--;
+				break;
+			case 's':
+				guardY++;
+				break;
+			case 'a':
+				guardX--;
+				break;
+			case 'd':
+				guardX++;
+				break;
+			}
+			board[guardY][guardX] = 'G';
+			
 			if (heroX == leverX && heroY == leverY)
 			{
 				board[exit1Y][exitX] = 'S';
@@ -105,6 +124,9 @@ public class HelloWorld
 				System.out.println("Caught by the guard");
 				gameNotOver = false;
 			}
+			
+			iterator++;
+			iterator %= 24;
 		}
 	} 
 }
