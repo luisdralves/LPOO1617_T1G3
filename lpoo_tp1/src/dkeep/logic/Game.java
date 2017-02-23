@@ -74,14 +74,25 @@ public class Game {
 		if (map.hasLevers() && map.getChar(newX, newY) == 'k') {
 			map.toggleDoors();
 		}
+		else if (map.getChar(newX, newY) == 'k')
+		{
+			map.setChar(newX, newY, ' ');
+			hero.aquiresKey();
+		}
 		if (map.getChar(newX, newY) == 'S') {
 			switch (currentLevel) {
 			case 1:
 				currentLevel++;
 				SetMap(new KeepMap());
 				break;
+			case 2:
+				gameOver = true;
 			}
 			return 2;
+		}
+		if (hero.hasKey() && map.getChar(newX, newY) == 'I')
+		{
+			map.openDoors();
 		}
 		if (heroCaught()) {
 			gameOver = true;

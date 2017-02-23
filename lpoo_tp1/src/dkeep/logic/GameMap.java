@@ -39,6 +39,11 @@ public abstract class GameMap {
 	public char getChar(int x, int y) {
 		return map[y][x];
 	}
+	
+	public void setChar(int x, int y, char c)
+	{
+		map[y][x] = c;
+	}
 
 	public boolean hasLevers() {
 		return hasLevers;

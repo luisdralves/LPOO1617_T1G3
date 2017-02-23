@@ -12,10 +12,12 @@ public class Hero {
 
 	public void aquiresKey() {
 		this.hasKey = true;
+		c = 'K';
 	}
 	
 	public void dropsKey() {
 		this.hasKey = false;
+		c = 'H';
 	}
 
 	public Hero(int x, int y) {
