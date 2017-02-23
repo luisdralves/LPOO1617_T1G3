@@ -5,10 +5,12 @@ public class Game {
 	private Hero hero;
 	private Guard[] guards;
 	private int currentLevel;
+	private boolean gameOver;
 
 	public Game(GameMap startingMap) {
 		SetMap(startingMap);
 		currentLevel = 1;
+		gameOver = false;
 	}
 
 	public void SetMap(GameMap map) {
@@ -27,7 +29,7 @@ public class Game {
 	}
 
 	public boolean isGameOver() {
-		return false; // complete
+		return gameOver;
 	}
 
 	public char[][] getGameMap() {
@@ -42,16 +44,15 @@ public class Game {
 	public String getVictoryMessage() {
 		return map.victoryMessage;
 	}
+
 	public String getLossMessage() {
 		return map.lossMessage;
 	}
 
 	public int update(char dir) {
-		for (int i = 0; i < map.getGuardAmmount(); i++) {
-			guards[i].move();
-		}
 		int newX = hero.getX();
 		int newY = hero.getY();
+		int ret = 1;
 		switch (dir) {
 		case 'w':
 		case 'W':
@@ -77,18 +78,23 @@ public class Game {
 			switch (currentLevel) {
 			case 1:
 				currentLevel++;
-				SetMap(new DungeonMap());
+				SetMap(new KeepMap());
 				break;
 			}
 			return 2;
 		}
-		if (heroCaught())
-			return 3;
+		if (heroCaught()) {
+			gameOver = true;
+			ret = 3;
+		}
 		if (map.isFree(newX, newY)) {
 			hero.newPos(newX, newY);
 		} else
-			return 0;
-		return 1;
+			ret = 0;
+		for (int i = 0; i < map.getGuardAmmount(); i++) {
+			guards[i].move();
+		}
+		return ret;
 	}
 
 	private boolean heroCaught() {
