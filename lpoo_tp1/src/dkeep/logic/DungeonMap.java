@@ -2,6 +2,7 @@ package dkeep.logic;
 
 public class DungeonMap extends GameMap {
 	public DungeonMap() {
+		victoryMessage = "And just when you thought your captivity had ended, you realise you still have another challenge to overcome...go through the Keep's Crazy Ogre.";
 		map = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
 				{ 'X', ' ', ' ', ' ', 'I', ' ', 'X', ' ', ' ', 'X' },
 				{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },
@@ -12,7 +13,25 @@ public class DungeonMap extends GameMap {
 				{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X', ' ', 'X' },
 				{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', 'k', ' ', 'X' },
 				{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } };
+		hasLevers = true;
+		doorsAreOpen = false;
+		doorsAmmount = 2;
+		doorsX = new int[doorsAmmount];
+		doorsX[0] = 0;
+		doorsX[1] = 0;
+		doorsY = new int[doorsAmmount];
+		doorsY[0] = 5;
+		doorsY[1] = 6;
 		heroStartingPosX = 1;
 		heroStartingPosY = 1;
+		guardAmmount = 1;
+		guardMovements = new String[guardAmmount];
+		guardMovements[0] = "assssaaaaaasdddddddwwwww";
+		guardStartingPosX = new int[guardAmmount];
+		guardStartingPosX[0] = 8;
+		guardStartingPosY = new int[guardAmmount];
+		guardStartingPosY[0] = 1;
+		guardTypes = new String[guardAmmount];
+		guardTypes[0] = "rookie";
 	}
 }

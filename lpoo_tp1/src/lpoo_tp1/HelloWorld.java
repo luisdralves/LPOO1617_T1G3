@@ -1,4 +1,4 @@
-/*package lpoo_tp1;
+package lpoo_tp1;
 
 import java.util.Scanner;
 import java.util.Random;
@@ -322,4 +322,3 @@ public class HelloWorld {
 		}
 	}
 }
-*/
