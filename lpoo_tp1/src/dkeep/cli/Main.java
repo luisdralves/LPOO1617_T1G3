@@ -19,6 +19,9 @@ public class Main {
 			case 2:
 				System.out.println(g.getVictoryMessage());
 				break;
+			case 3:
+				System.out.println(g.getLossMessage());
+				break;
 			}
 		}
 

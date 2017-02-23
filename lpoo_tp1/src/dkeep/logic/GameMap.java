@@ -4,6 +4,7 @@ package dkeep.logic;
 
 public abstract class GameMap {
 	public String victoryMessage;
+	public String lossMessage;
 	protected char[][] map;
 	protected boolean hasLevers;
 	protected boolean doorsAreOpen;
@@ -20,6 +21,9 @@ public abstract class GameMap {
 
 	public String getVictoryMessage() {
 		return victoryMessage;
+	}
+	public String getLossMessage() {
+		return lossMessage;
 	}
 	
 	public char[][] getMap() {

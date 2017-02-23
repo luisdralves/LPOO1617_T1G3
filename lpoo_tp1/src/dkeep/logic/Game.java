@@ -16,11 +16,11 @@ public class Game {
 		hero = new Hero();
 		hero.newPos(map.getHeroStartingPosX(), map.getHeroStartingPosY());
 		guards = new Guard[map.getGuardAmmount()];
-		for (int i = 0; i < map.getGuardAmmount(); i++)
-		{
-			switch(map.getGuardTypes(i)) {
+		for (int i = 0; i < map.getGuardAmmount(); i++) {
+			switch (map.getGuardTypes(i)) {
 			case "rookie":
-				guards[i] = new RookieGuard(map.getGuardStartingPosX(i), map.getGuardStartingPosY(i), map.getGuardMovement(i));
+				guards[i] = new RookieGuard(map.getGuardStartingPosX(i), map.getGuardStartingPosY(i),
+						map.getGuardMovement(i));
 				break;
 			}
 		}
@@ -38,9 +38,12 @@ public class Game {
 		}
 		return ret;
 	}
-	
+
 	public String getVictoryMessage() {
 		return map.victoryMessage;
+	}
+	public String getLossMessage() {
+		return map.lossMessage;
 	}
 
 	public int update(char dir) {
@@ -67,11 +70,10 @@ public class Game {
 			newX++;
 			break;
 		}
-		if (map.hasLevers() && map.getChar(newX, newY) == 'k'){
+		if (map.hasLevers() && map.getChar(newX, newY) == 'k') {
 			map.toggleDoors();
 		}
-		if (map.getChar(newX, newY) == 'S')
-		{
+		if (map.getChar(newX, newY) == 'S') {
 			switch (currentLevel) {
 			case 1:
 				currentLevel++;
@@ -80,10 +82,26 @@ public class Game {
 			}
 			return 2;
 		}
+		if (heroCaught())
+			return 3;
 		if (map.isFree(newX, newY)) {
 			hero.newPos(newX, newY);
 		} else
 			return 0;
 		return 1;
+	}
+
+	private boolean heroCaught() {
+		boolean ret = false;
+		int x = hero.getX(), y = hero.getY();
+		for (int i = 0; i < map.getGuardAmmount(); i++) {
+			int guardX = guards[i].getX(), guardY = guards[i].getY();
+			if ((x == guardX && (y == guardY - 1 || y == guardY + 1))
+					|| (y == guardY && (x == guardX - 1 || x == guardX + 1)) || (x == guardX && y == guardY)) {
+				ret = true;
+				break;
+			}
+		}
+		return ret;
 	}
 }
