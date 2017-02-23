@@ -14,7 +14,6 @@ public class Game {
 		this.map = map;
 		hero = new Hero();
 		hero.newPos(map.getHeroStartingPosX(), map.getHeroStartingPosY());
-		// map.getMap()[hero.getY()][hero.getX()] = hero.getC();
 	}
 	
 	public boolean isGameOver() {
