@@ -27,6 +27,6 @@ public class RookieGuard extends Guard {
 			break;
 		}
 		iterator++;
-		iterator %= 24;
+		iterator %= movement.length();
 	}
 }

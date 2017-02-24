@@ -24,6 +24,10 @@ public class Game {
 				guards[i] = new RookieGuard(map.getGuardStartingPosX(i), map.getGuardStartingPosY(i),
 						map.getGuardMovement(i));
 				break;
+			case "drunken":
+				guards[i] = new DrunkenGuard(map.getGuardStartingPosX(i), map.getGuardStartingPosY(i),
+						map.getGuardMovement(i));
+				break;
 			}
 		}
 	}
@@ -73,9 +77,7 @@ public class Game {
 		}
 		if (map.hasLevers() && map.getChar(newX, newY) == 'k') {
 			map.toggleDoors();
-		}
-		else if (map.getChar(newX, newY) == 'k')
-		{
+		} else if (map.getChar(newX, newY) == 'k') {
 			map.setChar(newX, newY, ' ');
 			hero.aquiresKey();
 		}
@@ -90,8 +92,7 @@ public class Game {
 			}
 			return 2;
 		}
-		if (hero.hasKey() && map.getChar(newX, newY) == 'I')
-		{
+		if (hero.hasKey() && map.getChar(newX, newY) == 'I') {
 			map.openDoors();
 		}
 		if (heroCaught()) {
@@ -112,11 +113,13 @@ public class Game {
 		boolean ret = false;
 		int x = hero.getX(), y = hero.getY();
 		for (int i = 0; i < map.getGuardAmmount(); i++) {
-			int guardX = guards[i].getX(), guardY = guards[i].getY();
-			if ((x == guardX && (y == guardY - 1 || y == guardY + 1))
-					|| (y == guardY && (x == guardX - 1 || x == guardX + 1)) || (x == guardX && y == guardY)) {
-				ret = true;
-				break;
+			if (guards[i].getC() == 'G') {
+				int guardX = guards[i].getX(), guardY = guards[i].getY();
+				if ((x == guardX && (y == guardY - 1 || y == guardY + 1))
+						|| (y == guardY && (x == guardX - 1 || x == guardX + 1)) || (x == guardX && y == guardY)) {
+					ret = true;
+					break;
+				}
 			}
 		}
 		return ret;
