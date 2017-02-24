@@ -28,6 +28,10 @@ public class Game {
 				guards[i] = new DrunkenGuard(map.getGuardStartingPosX(i), map.getGuardStartingPosY(i),
 						map.getGuardMovement(i));
 				break;
+			case "suspicious":
+				guards[i] = new SuspiciousGuard(map.getGuardStartingPosX(i), map.getGuardStartingPosY(i),
+						map.getGuardMovement(i));
+				break;
 			}
 		}
 	}

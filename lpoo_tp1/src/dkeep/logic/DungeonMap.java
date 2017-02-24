@@ -33,6 +33,6 @@ public class DungeonMap extends GameMap {
 		guardStartingPosY = new int[guardAmmount];
 		guardStartingPosY[0] = 1;
 		guardTypes = new String[guardAmmount];
-		guardTypes[0] = "drunken";
+		guardTypes[0] = "suspicious";
 	}
 }

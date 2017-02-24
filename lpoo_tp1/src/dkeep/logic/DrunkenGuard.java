@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class DrunkenGuard extends Guard {
 	protected int direction;
+
 	public DrunkenGuard(int x, int y, String movement) {
 		this.x = x;
 		this.y = y;
@@ -16,7 +17,7 @@ public class DrunkenGuard extends Guard {
 	@Override
 	public void move() {
 		Random rand = new Random();
-		int  prob = rand.nextInt(100);
+		int prob = rand.nextInt(100);
 		if (c == 'G') {
 			if (prob >= 25) {
 				switch (movement.charAt(iterator)) {
@@ -46,9 +47,9 @@ public class DrunkenGuard extends Guard {
 				if (prob < 50) {
 					direction = -direction;
 					reverse();
-					iterator+=direction;
+					iterator += direction;
 					iterator %= movement.length();
-					if (iterator == -1)
+					if (iterator == -1) // -1 % 24 != 23???
 						iterator = 23;
 				}
 				c = 'G';
