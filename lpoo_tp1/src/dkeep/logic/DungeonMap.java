@@ -1,5 +1,7 @@
 package dkeep.logic;
 
+import java.util.Random;
+
 public class DungeonMap extends GameMap {
 	public DungeonMap() {
 		victoryMessage = "And just when you thought your captivity had ended, you realise you still have another challenge to overcome...go through the Keep's Crazy Ogre.";
@@ -33,6 +35,18 @@ public class DungeonMap extends GameMap {
 		guardStartingPosY = new int[guardAmmount];
 		guardStartingPosY[0] = 1;
 		guardTypes = new String[guardAmmount];
-		guardTypes[0] = "suspicious";
+		Random rand = new Random();
+		int prob = rand.nextInt(3);
+		switch (prob) {
+		case 0:
+			guardTypes[0] = "rookie";
+			break;
+		case 1:
+			guardTypes[0] = "drunken";
+			break;
+		case 2:
+			guardTypes[0] = "suspicious";
+			break;
+		}
 	}
 }
