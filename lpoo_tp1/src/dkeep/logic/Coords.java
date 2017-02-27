@@ -23,7 +23,7 @@ public class Coords {
 	}
 
 	public int getX() {
-		return x;
+		return new Integer(x);
 	}
 
 	public void setX(int x) {
@@ -31,7 +31,7 @@ public class Coords {
 	}
 
 	public int getY() {
-		return y;
+		return new Integer(y);
 	}
 
 	public void setY(int y) {

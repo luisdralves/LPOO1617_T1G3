@@ -31,7 +31,7 @@ public class Hero {
 		hasKey = false;
 	}
 
-	public void newPos(Coords newPos) {
+	public void move(Coords newPos) {
 		coords = newPos;
 	}
 

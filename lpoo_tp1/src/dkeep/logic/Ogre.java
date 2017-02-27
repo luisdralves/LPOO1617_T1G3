@@ -36,7 +36,7 @@ public class Ogre {
 			ret.addX(1);
 			break;
 		}
-		return coords;
+		return ret;
 	}
 
 	public void move(Coords newPos) {

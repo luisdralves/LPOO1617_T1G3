@@ -68,33 +68,33 @@ public class Game {
 	}
 
 	public int update(char dir) {
-		Coords newPos = hero.getCoords();
+		Coords newHeroPos = hero.getCoords();
 		int ret = 1;
 		switch (dir) {
 		case 'w':
 		case 'W':
-			newPos.addY(-1);
+			newHeroPos.addY(-1);
 			break;
 		case 's':
 		case 'S':
-			newPos.addY(1);
+			newHeroPos.addY(1);
 			break;
 		case 'a':
 		case 'A':
-			newPos.addX(-1);
+			newHeroPos.addX(-1);
 			break;
 		case 'd':
 		case 'D':
-			newPos.addX(1);
+			newHeroPos.addX(1);
 			break;
 		}
-		if (map.hasLevers() && map.getChar(newPos) == 'k') {
+		if (map.hasLevers() && map.getChar(newHeroPos) == 'k') {
 			map.toggleDoors();
-		} else if (map.getChar(newPos) == 'k') {
-			map.setChar(newPos, ' ');
+		} else if (map.getChar(newHeroPos) == 'k') {
+			map.setChar(newHeroPos, ' ');
 			hero.aquiresKey();
 		}
-		if (map.getChar(newPos) == 'S') {
+		if (map.getChar(newHeroPos) == 'S') {
 			switch (currentLevel) {
 			case 1:
 				currentLevel++;
@@ -105,15 +105,15 @@ public class Game {
 			}
 			return 2;
 		}
-		if (hero.hasKey() && map.getChar(newPos) == 'I') {
+		if (hero.hasKey() && map.getChar(newHeroPos) == 'I') {
 			map.openDoors();
 		}
 		if (heroCaught()) {
 			gameOver = true;
 			ret = 3;
 		}
-		if (map.isFree(newPos)) {
-			hero.newPos(newPos);
+		if (map.isFree(newHeroPos)) {
+			hero.move(newHeroPos);
 		} else
 			ret = 0;
 		for (int i = 0; i < map.getGuardAmmount(); i++) {
