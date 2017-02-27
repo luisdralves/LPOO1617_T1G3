@@ -1,9 +1,13 @@
 package dkeep.logic;
 
+import java.util.List;
+import java.util.Vector;
+
 public class Game {
 	private GameMap map;
 	private Hero hero;
 	private Guard[] guards;
+	private List<Ogre> ogres;
 	private int currentLevel;
 	private boolean gameOver;
 
@@ -15,8 +19,7 @@ public class Game {
 
 	public void SetMap(GameMap map) {
 		this.map = map;
-		hero = new Hero();
-		hero.newPos(map.getHeroStartingPosX(), map.getHeroStartingPosY());
+		hero = new Hero(map.getHeroStartingPosX(), map.getHeroStartingPosY());
 		guards = new Guard[map.getGuardAmmount()];
 		for (int i = 0; i < map.getGuardAmmount(); i++) {
 			switch (map.getGuardTypes(i)) {
@@ -34,6 +37,10 @@ public class Game {
 				break;
 			}
 		}
+		ogres = new Vector<Ogre>();
+		for (int i = 0; i < map.getOgreAmmount(); i++) {
+			ogres.add(new Ogre(map.getOgreStartingPosX(i), map.getOgreStartingPosY(i)));
+		}
 	}
 
 	public boolean isGameOver() {
@@ -43,8 +50,11 @@ public class Game {
 	public char[][] getGameMap() {
 		char[][] ret = map.getMap();
 		ret[hero.getY()][hero.getX()] = hero.getC();
-		for (int i = 0; i < map.getGuardAmmount(); i++) {
-			ret[guards[i].getY()][guards[i].getX()] = guards[i].getC();
+		for (Guard guard : guards) {
+			ret[guard.getY()][guard.getX()] = guard.getC();
+		}
+		for (Ogre ogre : ogres) {
+			ret[ogre.getY()][ogre.getX()] = ogre.getC();
 		}
 		return ret;
 	}
@@ -58,34 +68,33 @@ public class Game {
 	}
 
 	public int update(char dir) {
-		int newX = hero.getX();
-		int newY = hero.getY();
+		Coords newPos = hero.getCoords();
 		int ret = 1;
 		switch (dir) {
 		case 'w':
 		case 'W':
-			newY--;
+			newPos.addY(-1);
 			break;
 		case 's':
 		case 'S':
-			newY++;
+			newPos.addY(1);
 			break;
 		case 'a':
 		case 'A':
-			newX--;
+			newPos.addX(-1);
 			break;
 		case 'd':
 		case 'D':
-			newX++;
+			newPos.addX(1);
 			break;
 		}
-		if (map.hasLevers() && map.getChar(newX, newY) == 'k') {
+		if (map.hasLevers() && map.getChar(newPos) == 'k') {
 			map.toggleDoors();
-		} else if (map.getChar(newX, newY) == 'k') {
-			map.setChar(newX, newY, ' ');
+		} else if (map.getChar(newPos) == 'k') {
+			map.setChar(newPos, ' ');
 			hero.aquiresKey();
 		}
-		if (map.getChar(newX, newY) == 'S') {
+		if (map.getChar(newPos) == 'S') {
 			switch (currentLevel) {
 			case 1:
 				currentLevel++;
@@ -96,19 +105,26 @@ public class Game {
 			}
 			return 2;
 		}
-		if (hero.hasKey() && map.getChar(newX, newY) == 'I') {
+		if (hero.hasKey() && map.getChar(newPos) == 'I') {
 			map.openDoors();
 		}
 		if (heroCaught()) {
 			gameOver = true;
 			ret = 3;
 		}
-		if (map.isFree(newX, newY)) {
-			hero.newPos(newX, newY);
+		if (map.isFree(newPos)) {
+			hero.newPos(newPos);
 		} else
 			ret = 0;
 		for (int i = 0; i < map.getGuardAmmount(); i++) {
 			guards[i].move();
+		}
+		for (Ogre ogre : ogres) {
+			Coords newOgrePos = ogre.newCoords();
+			if (map.isFree(newOgrePos) && ogre.getC() == 'O')
+				ogre.move(newOgrePos);
+			else
+				ogre.move(ogre.getCoords());
 		}
 		return ret;
 	}

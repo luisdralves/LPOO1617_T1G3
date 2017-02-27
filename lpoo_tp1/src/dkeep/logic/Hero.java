@@ -1,8 +1,7 @@
 package dkeep.logic;
 
 public class Hero {
-	protected int x;
-	protected int y;
+	protected Coords coords;
 	protected char c;
 	protected boolean hasKey;
 
@@ -21,30 +20,31 @@ public class Hero {
 	}
 
 	public Hero(int x, int y) {
-		this.x = x;
-		this.y = y;
+		coords = new Coords (x, y);
 		c = 'H';
 		hasKey = false;
 	}
 
 	public Hero() {
-		x = 0;
-		y = 0;
+		coords = new Coords();
 		c = 'H';
 		hasKey = false;
 	}
 
-	public void newPos(int x, int y) {
-		this.x = x;
-		this.y = y;
+	public void newPos(Coords newPos) {
+		coords = newPos;
+	}
+
+	public Coords getCoords() {
+		return coords;
 	}
 
 	public int getX() {
-		return x;
+		return coords.getX();
 	}
 
 	public int getY() {
-		return y;
+		return coords.getY();
 	}
 
 	public char getC() {

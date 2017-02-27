@@ -48,5 +48,8 @@ public class DungeonMap extends GameMap {
 			guardTypes[0] = "suspicious";
 			break;
 		}
+		ogreAmmount = 0;
+		ogreStartingPosX = new int[0];
+		ogreStartingPosY = new int[0];
 	}
 }

@@ -3,11 +3,12 @@ package dkeep.cli;
 import java.util.Scanner;
 import dkeep.logic.DungeonMap;
 import dkeep.logic.Game;
+import dkeep.logic.KeepMap;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Game g = new Game(new DungeonMap());
+		Game g = new Game(new KeepMap());
 		while (!g.isGameOver()) {
 			draw(g.getGameMap());
 			char dir = askUser();

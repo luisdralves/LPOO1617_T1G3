@@ -16,6 +16,9 @@ public abstract class GameMap {
 	protected int guardAmmount;
 	protected int[] guardStartingPosX;
 	protected int[] guardStartingPosY;
+	protected int ogreAmmount;
+	protected int[] ogreStartingPosX;
+	protected int[] ogreStartingPosY;
 	protected String[] guardMovements;
 	protected String[] guardTypes;
 
@@ -36,21 +39,21 @@ public abstract class GameMap {
 		return ret;
 	}
 	
-	public char getChar(int x, int y) {
-		return map[y][x];
+	public char getChar(Coords pos) {
+		return map[pos.getY()][pos.getX()];
 	}
 	
-	public void setChar(int x, int y, char c)
+	public void setChar(Coords pos, char c)
 	{
-		map[y][x] = c;
+		map[pos.getY()][pos.getX()] = c;
 	}
 
 	public boolean hasLevers() {
 		return hasLevers;
 	}
 
-	boolean isFree(int x, int y) {
-		return map[y][x] == ' ';
+	boolean isFree(Coords coords) {
+		return map[coords.getY()][coords.getX()] == ' ';
 	}
 
 	public int getHeroStartingPosX() {
@@ -81,6 +84,15 @@ public abstract class GameMap {
 		return guardTypes[i];
 	}
 
+	public int getOgreAmmount() {
+		return ogreAmmount;
+	}
+	public int getOgreStartingPosX(int i) {
+		return ogreStartingPosX[i];
+	}
+	public int getOgreStartingPosY(int i) {
+		return ogreStartingPosY[i];
+	}
 	public void openDoors() {
 		for (int i = 0; i < doorsAmmount; i++)
 		{

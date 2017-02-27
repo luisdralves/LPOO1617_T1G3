@@ -3,8 +3,7 @@ package dkeep.logic;
 public class RookieGuard extends Guard {
 	public RookieGuard(int x, int y, String movement)
 	{
-		this.x = x;
-		this.y = y;
+		coords = new Coords(x, y);
 		this.c = 'G';
 		this.movement = movement;
 		iterator = 0;
@@ -12,18 +11,18 @@ public class RookieGuard extends Guard {
 
 	@Override
 	public void move() {
-		switch(movement.charAt(iterator)) {
+		switch (movement.charAt(iterator)) {
 		case 'w':
-			y--;
+			coords.addY(-1);
 			break;
 		case 's':
-			y++;
+			coords.addY(1);
 			break;
 		case 'a':
-			x--;
+			coords.addX(-1);
 			break;
 		case 'd':
-			x++;
+			coords.addX(1);
 			break;
 		}
 		iterator++;

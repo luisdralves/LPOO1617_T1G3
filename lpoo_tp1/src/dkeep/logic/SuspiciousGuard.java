@@ -6,8 +6,7 @@ public class SuspiciousGuard extends Guard {
 	protected int direction;
 
 	public SuspiciousGuard(int x, int y, String movement) {
-		this.x = x;
-		this.y = y;
+		coords = new Coords(x, y);
 		this.c = 'G';
 		this.movement = movement;
 		iterator = 0;
@@ -20,16 +19,16 @@ public class SuspiciousGuard extends Guard {
 		int prob = rand.nextInt(100);
 		switch (movement.charAt(iterator)) {
 		case 'w':
-			y--;
+			coords.addY(-1);
 			break;
 		case 's':
-			y++;
+			coords.addY(1);
 			break;
 		case 'a':
-			x--;
+			coords.addX(-1);
 			break;
 		case 'd':
-			x++;
+			coords.addX(1);
 			break;
 		}
 		iterator += direction;

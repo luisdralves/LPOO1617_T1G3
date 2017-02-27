@@ -1,15 +1,13 @@
 package dkeep.logic;
 
 public abstract class Guard {
-	protected int x;
-	protected int y;
+	protected Coords coords;
 	protected String movement;
 	protected int iterator;
 	protected char c;
 
 	public Guard() {
-		x = 0;
-		y = 0;
+		coords = new Coords();
 		movement = "";
 		iterator = 0;
 	}
@@ -38,12 +36,16 @@ public abstract class Guard {
 		//iterator = movement.length() - iterator;
 	}
 
+	public Coords getCoords() {
+		return coords;
+	}
+
 	public int getX() {
-		return x;
+		return coords.getX();
 	}
 
 	public int getY() {
-		return y;
+		return coords.getY();
 	}
 
 	public char getC() {

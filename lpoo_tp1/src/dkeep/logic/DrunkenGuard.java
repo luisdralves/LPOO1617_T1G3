@@ -6,8 +6,7 @@ public class DrunkenGuard extends Guard {
 	protected int direction;
 
 	public DrunkenGuard(int x, int y, String movement) {
-		this.x = x;
-		this.y = y;
+		coords = new Coords(x, y);
 		this.c = 'G';
 		this.movement = movement;
 		iterator = 0;
@@ -22,16 +21,16 @@ public class DrunkenGuard extends Guard {
 			if (prob >= 25) {
 				switch (movement.charAt(iterator)) {
 				case 'w':
-					y--;
+					coords.addY(-1);
 					break;
 				case 's':
-					y++;
+					coords.addY(1);
 					break;
 				case 'a':
-					x--;
+					coords.addX(-1);
 					break;
 				case 'd':
-					x++;
+					coords.addX(1);
 					break;
 				}
 				iterator += direction;
