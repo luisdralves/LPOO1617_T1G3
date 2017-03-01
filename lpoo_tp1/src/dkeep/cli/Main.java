@@ -12,7 +12,7 @@ public class Main {
 		Game g = new Game(new KeepMap());
 		while (!g.isGameOver()) {
 			draw(g.getGameMap());
-			char dir = askUser();
+			char dir = askUser("Direction of movement (wasd): ");
 			Coords newHeroPos = newHeroPos(dir);
 			int gameState = g.update(newHeroPos);
 			switch (gameState) {
@@ -40,9 +40,9 @@ public class Main {
 		}
 	}
 
-	public static char askUser() {
+	public static char askUser(String msg) {
 		Scanner input = new Scanner(System.in);
-		System.out.print("Direction of movement (wasd):");
+		System.out.print(msg);
 		return input.next().charAt(0);
 	}
 

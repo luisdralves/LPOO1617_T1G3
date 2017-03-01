@@ -20,6 +20,8 @@ public class Game {
 	public void SetMap(GameMap map) {
 		this.map = map;
 		hero = new Hero(map.getHeroStartingPosX(), map.getHeroStartingPosY());
+		if (map.heroHasClub())
+			hero.aquiresClub();
 		guards = new Guard[map.getGuardAmmount()];
 		for (int i = 0; i < map.getGuardAmmount(); i++) {
 			switch (map.getGuardTypes(i)) {
@@ -105,41 +107,37 @@ public class Game {
 		}
 		for (Ogre ogre : ogres) {
 			Coords newOgrePos = ogre.newCoords();
-			if (map.isFree(newOgrePos) && ogre.getC() == 'O')
-				ogre.move(newOgrePos);
-			else
-				ogre.move(ogre.getCoords());
+			//if (map.isFree(newOgrePos) && ogre.getC() == 'O')
+				//ogre.move(newOgrePos);
+			//else
+				//ogre.move(ogre.getCoords());
 		}
 		return ret;
 	}
 
 	private boolean heroCaught() {
 		boolean ret = false;
-		int x = hero.getX(), y = hero.getY();
-		for (int i = 0; i < map.getGuardAmmount(); i++) {
-			if (guards[i].getC() == 'G') {
-				int guardX = guards[i].getX(), guardY = guards[i].getY();
-				if ((x == guardX && (y == guardY - 1 || y == guardY + 1))
-						|| (y == guardY && (x == guardX - 1 || x == guardX + 1)) || (x == guardX && y == guardY)) {
+		for (Guard guard : guards) {
+			if (guard.getC() == 'G') {
+				if (hero.adjacent(guard)) {
 					ret = true;
 					break;
 				}
 			}
 		}
-		for (Ogre ogre : ogres)
-		{
-			int clubX = ogre.getClub().getX(), clubY = ogre.getClub().getY();
-			if ((x == clubX && (y == clubY - 1 || y == clubY + 1))
-					|| (y == clubY && (x == clubX - 1 || x == clubX + 1)) || (x == clubX && y == clubY)) {
-				ret = true;
+		for (Ogre ogre : ogres) {
+			if (hero.getCoords().adjacent(ogre.getClub())) {
+				//ret = true;
 				break;
 			}
 			if (ogre.getC() == 'O') {
-				int ogreX = ogre.getX(), ogreY = ogre.getY();
-				if ((x == ogreX && (y == ogreY - 1 || y == ogreY + 1))
-						|| (y == ogreY && (x == ogreX - 1 || x == ogreX + 1)) || (x == ogreX && y == ogreY)) {
-					ret = true;
-					break;
+				if (hero.adjacent(ogre)) {
+					if (hero.hasClub())
+						ogre.sleepNow();
+					else {
+						ret = true;
+						break;
+					}
 				}
 			}
 		}

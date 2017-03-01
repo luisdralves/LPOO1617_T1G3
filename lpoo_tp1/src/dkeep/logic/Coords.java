@@ -13,6 +13,16 @@ public class Coords {
 		this.x = x;
 		this.y = y;
 	}
+	
+	public boolean adjacent(Coords that)
+	{
+		int x1 = this.getX();
+		int y1 = this.getY();
+		int x2 = that.getX();
+		int y2 = that.getY();
+		return ((x1 == x2 && (y1 == y2 - 1 || y1 == y2 + 1))
+				|| (y1 == y2 && (x1 == x2 - 1 || x1 == x2 + 1)) || (x1 == x2 && y1 == y2)); 
+	}
 
 	public void addX(int i) {
 		x += i;

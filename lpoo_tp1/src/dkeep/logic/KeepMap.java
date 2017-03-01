@@ -26,6 +26,7 @@ public class KeepMap extends GameMap {
 		doorsY[0] = 1;
 		heroStartingPosX = 1;
 		heroStartingPosY = 8;
+		heroHasClub = true;
 		guardAmmount = 0;
 		Random rand = new Random();
 		ogreAmmount = rand.nextInt(maxOgres) + 1;

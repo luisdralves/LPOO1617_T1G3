@@ -74,5 +74,9 @@ public class Ogre extends Agent {
 	public Coords getClub() {
 		return new Coords(club.getX(), club.getY());
 	}
+	
+	public void sleepNow() {
+		c = '8';
+	}
 
 }

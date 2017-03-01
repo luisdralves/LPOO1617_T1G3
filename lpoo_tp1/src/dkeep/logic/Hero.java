@@ -2,7 +2,22 @@ package dkeep.logic;
 
 public class Hero extends Agent {
 	protected boolean hasKey;
+	protected boolean hasClub;
 
+	public Hero(int x, int y) {
+		coords = new Coords(x, y);
+		c = 'H';
+		hasKey = false;
+		hasClub = false;
+	}
+
+	public Hero() {
+		coords = new Coords();
+		c = 'H';
+		hasKey = false;
+		hasClub = false;
+	}
+	
 	public boolean hasKey() {
 		return hasKey;
 	}
@@ -14,19 +29,24 @@ public class Hero extends Agent {
 
 	public void dropsKey() {
 		this.hasKey = false;
+		if (hasClub)
+			c = 'A';
+		else
 		c = 'H';
 	}
-
-	public Hero(int x, int y) {
-		coords = new Coords(x, y);
-		c = 'H';
-		hasKey = false;
+	
+	public boolean hasClub() {
+		return hasClub;
 	}
 
-	public Hero() {
-		coords = new Coords();
+	public void aquiresClub() {
+		this.hasClub = true;
+		c = 'A';
+	}
+
+	public void dropsClub() {
+		this.hasClub = false;
 		c = 'H';
-		hasKey = false;
 	}
 
 	public void move(Coords newPos) {

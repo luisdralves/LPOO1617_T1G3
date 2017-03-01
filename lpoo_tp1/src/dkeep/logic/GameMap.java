@@ -13,6 +13,7 @@ public abstract class GameMap {
 	protected int[] doorsY;
 	protected int heroStartingPosX;
 	protected int heroStartingPosY;
+	protected boolean heroHasClub;
 	protected int guardAmmount;
 	protected int[] guardStartingPosX;
 	protected int[] guardStartingPosY;
@@ -64,6 +65,9 @@ public abstract class GameMap {
 		return heroStartingPosY;
 	}
 	
+	public boolean heroHasClub() {
+		return heroHasClub;
+	}
 	public int getGuardAmmount() {
 		return guardAmmount;
 	}
