@@ -126,6 +126,23 @@ public class Game {
 				}
 			}
 		}
+		for (Ogre ogre : ogres)
+		{
+			int clubX = ogre.getClub().getX(), clubY = ogre.getClub().getY();
+			if ((x == clubX && (y == clubY - 1 || y == clubY + 1))
+					|| (y == clubY && (x == clubX - 1 || x == clubX + 1)) || (x == clubX && y == clubY)) {
+				ret = true;
+				break;
+			}
+			if (ogre.getC() == 'O') {
+				int ogreX = ogre.getX(), ogreY = ogre.getY();
+				if ((x == ogreX && (y == ogreY - 1 || y == ogreY + 1))
+						|| (y == ogreY && (x == ogreX - 1 || x == ogreX + 1)) || (x == ogreX && y == ogreY)) {
+					ret = true;
+					break;
+				}
+			}
+		}
 		return ret;
 	}
 }
