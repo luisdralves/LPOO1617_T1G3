@@ -1,10 +1,8 @@
 package dkeep.logic;
 
-public abstract class Guard {
-	protected Coords coords;
+public abstract class Guard extends Agent {
 	protected String movement;
 	protected int iterator;
-	protected char c;
 
 	public Guard() {
 		coords = new Coords();
@@ -34,21 +32,5 @@ public abstract class Guard {
 		}
 		movement = newMovement;
 		//iterator = movement.length() - iterator;
-	}
-
-	public Coords getCoords() {
-		return new Coords(coords.getX(), coords.getY());
-	}
-
-	public int getX() {
-		return coords.getX();
-	}
-
-	public int getY() {
-		return coords.getY();
-	}
-
-	public char getC() {
-		return c;
 	}
 }

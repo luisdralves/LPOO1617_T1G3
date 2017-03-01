@@ -2,11 +2,9 @@ package dkeep.logic;
 
 import java.util.Random;
 
-public class Ogre {
-	protected Coords coords;
+public class Ogre extends Agent {
 	protected int clubX;
 	protected int clubY;
-	protected char c;
 
 	public Ogre() {
 		coords = new Coords();
@@ -21,7 +19,7 @@ public class Ogre {
 	public Coords newCoords() {
 		Coords ret = getCoords();
 		Random rand = new Random();
-		int prob = rand.nextInt(3);
+		int prob = rand.nextInt(4);
 		switch (prob) {
 		case 0:
 			ret.addY(-1);
@@ -54,21 +52,5 @@ public class Ogre {
 				c = 'O';
 			}
 		}
-	}
-	
-	public Coords getCoords() {
-		return new Coords(coords.getX(), coords.getY());
-	}
-
-	public int getX() {
-		return coords.getX();
-	}
-
-	public int getY() {
-		return coords.getY();
-	}
-
-	public char getC() {
-		return c;
 	}
 }
