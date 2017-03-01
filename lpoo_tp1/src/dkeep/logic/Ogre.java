@@ -4,16 +4,19 @@ import java.util.Random;
 
 public class Ogre extends Agent {
 	Coords club;
+	protected int sleeping;
 
 	public Ogre() {
 		coords = new Coords();
 		club = new Coords();
+		sleeping = 0;
 		c = 'O';
 	}
 
 	public Ogre(int x, int y) {
 		coords = new Coords(x, y);
 		club = new Coords(x, y);
+		sleeping = 0;
 		this.c = 'O';
 	}
 
@@ -43,15 +46,11 @@ public class Ogre extends Agent {
 		int prob;
 		if (c == 'O') {
 			coords = newPos;
-			prob = rand.nextInt(100);
-			if (prob < 25) {
-				c = '8';
-			}
 		} else if (c == '8') {
-			prob = rand.nextInt(100);
-			if (prob < 25) {
+			if (sleeping < 2)
+				sleeping++;
+			else
 				c = 'O';
-			}
 		}
 		prob = rand.nextInt(4);
 		club = getCoords();
@@ -70,13 +69,14 @@ public class Ogre extends Agent {
 			break;
 		}
 	}
-	
+
 	public Coords getClub() {
 		return new Coords(club.getX(), club.getY());
 	}
-	
+
 	public void sleepNow() {
 		c = '8';
+		sleeping = 0;
 	}
 
 }

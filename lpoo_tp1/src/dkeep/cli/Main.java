@@ -9,7 +9,7 @@ import dkeep.logic.KeepMap;
 public class Main {
 
 	public static void main(String[] args) {
-		Game g = new Game(new KeepMap());
+		Game g = new Game(new DungeonMap());
 		while (!g.isGameOver()) {
 			draw(g.getGameMap());
 			char dir = askUser("Direction of movement (wasd): ");
@@ -17,7 +17,7 @@ public class Main {
 			int gameState = g.update(newHeroPos);
 			switch (gameState) {
 			case 0:
-				System.out.println("invalid movement");
+				System.out.println("Invalid movement");
 				break;
 			case 2:
 				System.out.println(g.getVictoryMessage());

@@ -107,10 +107,10 @@ public class Game {
 		}
 		for (Ogre ogre : ogres) {
 			Coords newOgrePos = ogre.newCoords();
-			//if (map.isFree(newOgrePos) && ogre.getC() == 'O')
-				//ogre.move(newOgrePos);
-			//else
-				//ogre.move(ogre.getCoords());
+			if (map.isFree(newOgrePos) && ogre.getC() == 'O')
+				ogre.move(newOgrePos);
+			else
+				ogre.move(ogre.getCoords());
 		}
 		return ret;
 	}
@@ -127,7 +127,7 @@ public class Game {
 		}
 		for (Ogre ogre : ogres) {
 			if (hero.getCoords().adjacent(ogre.getClub())) {
-				//ret = true;
+				ret = true;
 				break;
 			}
 			if (ogre.getC() == 'O') {
