@@ -19,7 +19,7 @@ public class Ogre {
 	}
 
 	public Coords newCoords() {
-		Coords ret = coords;
+		Coords ret = getCoords();
 		Random rand = new Random();
 		int prob = rand.nextInt(3);
 		switch (prob) {
@@ -57,7 +57,7 @@ public class Ogre {
 	}
 	
 	public Coords getCoords() {
-		return coords;
+		return new Coords(coords.getX(), coords.getY());
 	}
 
 	public int getX() {

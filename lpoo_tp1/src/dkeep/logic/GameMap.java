@@ -53,7 +53,7 @@ public abstract class GameMap {
 	}
 
 	boolean isFree(Coords coords) {
-		return false;//map[coords.getY()][coords.getX()] == ' ';
+		return map[coords.getY()][coords.getX()] == ' ';
 	}
 
 	public int getHeroStartingPosX() {

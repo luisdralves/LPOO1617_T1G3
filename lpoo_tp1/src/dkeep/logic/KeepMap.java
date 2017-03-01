@@ -29,7 +29,6 @@ public class KeepMap extends GameMap {
 		guardAmmount = 0;
 		Random rand = new Random();
 		ogreAmmount = rand.nextInt(maxOgres) + 1;
-		ogreAmmount = 0;
 		ogreStartingPosX = new int[ogreAmmount];
 		ogreStartingPosY = new int[ogreAmmount];
 		for (int i = 0; i < ogreAmmount; i++) {

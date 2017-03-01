@@ -37,7 +37,7 @@ public abstract class Guard {
 	}
 
 	public Coords getCoords() {
-		return coords;
+		return new Coords(coords.getX(), coords.getY());
 	}
 
 	public int getX() {

@@ -36,7 +36,7 @@ public class Hero {
 	}
 
 	public Coords getCoords() {
-		return coords;
+		return new Coords(coords.getX(), coords.getY());
 	}
 
 	public int getX() {
