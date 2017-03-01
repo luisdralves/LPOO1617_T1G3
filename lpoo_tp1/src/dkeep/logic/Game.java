@@ -54,6 +54,8 @@ public class Game {
 			ret[guard.getY()][guard.getX()] = guard.getC();
 		}
 		for (Ogre ogre : ogres) {
+			if (map.isFree(ogre.getClub()))
+				ret[ogre.getClub().getY()][ogre.getClub().getX()] = '*';
 			ret[ogre.getY()][ogre.getX()] = ogre.getC();
 		}
 		return ret;
@@ -67,27 +69,9 @@ public class Game {
 		return map.lossMessage;
 	}
 
-	public int update(char dir) {
-		Coords newHeroPos = hero.getCoords();
+	public int update(Coords heroVecMov) {
 		int ret = 1;
-		switch (dir) {
-		case 'w':
-		case 'W':
-			newHeroPos.addY(-1);
-			break;
-		case 's':
-		case 'S':
-			newHeroPos.addY(1);
-			break;
-		case 'a':
-		case 'A':
-			newHeroPos.addX(-1);
-			break;
-		case 'd':
-		case 'D':
-			newHeroPos.addX(1);
-			break;
-		}
+		Coords newHeroPos = heroVecMov.add(hero.getCoords());
 		if (map.hasLevers() && map.getChar(newHeroPos) == 'k') {
 			map.toggleDoors();
 		} else if (map.getChar(newHeroPos) == 'k') {

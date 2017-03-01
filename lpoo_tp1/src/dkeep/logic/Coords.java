@@ -4,12 +4,12 @@ public class Coords {
 	protected int x;
 	protected int y;
 
-	Coords() {
+	public Coords() {
 		x = 0;
 		y = 0;
 	}
 
-	Coords(int x, int y) {
+	public Coords(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -20,6 +20,13 @@ public class Coords {
 
 	public void addY(int i) {
 		y += i;
+	}
+	
+	public Coords add(Coords c2) {
+		Coords ret = new Coords(this.getX(), this.getY());
+		ret.addX(c2.getX());
+		ret.addY(c2.getY());
+		return ret;
 	}
 
 	public int getX() {
