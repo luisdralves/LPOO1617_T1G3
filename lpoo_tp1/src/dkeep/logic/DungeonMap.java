@@ -24,6 +24,7 @@ public class DungeonMap extends GameMap {
 		doorsPos[1] = new Coords(0,6);
 		heroStartingPos = new Coords(1,1);
 		heroHasClub = false;
+		guardMoves = true;
 		guardAmmount = 1;
 		guardMovements = new String[guardAmmount];
 		guardMovements[0] = "assssaaaaaasdddddddwwwww";

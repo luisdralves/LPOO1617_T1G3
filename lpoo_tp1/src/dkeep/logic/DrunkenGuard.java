@@ -5,10 +5,11 @@ import java.util.Random;
 public class DrunkenGuard extends Guard {
 	protected int direction;
 
-	public DrunkenGuard(int x, int y, String movement) {
+	public DrunkenGuard(int x, int y, String movement, boolean moving) {
 		coords = new Coords(x, y);
 		this.c = 'G';
 		this.movement = movement;
+		this.moving = moving;
 		iterator = 0;
 		direction = 1;
 	}

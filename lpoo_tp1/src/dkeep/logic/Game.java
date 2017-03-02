@@ -27,15 +27,15 @@ public class Game {
 			switch (map.getGuardTypes(i)) {
 			case "rookie":
 				guards[i] = new RookieGuard(map.getGuardStartingPosX(i), map.getGuardStartingPosY(i),
-						map.getGuardMovement(i));
+						map.getGuardMovement(i), map.areGuardsMoving());
 				break;
 			case "drunken":
 				guards[i] = new DrunkenGuard(map.getGuardStartingPosX(i), map.getGuardStartingPosY(i),
-						map.getGuardMovement(i));
+						map.getGuardMovement(i), map.areGuardsMoving());
 				break;
 			case "suspicious":
 				guards[i] = new SuspiciousGuard(map.getGuardStartingPosX(i), map.getGuardStartingPosY(i),
-						map.getGuardMovement(i));
+						map.getGuardMovement(i), map.areGuardsMoving());
 				break;
 			}
 		}
@@ -79,6 +79,38 @@ public class Game {
 	public String getLossMessage() {
 		return map.lossMessage;
 	}
+	
+	public Coords getHeroPos() {
+		return new Coords(hero.getX(), hero.getY());
+	}
+	
+	public void moveHero(char dir) {
+		Coords nhp = newHeroPos(dir);
+		update(nhp);
+	}
+	
+	public Coords newHeroPos(char dir) {
+		Coords ret = new Coords();
+		switch (dir) {
+		case 'w':
+		case 'W':
+			ret.addY(-1);
+			break;
+		case 's':
+		case 'S':
+			ret.addY(1);
+			break;
+		case 'a':
+		case 'A':
+			ret.addX(-1);
+			break;
+		case 'd':
+		case 'D':
+			ret.addX(1);
+			break;
+		}
+		return ret;
+	}
 
 	public boolean[] update(Coords heroVecMov) {
 		boolean ret[] = { false, false, false, false }; // win, lose,
@@ -114,8 +146,9 @@ public class Game {
 			hero.move(newHeroPos);
 		} else
 			ret[2] = true;
-		for (int i = 0; i < map.getGuardAmmount(); i++) {
-			guards[i].move();
+		for (Guard guard : guards) {
+			if (map.areGuardsMoving())
+				guard.move();
 		}
 		for (Ogre ogre : ogres) {
 			Coords newOgrePos = ogre.newCoords();

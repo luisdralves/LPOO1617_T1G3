@@ -23,8 +23,9 @@ public class Coords {
 				|| (x1 == x2 && y1 == y2));
 	}
 
-	public boolean equals(Coords that) {
-		return this.getX() == that.getX() && this.getY() == that.getY();
+	@Override
+	public boolean equals(Object that) {
+		return this.getX() ==  ((Coords) that).getX() && this.getY() == ((Coords) that).getY();
 	}
 
 	public void addX(int i) {

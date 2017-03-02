@@ -14,6 +14,7 @@ public abstract class GameMap {
 	protected Coords[] doorsPos;
 	protected Coords heroStartingPos;
 	protected boolean heroHasClub;
+	protected boolean guardMoves;
 	protected int guardAmmount;
 	protected Coords[] guardStartingPos;
 	protected int ogreAmmount;
@@ -77,6 +78,10 @@ public abstract class GameMap {
 
 	public boolean heroHasClub() {
 		return heroHasClub;
+	}
+
+	public boolean areGuardsMoving() {
+		return guardMoves;
 	}
 
 	public int getGuardAmmount() {

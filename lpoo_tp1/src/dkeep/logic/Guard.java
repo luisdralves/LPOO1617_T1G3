@@ -3,10 +3,12 @@ package dkeep.logic;
 public abstract class Guard extends Agent {
 	protected String movement;
 	protected int iterator;
+	protected boolean moving;
 
 	public Guard() {
 		coords = new Coords();
 		movement = "";
+		moving = true;
 		iterator = 0;
 	}
 

@@ -13,7 +13,7 @@ public class Main {
 		while (!g.isGameOver()) {
 			draw(g.getGameMap());
 			char dir = askUser("Direction of movement (wasd): ");
-			Coords newHeroPos = newHeroPos(dir);
+			Coords newHeroPos = g.newHeroPos(dir);
 			boolean gameState[] = g.update(newHeroPos);
 			if (gameState[0]) {
 				System.out.println(g.getVictoryMessage());
@@ -45,29 +45,6 @@ public class Main {
 		Scanner input = new Scanner(System.in);
 		System.out.print(msg);
 		return input.next().charAt(0);
-	}
-
-	public static Coords newHeroPos(char dir) {
-		Coords ret = new Coords();
-		switch (dir) {
-		case 'w':
-		case 'W':
-			ret.addY(-1);
-			break;
-		case 's':
-		case 'S':
-			ret.addY(1);
-			break;
-		case 'a':
-		case 'A':
-			ret.addX(-1);
-			break;
-		case 'd':
-		case 'D':
-			ret.addX(1);
-			break;
-		}
-		return ret;
 	}
 
 }

@@ -1,11 +1,12 @@
 package dkeep.logic;
 
 public class RookieGuard extends Guard {
-	public RookieGuard(int x, int y, String movement)
+	public RookieGuard(int x, int y, String movement, boolean moving)
 	{
 		coords = new Coords(x, y);
 		this.c = 'G';
 		this.movement = movement;
+		this.moving = moving;
 		iterator = 0;
 	}
 
