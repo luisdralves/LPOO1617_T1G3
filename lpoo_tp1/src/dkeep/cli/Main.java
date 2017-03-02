@@ -14,18 +14,19 @@ public class Main {
 			draw(g.getGameMap());
 			char dir = askUser("Direction of movement (wasd): ");
 			Coords newHeroPos = newHeroPos(dir);
-			int gameState = g.update(newHeroPos);
-			switch (gameState) {
-			case 0:
-				System.out.println("Invalid movement");
-				break;
-			case 2:
+			boolean gameState[] = g.update(newHeroPos);
+			if (gameState[0]) {
 				System.out.println(g.getVictoryMessage());
-				break;
-			case 3:
-				System.out.println(g.getLossMessage());
-				break;
+				g.nextLevel();
+
 			}
+			if (gameState[1])
+				System.out.println(g.getLossMessage());
+			if (gameState[2])
+				System.out.println("Invalid movement");
+			if (gameState[3])
+				System.out.println("You have beaten an ogre to sleep");
+
 		}
 
 	}

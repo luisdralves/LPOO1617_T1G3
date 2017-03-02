@@ -13,7 +13,7 @@ public class Game {
 
 	public Game(GameMap startingMap) {
 		SetMap(startingMap);
-		currentLevel = 1;
+		currentLevel = 0;
 		gameOver = false;
 	}
 
@@ -51,14 +51,23 @@ public class Game {
 
 	public char[][] getGameMap() {
 		char[][] ret = map.getMap();
+		if (map.isKeyDropped())
+			ret[map.getKeyPos().getY()][map.getKeyPos().getX()] = 'k';
 		ret[hero.getY()][hero.getX()] = hero.getC();
 		for (Guard guard : guards) {
 			ret[guard.getY()][guard.getX()] = guard.getC();
 		}
 		for (Ogre ogre : ogres) {
-			if (map.isFree(ogre.getClub()))
-				ret[ogre.getClub().getY()][ogre.getClub().getX()] = '*';
-			ret[ogre.getY()][ogre.getX()] = ogre.getC();
+			if (ogre.hasClub() && map.isFree(ogre.getClub())) {
+				if (ogre.getClub().equals(map.getKeyPos()) && map.isKeyDropped())
+					ret[ogre.getClub().getY()][ogre.getClub().getX()] = '$';
+				else
+					ret[ogre.getClub().getY()][ogre.getClub().getX()] = '*';
+			}
+			if (ogre.getCoords().equals(map.getKeyPos()) && map.isKeyDropped())
+				ret[ogre.getY()][ogre.getX()] = '$';
+			else
+				ret[ogre.getY()][ogre.getX()] = ogre.getC();
 		}
 		return ret;
 	}
@@ -71,37 +80,40 @@ public class Game {
 		return map.lossMessage;
 	}
 
-	public int update(Coords heroVecMov) {
-		int ret = 1;
+	public boolean[] update(Coords heroVecMov) {
+		boolean ret[] = { false, false, false, false }; // win, lose,
+														// invalid movement,
+														// hero attacks
 		Coords newHeroPos = heroVecMov.add(hero.getCoords());
-		if (map.hasLevers() && map.getChar(newHeroPos) == 'k') {
+		if (map.hasLevers() && map.getChar(newHeroPos) == 'k')
 			map.toggleDoors();
-		} else if (map.getChar(newHeroPos) == 'k') {
-			map.setChar(newHeroPos, ' ');
+		if (!(map.hasLevers()) && newHeroPos.equals(map.getKeyPos())) {
 			hero.aquiresKey();
+			map.keyAquired();
 		}
 		if (map.getChar(newHeroPos) == 'S') {
-			switch (currentLevel) {
-			case 1:
-				currentLevel++;
-				SetMap(new KeepMap());
-				break;
-			case 2:
+			currentLevel++;
+			ret[0] = true;
+			if (currentLevel > 1)
 				gameOver = true;
-			}
-			return 2;
+			return ret;
 		}
 		if (hero.hasKey() && map.getChar(newHeroPos) == 'I') {
 			map.openDoors();
 		}
-		if (heroCaught()) {
+		boolean heroCaught[] = heroCaught();
+		if (heroCaught[0]) {
 			gameOver = true;
-			ret = 3;
+			ret[1] = true;
+			return ret;
+		}
+		if (heroCaught[1]) {
+			ret[3] = true;
 		}
 		if (map.isFree(newHeroPos)) {
 			hero.move(newHeroPos);
 		} else
-			ret = 0;
+			ret[2] = true;
 		for (int i = 0; i < map.getGuardAmmount(); i++) {
 			guards[i].move();
 		}
@@ -111,36 +123,51 @@ public class Game {
 				ogre.move(newOgrePos);
 			else
 				ogre.move(ogre.getCoords());
+			if (ogre.hasClub())
+				ogre.attack();
 		}
 		return ret;
 	}
 
-	private boolean heroCaught() {
-		boolean ret = false;
+	private boolean[] heroCaught() {
+		boolean ret[] = { false, false };
 		for (Guard guard : guards) {
 			if (guard.getC() == 'G') {
 				if (hero.adjacent(guard)) {
-					ret = true;
+					ret[0] = true;
 					break;
 				}
 			}
 		}
 		for (Ogre ogre : ogres) {
-			if (hero.getCoords().adjacent(ogre.getClub())) {
-				ret = true;
+			if (ogre.hasClub() && hero.getCoords().adjacent(ogre.getClub())) {
+				ret[0] = true;
 				break;
 			}
 			if (ogre.getC() == 'O') {
 				if (hero.adjacent(ogre)) {
-					if (hero.hasClub())
+					if (hero.hasClub()) {
+						ret[1] = true;
 						ogre.sleepNow();
-					else {
-						ret = true;
+					} else {
+						ret[0] = true;
 						break;
 					}
 				}
 			}
 		}
 		return ret;
+	}
+
+	public void nextLevel() {
+		switch (currentLevel) {
+		case 0:
+			SetMap(new DungeonMap());
+			break;
+		case 1:
+			SetMap(new KeepMap());
+			break;
+		}
+		currentLevel++;
 	}
 }

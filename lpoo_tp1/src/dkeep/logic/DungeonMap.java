@@ -19,22 +19,16 @@ public class DungeonMap extends GameMap {
 		hasLevers = true;
 		doorsAreOpen = false;
 		doorsAmmount = 2;
-		doorsX = new int[doorsAmmount];
-		doorsX[0] = 0;
-		doorsX[1] = 0;
-		doorsY = new int[doorsAmmount];
-		doorsY[0] = 5;
-		doorsY[1] = 6;
-		heroStartingPosX = 1;
-		heroStartingPosY = 1;
+		doorsPos = new Coords[doorsAmmount];
+		doorsPos[0] = new Coords(0,5);
+		doorsPos[1] = new Coords(0,6);
+		heroStartingPos = new Coords(1,1);
 		heroHasClub = false;
 		guardAmmount = 1;
 		guardMovements = new String[guardAmmount];
 		guardMovements[0] = "assssaaaaaasdddddddwwwww";
-		guardStartingPosX = new int[guardAmmount];
-		guardStartingPosX[0] = 8;
-		guardStartingPosY = new int[guardAmmount];
-		guardStartingPosY[0] = 1;
+		guardStartingPos = new Coords[guardAmmount];
+		guardStartingPos[0] = new Coords(8,1);
 		guardTypes = new String[guardAmmount];
 		Random rand = new Random();
 		int prob = rand.nextInt(3);
@@ -50,7 +44,5 @@ public class DungeonMap extends GameMap {
 			break;
 		}
 		ogreAmmount = 0;
-		ogreStartingPosX = new int[0];
-		ogreStartingPosY = new int[0];
 	}
 }

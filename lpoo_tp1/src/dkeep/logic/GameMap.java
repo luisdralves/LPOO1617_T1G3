@@ -7,29 +7,28 @@ public abstract class GameMap {
 	public String lossMessage;
 	protected char[][] map;
 	protected boolean hasLevers;
+	protected Coords keyPos;
+	protected boolean keyDropped;
 	protected boolean doorsAreOpen;
 	protected int doorsAmmount;
-	protected int[] doorsX;
-	protected int[] doorsY;
-	protected int heroStartingPosX;
-	protected int heroStartingPosY;
+	protected Coords[] doorsPos;
+	protected Coords heroStartingPos;
 	protected boolean heroHasClub;
 	protected int guardAmmount;
-	protected int[] guardStartingPosX;
-	protected int[] guardStartingPosY;
+	protected Coords[] guardStartingPos;
 	protected int ogreAmmount;
-	protected int[] ogreStartingPosX;
-	protected int[] ogreStartingPosY;
+	protected Coords[] ogreStartingPos;
 	protected String[] guardMovements;
 	protected String[] guardTypes;
 
 	public String getVictoryMessage() {
 		return victoryMessage;
 	}
+
 	public String getLossMessage() {
 		return lossMessage;
 	}
-	
+
 	public char[][] getMap() {
 		char[][] ret = new char[map.length][map[0].length];
 		for (int i = 0; i < map.length; i++) {
@@ -39,13 +38,12 @@ public abstract class GameMap {
 		}
 		return ret;
 	}
-	
+
 	public char getChar(Coords pos) {
 		return map[pos.getY()][pos.getX()];
 	}
-	
-	public void setChar(Coords pos, char c)
-	{
+
+	public void setChar(Coords pos, char c) {
 		map[pos.getY()][pos.getX()] = c;
 	}
 
@@ -53,37 +51,50 @@ public abstract class GameMap {
 		return hasLevers;
 	}
 
+	public Coords getKeyPos() {
+		return keyPos;
+	}
+
+	public void keyAquired() {
+		keyDropped = false;
+	}
+
+	public boolean isKeyDropped() {
+		return keyDropped;
+	}
+
 	boolean isFree(Coords coords) {
 		return map[coords.getY()][coords.getX()] == ' ';
 	}
 
 	public int getHeroStartingPosX() {
-		return heroStartingPosX;
+		return heroStartingPos.getX();
 	}
 
 	public int getHeroStartingPosY() {
-		return heroStartingPosY;
+		return heroStartingPos.getY();
 	}
-	
+
 	public boolean heroHasClub() {
 		return heroHasClub;
 	}
+
 	public int getGuardAmmount() {
 		return guardAmmount;
 	}
-	
+
 	public int getGuardStartingPosX(int i) {
-		return guardStartingPosX[i];
+		return guardStartingPos[i].getX();
 	}
-	
+
 	public int getGuardStartingPosY(int i) {
-		return guardStartingPosY[i];
+		return guardStartingPos[i].getY();
 	}
-	
+
 	public String getGuardMovement(int i) {
 		return guardMovements[i];
 	}
-	
+
 	public String getGuardTypes(int i) {
 		return guardTypes[i];
 	}
@@ -91,28 +102,29 @@ public abstract class GameMap {
 	public int getOgreAmmount() {
 		return ogreAmmount;
 	}
+
 	public int getOgreStartingPosX(int i) {
-		return ogreStartingPosX[i];
+		return ogreStartingPos[i].getX();
 	}
+
 	public int getOgreStartingPosY(int i) {
-		return ogreStartingPosY[i];
+		return ogreStartingPos[i].getY();
 	}
+
 	public void openDoors() {
-		for (int i = 0; i < doorsAmmount; i++)
-		{
-			map[doorsY[i]][doorsX[i]] = 'S';
+		for (int i = 0; i < doorsAmmount; i++) {
+			setChar(doorsPos[i], 'S');
 		}
 		doorsAreOpen = true;
 	}
-	
+
 	public void closeDoors() {
-		for (int i = 0; i < doorsAmmount; i++)
-		{
-			map[doorsY[i]][doorsX[i]] = 'I';
+		for (int i = 0; i < doorsAmmount; i++) {
+			setChar(doorsPos[i], 'I');
 		}
 		doorsAreOpen = false;
 	}
-	
+
 	public void toggleDoors() {
 		if (doorsAreOpen)
 			closeDoors();

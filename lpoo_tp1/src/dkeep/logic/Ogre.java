@@ -3,19 +3,24 @@ package dkeep.logic;
 import java.util.Random;
 
 public class Ogre extends Agent {
-	Coords club;
+	protected Coords club;
 	protected int sleeping;
+	protected boolean hasClub;
 
 	public Ogre() {
 		coords = new Coords();
-		club = new Coords();
+		hasClub = true;
+		if (hasClub())
+			club = new Coords();
 		sleeping = 0;
 		c = 'O';
 	}
 
 	public Ogre(int x, int y) {
 		coords = new Coords(x, y);
-		club = new Coords(x, y);
+		hasClub = true;
+		if (hasClub())
+			club = new Coords(x, y);
 		sleeping = 0;
 		this.c = 'O';
 	}
@@ -42,8 +47,6 @@ public class Ogre extends Agent {
 	}
 
 	public void move(Coords newPos) {
-		Random rand = new Random();
-		int prob;
 		if (c == 'O') {
 			coords = newPos;
 		} else if (c == '8') {
@@ -52,7 +55,11 @@ public class Ogre extends Agent {
 			else
 				c = 'O';
 		}
-		prob = rand.nextInt(4);
+	}
+	
+	public void attack() {
+		Random rand = new Random();
+		int prob = rand.nextInt(4);
 		club = getCoords();
 		switch (prob) {
 		case 0:
@@ -72,6 +79,10 @@ public class Ogre extends Agent {
 
 	public Coords getClub() {
 		return new Coords(club.getX(), club.getY());
+	}
+	
+	public boolean hasClub() {
+		return hasClub;
 	}
 
 	public void sleepNow() {
