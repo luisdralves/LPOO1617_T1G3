@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class DungeonMap extends GameMap {
 	public DungeonMap() {
+		name = "dungeon";
 		victoryMessage = "And just when you thought your captivity had ended, you realise you still have another challenge to overcome...go through the Keep's Crazy Ogre.";
 		lossMessage = "Caught by the guard";
 		map = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },

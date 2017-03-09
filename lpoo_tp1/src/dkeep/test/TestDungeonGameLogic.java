@@ -63,7 +63,8 @@ public class TestDungeonGameLogic {
 	
 	@Test
 	public void TestHeroOpensDoorsAndLeaves() {
-		Game g = new Game(new TestMap(map), 0);
+		Game g = new Game(new TestMap(map), 2);
+		assertEquals(g.getMap(), "test");
 		assertEquals(new Coords(1, 1), g.getHeroPos());
 		g.moveHero('s');
 		assertEquals(new Coords(1, 2), g.getHeroPos());
@@ -71,6 +72,7 @@ public class TestDungeonGameLogic {
 		assertEquals(g.getC(new Coords(0,2)), 'S');
 		assertEquals(g.getC(new Coords(0,3)), 'S');
 		g.moveHero('a');
-		assertTrue(g.isGameOver());
+		assertFalse(g.isGameOver());
+		assertEquals(g.getMap(), "keep");
 	}
 }

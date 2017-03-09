@@ -45,6 +45,10 @@ public class Game {
 			ogres.add(new Ogre(map.getOgreStartingPosX(i), map.getOgreStartingPosY(i)));
 		}
 	}
+	
+	public String getMap() {
+		return map.getName();
+	}
 
 	public boolean isGameOver() {
 		return gameOver;
@@ -135,6 +139,7 @@ public class Game {
 			ret[0] = true;
 			if (currentLevel >= lastLevel)
 				gameOver = true;
+			nextLevel();
 			return ret;
 		}
 		if (hero.hasKey() && map.getChar(newHeroPos) == 'I') {

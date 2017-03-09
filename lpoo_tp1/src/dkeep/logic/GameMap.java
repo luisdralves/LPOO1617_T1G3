@@ -3,6 +3,7 @@ package dkeep.logic;
 //import java.util.Arrays;
 
 public abstract class GameMap {
+	public String name;
 	public String victoryMessage;
 	public String lossMessage;
 	protected char[][] map;
@@ -22,6 +23,10 @@ public abstract class GameMap {
 	protected String[] guardMovements;
 	protected String[] guardTypes;
 
+	public String getName() {
+		return name;
+	}
+	
 	public String getVictoryMessage() {
 		return victoryMessage;
 	}

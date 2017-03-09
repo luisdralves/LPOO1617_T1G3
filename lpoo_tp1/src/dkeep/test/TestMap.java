@@ -5,6 +5,7 @@ import dkeep.logic.GameMap;
 
 public class TestMap extends GameMap {
 	public TestMap(char[][] map) {
+		name = "test";
 		this.map = map;
 		hasLevers = true;
 		doorsAreOpen = false;

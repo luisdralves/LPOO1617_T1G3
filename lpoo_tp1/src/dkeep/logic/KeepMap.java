@@ -5,6 +5,7 @@ import java.util.Random;
 public class KeepMap extends GameMap {
 	public KeepMap() {
 		int maxOgres = 4;
+		name = "keep";
 		victoryMessage = "Congrats";
 		lossMessage = "Slained by the ogre";
 		map = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
