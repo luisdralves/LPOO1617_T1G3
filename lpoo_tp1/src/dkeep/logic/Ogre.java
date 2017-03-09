@@ -6,6 +6,7 @@ public class Ogre extends Agent {
 	protected Coords club;
 	protected int sleeping;
 	protected boolean hasClub;
+	protected boolean moving;
 
 	public Ogre() {
 		coords = new Coords();
@@ -13,15 +14,17 @@ public class Ogre extends Agent {
 		if (hasClub())
 			club = new Coords();
 		sleeping = 0;
+		moving = false;
 		c = 'O';
 	}
 
-	public Ogre(int x, int y) {
+	public Ogre(int x, int y, boolean move) {
 		coords = new Coords(x, y);
 		hasClub = true;
 		if (hasClub())
 			club = new Coords(x, y);
 		sleeping = 0;
+		moving = move;
 		this.c = 'O';
 	}
 
@@ -47,7 +50,7 @@ public class Ogre extends Agent {
 	}
 
 	public void move(Coords newPos) {
-		if (c == 'O') {
+		if (c == 'O' && moving) {
 			coords = newPos;
 		} else if (c == '8') {
 			if (sleeping < 2)

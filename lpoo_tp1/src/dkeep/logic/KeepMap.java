@@ -28,8 +28,9 @@ public class KeepMap extends GameMap {
 		heroStartingPos = new Coords(1,8);
 		heroHasClub = true;
 		guardAmmount = 0;
+		ogreMoves = true;
 		Random rand = new Random();
-		ogreAmmount = 0;// rand.nextInt(maxOgres) + 1;
+		ogreAmmount = rand.nextInt(maxOgres) + 1;
 		ogreStartingPos = new Coords[ogreAmmount];
 		for (int i = 0; i < ogreAmmount; i++) {
 			ogreStartingPos[i] = new Coords(rand.nextInt(8) + 1, rand.nextInt(5) + 1);
