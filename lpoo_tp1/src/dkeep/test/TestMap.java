@@ -17,7 +17,7 @@ public class TestMap extends GameMap {
 		guardMoves = false;
 		guardAmmount = 1;
 		guardStartingPos = new Coords[guardAmmount];
-		guardStartingPos[0] = new Coords(8,1);
+		guardStartingPos[0] = new Coords(3,1);
 		guardTypes = new String[guardAmmount];
 		guardTypes[0] = "rookie";
 		guardMovements = new String[guardAmmount];

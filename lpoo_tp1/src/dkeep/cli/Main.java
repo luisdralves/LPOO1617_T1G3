@@ -9,7 +9,7 @@ import dkeep.logic.KeepMap;
 public class Main {
 
 	public static void main(String[] args) {
-		Game g = new Game(new DungeonMap());
+		Game g = new Game(new DungeonMap(), 2);
 		while (!g.isGameOver()) {
 			draw(g.getGameMap());
 			char dir = askUser("Direction of movement (wasd): ");
@@ -20,8 +20,10 @@ public class Main {
 				g.nextLevel();
 
 			}
-			if (gameState[1])
+			if (gameState[1]) {
 				System.out.println(g.getLossMessage());
+				draw(g.getGameMap());
+			}
 			if (gameState[2])
 				System.out.println("Invalid movement");
 			if (gameState[3])

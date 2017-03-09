@@ -8,12 +8,13 @@ public class Game {
 	private Hero hero;
 	private Guard[] guards;
 	private List<Ogre> ogres;
-	private int currentLevel;
+	private int currentLevel, lastLevel;
 	private boolean gameOver;
 
-	public Game(GameMap startingMap) {
+	public Game(GameMap startingMap, int llevel) {
 		SetMap(startingMap);
 		currentLevel = 0;
+		lastLevel = llevel;
 		gameOver = false;
 	}
 
@@ -116,6 +117,12 @@ public class Game {
 		boolean ret[] = { false, false, false, false }; // win, lose,
 														// invalid movement,
 														// hero attacks
+		boolean heroCaught[] = heroCaught();
+		if (heroCaught[0]) {
+			gameOver = true;
+			ret[1] = true;
+			return ret;
+		}
 		Coords newHeroPos = heroVecMov.add(hero.getCoords());
 		if (map.hasLevers() && map.getChar(newHeroPos) == 'k')
 			map.toggleDoors();
@@ -126,14 +133,14 @@ public class Game {
 		if (map.getChar(newHeroPos) == 'S') {
 			currentLevel++;
 			ret[0] = true;
-			if (currentLevel > 1)
+			if (currentLevel >= lastLevel)
 				gameOver = true;
 			return ret;
 		}
 		if (hero.hasKey() && map.getChar(newHeroPos) == 'I') {
 			map.openDoors();
 		}
-		boolean heroCaught[] = heroCaught();
+		heroCaught = heroCaught();
 		if (heroCaught[0]) {
 			gameOver = true;
 			ret[1] = true;
@@ -158,6 +165,12 @@ public class Game {
 				ogre.move(ogre.getCoords());
 			if (ogre.hasClub())
 				ogre.attack();
+		}
+		heroCaught = heroCaught();
+		if (heroCaught[0]) {
+			gameOver = true;
+			ret[1] = true;
+			return ret;
 		}
 		return ret;
 	}
@@ -202,5 +215,9 @@ public class Game {
 			break;
 		}
 		currentLevel++;
+	}
+	
+	public char getC(Coords c) {
+		return map.getChar(c);
 	}
 }
