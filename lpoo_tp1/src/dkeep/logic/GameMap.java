@@ -11,18 +11,18 @@ public abstract class GameMap {
 	protected Coords keyPos;
 	protected boolean keyDropped;
 	protected boolean doorsAreOpen;
-	protected int doorsAmmount;
+	protected int doorsAmount;
 	protected Coords[] doorsPos;
 	protected Coords heroStartingPos;
 	protected boolean heroHasClub;
 	protected boolean guardMoves;
-	protected int guardAmmount;
+	protected int guardAmount;
 	protected Coords[] guardStartingPos;
 	protected String[] guardMovements;
 	protected String[] guardTypes;
 	protected boolean ogreMoves;
 	protected boolean ogreAttacks;
-	protected int ogreAmmount;
+	protected int ogreAmount;
 	protected Coords[] ogreStartingPos;
 
 	public String getName() {
@@ -99,8 +99,8 @@ public abstract class GameMap {
 		return ogreAttacks;
 	}
 
-	public int getGuardAmmount() {
-		return guardAmmount;
+	public int getGuardAmount() {
+		return guardAmount;
 	}
 
 	public int getGuardStartingPosX(int i) {
@@ -119,8 +119,8 @@ public abstract class GameMap {
 		return guardTypes[i];
 	}
 
-	public int getOgreAmmount() {
-		return ogreAmmount;
+	public int getOgreAmount() {
+		return ogreAmount;
 	}
 
 	public int getOgreStartingPosX(int i) {
@@ -132,14 +132,14 @@ public abstract class GameMap {
 	}
 
 	public void openDoors() {
-		for (int i = 0; i < doorsAmmount; i++) {
+		for (int i = 0; i < doorsAmount; i++) {
 			setChar(doorsPos[i], 'S');
 		}
 		doorsAreOpen = true;
 	}
 
 	public void closeDoors() {
-		for (int i = 0; i < doorsAmmount; i++) {
+		for (int i = 0; i < doorsAmount; i++) {
 			setChar(doorsPos[i], 'I');
 		}
 		doorsAreOpen = false;

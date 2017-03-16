@@ -9,15 +9,16 @@ import dkeep.logic.KeepMap;
 public class Main {
 
 	public static void main(String[] args) {
-		Game g = new Game(new DungeonMap(), 2);
+		Game g = new Game(2);
 		while (!g.isGameOver()) {
 			draw(g.getGameMap());
 			char dir = askUser("Direction of movement (wasd): ");
 			Coords newHeroPos = g.newHeroPos(dir);
 			boolean gameState[] = g.update(newHeroPos);
 			if (gameState[0]) {
-				System.out.println(g.getVictoryMessage());
+				
 				g.nextLevel();
+				System.out.println(g.getVictoryMessage());
 
 			}
 			if (gameState[1]) {

@@ -7,15 +7,30 @@ public class Game {
 	private GameMap map;
 	private Hero hero;
 	private Guard[] guards;
+	private String guardType; 
 	private List<Ogre> ogres;
+	private int ogreAmount;
 	private int currentLevel, lastLevel;
 	private boolean gameOver;
 
-	public Game(GameMap startingMap, int llevel) {
-		SetMap(startingMap);
+	public Game(int llevel) {
 		currentLevel = 0;
 		lastLevel = llevel;
+		guardType = "";
+		ogreAmount = 0;
+		nextLevel();
 		gameOver = false;
+	}
+	
+	public Game(GameMap startingMap, int llevel) {
+		this(llevel);
+		SetMap(startingMap);
+	}
+	
+	public Game(int llevel, int oA, String gT) {
+		this(llevel);
+		guardType = gT;
+		ogreAmount = oA;
 	}
 
 	public void SetMap(GameMap map) {
@@ -23,8 +38,8 @@ public class Game {
 		hero = new Hero(map.getHeroStartingPosX(), map.getHeroStartingPosY());
 		if (map.heroHasClub())
 			hero.aquiresClub();
-		guards = new Guard[map.getGuardAmmount()];
-		for (int i = 0; i < map.getGuardAmmount(); i++) {
+		guards = new Guard[map.getGuardAmount()];
+		for (int i = 0; i < map.getGuardAmount(); i++) {
 			switch (map.getGuardTypes(i)) {
 			case "rookie":
 				guards[i] = new RookieGuard(map.getGuardStartingPosX(i), map.getGuardStartingPosY(i),
@@ -41,7 +56,7 @@ public class Game {
 			}
 		}
 		ogres = new Vector<Ogre>();
-		for (int i = 0; i < map.getOgreAmmount(); i++) {
+		for (int i = 0; i < map.getOgreAmount(); i++) {
 			ogres.add(new Ogre(map.getOgreStartingPosX(i), map.getOgreStartingPosY(i), map.areOgresMoving(), map.areOgresAttacking()));
 		}
 	}
@@ -126,13 +141,13 @@ public class Game {
 	}
 	
 	public Coords getOgrePos(int i) {
-		if (map.getOgreAmmount() == 0)
+		if (map.getOgreAmount() == 0)
 			return new Coords(0,0);
 		return ogres.get(i).getCoords();
 	}
 	
 	public Coords getOgreClub(int i) {
-		if (map.getOgreAmmount() == 0)
+		if (map.getOgreAmount() == 0)
 			return new Coords(0,0);
 		return ogres.get(i).getClub();
 	}
@@ -233,13 +248,13 @@ public class Game {
 	public void nextLevel() {
 		switch (currentLevel) {
 		case 0:
-			SetMap(new DungeonMap());
+			SetMap(new DungeonMap(guardType));
 			break;
 		case 1:
-			SetMap(new KeepMap());
+			SetMap(new KeepMap(ogreAmount));
 			break;
 		}
-		currentLevel++;
+		//currentLevel++;
 	}
 	
 	public char getC(Coords c) {

@@ -3,7 +3,7 @@ package dkeep.logic;
 import java.util.Random;
 
 public class KeepMap extends GameMap {
-	public KeepMap() {
+	public KeepMap(int ogreA) {
 		int maxOgres = 4;
 		name = "keep";
 		victoryMessage = "Congrats";
@@ -20,29 +20,32 @@ public class KeepMap extends GameMap {
 				{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' } };
 		hasLevers = false;
 		keyDropped = true;
-		keyPos = new Coords (8,1);
+		keyPos = new Coords(8, 1);
 		doorsAreOpen = false;
-		doorsAmmount = 1;
-		doorsPos = new Coords[doorsAmmount];
+		doorsAmount = 1;
+		doorsPos = new Coords[doorsAmount];
 		doorsPos[0] = new Coords(0, 1);
-		heroStartingPos = new Coords(1,8);
+		heroStartingPos = new Coords(1, 8);
 		heroHasClub = true;
-		guardAmmount = 0;
+		guardAmount = 0;
 		ogreMoves = true;
 		ogreAttacks = true;
 		Random rand = new Random();
-		ogreAmmount = rand.nextInt(maxOgres) + 1;
-		ogreStartingPos = new Coords[ogreAmmount];
-		for (int i = 0; i < ogreAmmount; i++) {
+		if (ogreA == 0) {
+			ogreAmount = rand.nextInt(maxOgres) + 1;
+		} else
+			ogreAmount = ogreA;
+		ogreStartingPos = new Coords[ogreAmount];
+		for (int i = 0; i < ogreAmount; i++) {
 			ogreStartingPos[i] = new Coords(rand.nextInt(8) + 1, rand.nextInt(5) + 1);
 		}
 	}
+
 	public KeepMap(boolean handicapped) {
-		this();
-		this.ogreAmmount = 1;
-		ogreStartingPos = new Coords[ogreAmmount];
-		ogreStartingPos[0] = new Coords(5,5);
-		if(handicapped)
+		this(1);
+		ogreStartingPos = new Coords[ogreAmount];
+		ogreStartingPos[0] = new Coords(5, 5);
+		if (handicapped)
 			ogreAttacks = false;
 		else
 			ogreMoves = false;

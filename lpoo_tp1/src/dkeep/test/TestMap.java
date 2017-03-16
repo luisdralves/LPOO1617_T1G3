@@ -9,20 +9,20 @@ public class TestMap extends GameMap {
 		this.map = map;
 		hasLevers = true;
 		doorsAreOpen = false;
-		doorsAmmount = 2;
-		doorsPos = new Coords[doorsAmmount];
+		doorsAmount = 2;
+		doorsPos = new Coords[doorsAmount];
 		doorsPos[0] = new Coords(0,2);
 		doorsPos[1] = new Coords(0,3);
 		heroStartingPos = new Coords(1,1);
 		heroHasClub = false;
 		guardMoves = false;
-		guardAmmount = 1;
-		guardStartingPos = new Coords[guardAmmount];
+		guardAmount = 1;
+		guardStartingPos = new Coords[guardAmount];
 		guardStartingPos[0] = new Coords(3,1);
-		guardTypes = new String[guardAmmount];
+		guardTypes = new String[guardAmount];
 		guardTypes[0] = "rookie";
-		guardMovements = new String[guardAmmount];
+		guardMovements = new String[guardAmount];
 		guardMovements[0] = "";
-		ogreAmmount = 0;
+		ogreAmount = 0;
 	}
 }

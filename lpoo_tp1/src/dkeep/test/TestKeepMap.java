@@ -13,15 +13,15 @@ public class TestKeepMap extends GameMap {
 		keyDropped = true;
 		keyPos = new Coords (1,3);
 		doorsAreOpen = false;
-		doorsAmmount = 1;
-		doorsPos = new Coords[doorsAmmount];
+		doorsAmount = 1;
+		doorsPos = new Coords[doorsAmount];
 		doorsPos[0] = new Coords(0,2);
 		heroStartingPos = new Coords(1,1);
 		heroHasClub = false;
-		guardAmmount = 0;
+		guardAmount = 0;
 		ogreMoves = true;
-		ogreAmmount = 1;
-		ogreStartingPos = new Coords[ogreAmmount];
+		ogreAmount = 1;
+		ogreStartingPos = new Coords[ogreAmount];
 		ogreStartingPos[0] = new Coords(3,1);
 	}
 }
