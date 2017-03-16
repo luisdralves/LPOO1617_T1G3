@@ -18,8 +18,8 @@ public class Game {
 		lastLevel = llevel;
 		guardType = "";
 		ogreAmount = 0;
-		nextLevel();
 		gameOver = false;
+		nextLevel();
 	}
 	
 	public Game(GameMap startingMap, int llevel) {
@@ -28,9 +28,13 @@ public class Game {
 	}
 	
 	public Game(int llevel, int oA, String gT) {
-		this(llevel);
+		//this(llevel);
+		currentLevel = 0;
+		lastLevel = llevel;
 		guardType = gT;
 		ogreAmount = oA;
+		gameOver = false;
+		nextLevel();
 	}
 
 	public void SetMap(GameMap map) {
@@ -91,6 +95,20 @@ public class Game {
 		}
 		return ret;
 	}
+	
+	public String getGameMapAsString() {
+		String ret = "";
+		char[][] map = getGameMap();
+		for (char[] line : map)
+		{
+			for (char ch : line) {
+				ret += ch;
+				ret += ' ';
+			}
+			ret += '\n';
+		}
+		return ret;
+	}
 
 	public String getVictoryMessage() {
 		return map.victoryMessage;
@@ -112,9 +130,9 @@ public class Game {
 		return hero.hasKey();
 	}
 	
-	public void moveHero(char dir) {
+	public boolean[] moveHero(char dir) {
 		Coords nhp = newHeroPos(dir);
-		update(nhp);
+		return update(nhp);
 	}
 	
 	public Coords newHeroPos(char dir) {
