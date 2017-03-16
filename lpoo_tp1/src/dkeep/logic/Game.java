@@ -42,7 +42,7 @@ public class Game {
 		}
 		ogres = new Vector<Ogre>();
 		for (int i = 0; i < map.getOgreAmmount(); i++) {
-			ogres.add(new Ogre(map.getOgreStartingPosX(i), map.getOgreStartingPosY(i), map.areOgresMoving()));
+			ogres.add(new Ogre(map.getOgreStartingPosX(i), map.getOgreStartingPosY(i), map.areOgresMoving(), map.areOgresAttacking()));
 		}
 	}
 	
@@ -123,6 +123,18 @@ public class Game {
 			break;
 		}
 		return ret;
+	}
+	
+	public Coords getOgrePos(int i) {
+		if (map.getOgreAmmount() == 0)
+			return new Coords(0,0);
+		return ogres.get(i).getCoords();
+	}
+	
+	public Coords getOgreClub(int i) {
+		if (map.getOgreAmmount() == 0)
+			return new Coords(0,0);
+		return ogres.get(i).getClub();
 	}
 
 	public boolean[] update(Coords heroVecMov) {

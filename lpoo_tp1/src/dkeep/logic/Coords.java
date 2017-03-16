@@ -42,6 +42,23 @@ public class Coords {
 		ret.addY(c2.getY());
 		return ret;
 	}
+	
+	public char directionMoved(Coords that) {
+		Coords c1 = new Coords(this.getX(), this.getY());
+		Coords c2 = new Coords(that.getX(), that.getY());
+		c2.setX(c2.getX() - c1.getX());
+		c2.setY(c2.getY() - c1.getY());
+		if (c2.getX() == 0 && c2.getY() > 0)
+			return 's';
+		else if (c2.getX() == 0 && c2.getY() < 0)
+			return 'w';
+		else if (c2.getX() > 0 && c2.getY() == 0)
+			return 'd';
+		else if (c2.getX() < 0 && c2.getY() == 0)
+			return 'a';
+		else 
+			return 'i';
+	}
 
 	public int getX() {
 		return new Integer(x);

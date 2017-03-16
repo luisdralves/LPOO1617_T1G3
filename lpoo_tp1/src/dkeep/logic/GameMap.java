@@ -21,6 +21,7 @@ public abstract class GameMap {
 	protected String[] guardMovements;
 	protected String[] guardTypes;
 	protected boolean ogreMoves;
+	protected boolean ogreAttacks;
 	protected int ogreAmmount;
 	protected Coords[] ogreStartingPos;
 
@@ -92,6 +93,10 @@ public abstract class GameMap {
 	
 	public boolean areOgresMoving() {
 		return ogreMoves;
+	}
+	
+	public boolean areOgresAttacking() {
+		return ogreAttacks;
 	}
 
 	public int getGuardAmmount() {

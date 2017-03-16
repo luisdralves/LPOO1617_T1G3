@@ -18,12 +18,13 @@ public class Ogre extends Agent {
 		c = 'O';
 	}
 
-	public Ogre(int x, int y, boolean move) {
+	public Ogre(int x, int y, boolean move, boolean attack) {
 		coords = new Coords(x, y);
 		hasClub = true;
 		if (hasClub())
 			club = new Coords(x, y);
 		sleeping = 0;
+		hasClub = attack;
 		moving = move;
 		this.c = 'O';
 	}

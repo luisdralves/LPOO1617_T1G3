@@ -29,11 +29,25 @@ public class KeepMap extends GameMap {
 		heroHasClub = true;
 		guardAmmount = 0;
 		ogreMoves = true;
+		ogreAttacks = true;
 		Random rand = new Random();
 		ogreAmmount = rand.nextInt(maxOgres) + 1;
 		ogreStartingPos = new Coords[ogreAmmount];
 		for (int i = 0; i < ogreAmmount; i++) {
 			ogreStartingPos[i] = new Coords(rand.nextInt(8) + 1, rand.nextInt(5) + 1);
 		}
+	}
+	public KeepMap(boolean handicapped) {
+		this();
+		this.ogreAmmount = 1;
+		ogreStartingPos = new Coords[ogreAmmount];
+		ogreStartingPos[0] = new Coords(5,5);
+		if(handicapped)
+			ogreAttacks = false;
+		else
+			ogreMoves = false;
+		map[7][1] = 'X';
+		map[7][2] = 'X';
+		map[8][2] = 'X';
 	}
 }
