@@ -122,6 +122,8 @@ public class MainMenu {
 				String guardType = (String) comboBox.getSelectedItem();
 				g = new Game(2, ogreAmount, guardType);
 				gamePanel.addKeyListener(g);
+				gamePanel.setFocusable(true);
+				gamePanel.requestFocusInWindow();
 				btnRight.setEnabled(true);
 				btnLeft.setEnabled(true);
 				btnUp.setEnabled(true);
