@@ -24,9 +24,9 @@ public class MainMenu {
 
 	private JFrame frame;
 	private JTextField textField;
-	private JTextArea textArea;
 	private JLabel lblStatus;
 	private JButton btnUp, btnDown, btnRight, btnLeft;
+	private GamePanel gamePanel;
 	private Game g;
 
 	/**
@@ -57,7 +57,7 @@ public class MainMenu {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 601, 387);
+		frame.setBounds(100, 100, 934, 723);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JLabel lblGuardPersonality = new JLabel("Guard personality");
@@ -70,10 +70,7 @@ public class MainMenu {
 		textField = new JTextField();
 		textField.setText("2");
 		textField.setColumns(10);
-
-		textArea = new JTextArea();
-		textArea.setFont(new Font("Monospaced", Font.PLAIN, 13));
-
+		
 		btnRight = new JButton("Right");
 		btnRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -116,17 +113,23 @@ public class MainMenu {
 
 		lblStatus = new JLabel("You can start a new game");
 
+		gamePanel = new GamePanel(g);
+		
 		JButton btnNewGame = new JButton("New game");
 		btnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int ogreAmount = Integer.parseInt(textField.getText());
 				String guardType = (String) comboBox.getSelectedItem();
 				g = new Game(2, ogreAmount, guardType);
+				gamePanel = new GamePanel(g);
+				gamePanel.addKeyListener(gamePanel);
 				btnRight.setEnabled(true);
 				btnLeft.setEnabled(true);
 				btnUp.setEnabled(true);
 				btnDown.setEnabled(true);
-				textArea.setText(g.getGameMapAsString());
+				//textArea.setText(g.getGameMapAsString());
+				gamePanel.setGameMap(g.getGameMap());
+				gamePanel.setHeroChar('H');
 				lblStatus.setText("Escape the " + guardType + " guard");
 			}
 		});
@@ -139,76 +142,93 @@ public class MainMenu {
 		});
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(groupLayout.createSequentialGroup().addContainerGap()
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(lblGuardPersonality)
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblGuardPersonality)
 								.addComponent(lblOgreAmount))
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addContainerGap(394, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup().addGap(36)
-						.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 302, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
-						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addGroup(groupLayout.createSequentialGroup().addComponent(btnNewGame).addGap(30))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addContainerGap(394, Short.MAX_VALUE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(gamePanel, GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
+							.addGap(18)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 								.addGroup(groupLayout.createSequentialGroup()
-										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-												.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-														.addComponent(btnLeft, GroupLayout.PREFERRED_SIZE,
-																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addPreferredGap(ComponentPlacement.RELATED)
-														.addComponent(btnRight, GroupLayout.PREFERRED_SIZE,
-																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-												.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-														.addComponent(btnUp, GroupLayout.PREFERRED_SIZE,
-																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addGap(34)))
-										.addContainerGap())
+									.addComponent(btnNewGame)
+									.addGap(30))
 								.addGroup(groupLayout.createSequentialGroup()
-										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-												.addComponent(btnExit).addComponent(btnDown, GroupLayout.PREFERRED_SIZE,
-														GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addGap(44))))
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup().addContainerGap()
-						.addComponent(lblStatus).addContainerGap(529, Short.MAX_VALUE)));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-				.createSequentialGroup().addContainerGap()
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblOgreAmount).addComponent(
-						textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addPreferredGap(ComponentPlacement.RELATED)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblGuardPersonality)
-						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE))
-				.addGap(18)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addGroup(groupLayout
-						.createSequentialGroup().addComponent(btnNewGame).addGap(46)
-						.addComponent(btnUp, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnLeft, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnRight, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE))
-						.addGap(7).addComponent(btnDown, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE))
-						.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 207, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(groupLayout.createSequentialGroup().addGap(18).addComponent(btnExit)
-								.addContainerGap(99, Short.MAX_VALUE))
-						.addGroup(groupLayout.createSequentialGroup().addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(lblStatus).addContainerGap()))));
+									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addComponent(btnLeft, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(btnRight, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										.addGroup(groupLayout.createSequentialGroup()
+											.addComponent(btnUp, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+											.addGap(34)))
+									.addContainerGap())
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+										.addComponent(btnExit)
+										.addComponent(btnDown, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addGap(44))))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblStatus)
+							.addContainerGap(450, Short.MAX_VALUE))))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblOgreAmount)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblGuardPersonality)
+						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addComponent(btnNewGame)
+					.addGap(46)
+					.addComponent(btnUp, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnLeft, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnRight, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(7)
+					.addComponent(btnDown, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(18)
+							.addComponent(btnExit)
+							.addContainerGap(81, Short.MAX_VALUE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblStatus)
+							.addContainerGap())))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(63)
+					.addComponent(gamePanel, GroupLayout.PREFERRED_SIZE, 585, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(36, Short.MAX_VALUE))
+		);
 		frame.getContentPane().setLayout(groupLayout);
 	}
 
 	private void update(char dir) {
 		boolean gameState[] = g.moveHero(dir);
+		if (gameState[2])
+			lblStatus.setText("Invalid movement");
+		else
+			lblStatus.setText("You're doing great!");
 		if (gameState[0]) {
 			lblStatus.setText(g.getVictoryMessage());
+			gamePanel.setHeroChar('A');
 			g.nextLevel();
 		}
 		if (gameState[1]) {
@@ -218,10 +238,10 @@ public class MainMenu {
 			btnRight.setEnabled(false);
 			btnLeft.setEnabled(false);
 		}
-		if (gameState[2])
-			lblStatus.setText("Invalid movement");
 		if (gameState[3])
 			lblStatus.setText("You have beaten an ogre to sleep");
-		textArea.setText(g.getGameMapAsString());
+		gamePanel.setGameMap(g.getGameMap());
+		gamePanel.setHeroDir(dir);
+		//textArea.setText(g.getGameMapAsString());
 	}
 }
