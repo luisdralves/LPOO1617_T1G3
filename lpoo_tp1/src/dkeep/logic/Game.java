@@ -1,9 +1,11 @@
 package dkeep.logic;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.List;
 import java.util.Vector;
 
-public class Game {
+public class Game implements KeyListener{
 	private GameMap map;
 	private Hero hero;
 	private Guard[] guards;
@@ -278,4 +280,20 @@ public class Game {
 	public char getC(Coords c) {
 		return map.getChar(c);
 	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		moveHero(e.getKeyChar());
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+
+	}
+		
 }

@@ -113,7 +113,7 @@ public class MainMenu {
 
 		lblStatus = new JLabel("You can start a new game");
 
-		gamePanel = new GamePanel(g);
+		gamePanel = new GamePanel();
 		
 		JButton btnNewGame = new JButton("New game");
 		btnNewGame.addActionListener(new ActionListener() {
@@ -121,8 +121,7 @@ public class MainMenu {
 				int ogreAmount = Integer.parseInt(textField.getText());
 				String guardType = (String) comboBox.getSelectedItem();
 				g = new Game(2, ogreAmount, guardType);
-				gamePanel = new GamePanel(g);
-				gamePanel.addKeyListener(gamePanel);
+				gamePanel.addKeyListener(g);
 				btnRight.setEnabled(true);
 				btnLeft.setEnabled(true);
 				btnUp.setEnabled(true);
