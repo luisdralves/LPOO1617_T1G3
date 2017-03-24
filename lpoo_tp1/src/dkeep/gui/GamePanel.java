@@ -167,7 +167,7 @@ public class GamePanel extends JPanel {
 		}
 	}
 
-	@Override
+	/*@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
@@ -258,7 +258,7 @@ public class GamePanel extends JPanel {
 					g2d.drawImage(wall_i, 30 * i, 30 * j, null);
 			}
 		}
-	}
+	}*/
 
 	public static Image removeColor(BufferedImage im, Color color) {
         ImageFilter imf = new RGBImageFilter() {

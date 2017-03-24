@@ -5,6 +5,8 @@ import java.awt.event.KeyListener;
 import java.util.List;
 import java.util.Vector;
 
+import dkeep.gui.MainMenu;
+
 public class Game implements KeyListener{
 	private GameMap map;
 	private Hero hero;
@@ -309,7 +311,7 @@ public class Game implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		moveHero(e.getKeyChar());
+		MainMenu.update(e.getKeyChar());
 	}
 
 	@Override
