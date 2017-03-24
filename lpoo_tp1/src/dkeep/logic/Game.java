@@ -98,6 +98,10 @@ public class Game implements KeyListener{
 		return ret;
 	}
 	
+	public char[][] getGameMapVoid() {
+		return map.getMap();
+	}
+	
 	public String getGameMapAsString() {
 		String ret = "";
 		char[][] map = getGameMap();
@@ -160,6 +164,20 @@ public class Game implements KeyListener{
 		return ret;
 	}
 	
+	public int getGuardAmount() {
+		return map.getGuardAmount();
+	}
+
+	public Coords getGuardPos(int i) {
+		if (map.getGuardAmount() == 0)
+			return new Coords(0,0);
+		return guards[i].getCoords();
+	}
+	
+	public int getOgreAmount() {
+		return ogreAmount;
+	}
+
 	public Coords getOgrePos(int i) {
 		if (map.getOgreAmount() == 0)
 			return new Coords(0,0);
