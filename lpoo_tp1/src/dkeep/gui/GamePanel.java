@@ -5,10 +5,15 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.TexturePaint;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.FilteredImageSource;
+import java.awt.image.ImageFilter;
+import java.awt.image.ImageProducer;
+import java.awt.image.RGBImageFilter;
 import java.io.File;
 import java.io.IOException;
 
@@ -18,8 +23,8 @@ import javax.swing.JPanel;
 import dkeep.logic.Coords;
 
 public class GamePanel extends JPanel {
-	private final long serialVersionUID = -1271074511834697397L;
-	private TexturePaint paint;
+	private static final long serialVersionUID = -1271074511834697397L;
+	private static TexturePaint paint;
 	// private Game g;
 	private static BufferedImage herou_i = null;
 	private static BufferedImage herod_i = null;
@@ -29,6 +34,7 @@ public class GamePanel extends JPanel {
 	private static BufferedImage guardd_i = null;
 	private static BufferedImage guardl_i = null;
 	private static BufferedImage guardr_i = null;
+	private static BufferedImage guardz_i = null;
 	private static BufferedImage ogreu_i = null;
 	private static BufferedImage ogred_i = null;
 	private static BufferedImage ogrel_i = null;
@@ -42,6 +48,26 @@ public class GamePanel extends JPanel {
 	private static BufferedImage lever_i = null;
 	private static BufferedImage dooro_i = null;
 	private static BufferedImage doorc_i = null;
+	private static Image herou_t = null;
+	private static Image herod_t = null;
+	private static Image herol_t = null;
+	private static Image heror_t = null;
+	private static Image guardu_t = null;
+	private static Image guardd_t = null;
+	private static Image guardl_t = null;
+	private static Image guardr_t = null;
+	private static Image guardz_t = null;
+	private static Image ogreu_t = null;
+	private static Image ogred_t = null;
+	private static Image ogrel_t = null;
+	private static Image ogrer_t = null;
+	private static Image clubu_t = null;
+	private static Image clubl_t = null;
+	private static Image clubr_t = null;
+	private static Image clubd_t = null;
+	private static Image lever_t = null;
+	private static Image dooro_t = null;
+	private static Image doorc_t = null;
 	private static Rectangle2D floor_dim = new Rectangle2D.Double(0, 0, 50, 40);
 
 	private char[][] gameMap;
@@ -64,6 +90,7 @@ public class GamePanel extends JPanel {
 			guardd_i = ImageIO.read(new File("rsc\\guarddown.png"));
 			guardl_i = ImageIO.read(new File("rsc\\guardleft.png"));
 			guardr_i = ImageIO.read(new File("rsc\\guardright.png"));
+			guardz_i = ImageIO.read(new File("rsc\\guardzzz.png"));
 			ogreu_i = ImageIO.read(new File("rsc\\ogreup.png"));
 			ogred_i = ImageIO.read(new File("rsc\\ogredown.png"));
 			ogrel_i = ImageIO.read(new File("rsc\\ogreleft.png"));
@@ -77,6 +104,28 @@ public class GamePanel extends JPanel {
 			lever_i = ImageIO.read(new File("rsc\\lever.png"));
 			dooro_i = ImageIO.read(new File("rsc\\door_o.png"));
 			doorc_i = ImageIO.read(new File("rsc\\door_c.png"));
+			
+			int color = herou_i.getRGB(0, 0);
+			herou_t = makeColorTransparent(herou_i, new Color(color));
+			herod_t = makeColorTransparent(herod_i, new Color(color));
+			herol_t = makeColorTransparent(herol_i, new Color(color));
+			heror_t = makeColorTransparent(heror_i, new Color(color));
+			guardu_t = makeColorTransparent(guardu_i, new Color(color));
+			guardd_t = makeColorTransparent(guardd_i, new Color(color));
+			guardl_t = makeColorTransparent(guardl_i, new Color(color));
+			guardr_t = makeColorTransparent(guardr_i, new Color(color));
+			guardz_t = makeColorTransparent(guardz_i, new Color(color));
+			ogreu_t = makeColorTransparent(ogreu_i, new Color(color));
+			ogred_t = makeColorTransparent(ogred_i, new Color(color));
+			ogrel_t = makeColorTransparent(ogrel_i, new Color(color));
+			ogrer_t = makeColorTransparent(ogrer_i, new Color(color));
+			clubu_t = makeColorTransparent(clubu_i, new Color(color));
+			clubd_t = makeColorTransparent(clubd_i, new Color(color));
+			clubl_t = makeColorTransparent(clubl_i, new Color(color));
+			clubr_t = makeColorTransparent(clubr_i, new Color(color));
+			lever_t = makeColorTransparent(lever_i, new Color(color));
+			dooro_t = makeColorTransparent(dooro_i, new Color(color));
+			doorc_t = makeColorTransparent(doorc_i, new Color(color));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -121,62 +170,65 @@ public class GamePanel extends JPanel {
 
 		switch (heroDir) {
 		case 'w':
-			g2d.drawImage(herou_i, 30 * heroCoords.getX(), 30 * (heroCoords.getY() + 1), null);
+			g2d.drawImage(herou_t, 30 * heroCoords.getX(), 30 * heroCoords.getY(), null);
 			break;
 		case 'd':
-			g2d.drawImage(heror_i, 30 * heroCoords.getX(), 30 * (heroCoords.getY() + 1), null);
+			g2d.drawImage(heror_t, 30 * heroCoords.getX(), 30 * heroCoords.getY(), null);
 			break;
 		case 'a':
-			g2d.drawImage(herol_i, 30 * heroCoords.getX(), 30 * (heroCoords.getY() + 1), null);
+			g2d.drawImage(herol_t, 30 * heroCoords.getX(), 30 * heroCoords.getY(), null);
 			break;
 		case 's':
-			g2d.drawImage(herod_i, 30 * heroCoords.getX(), 30 * (heroCoords.getY() + 1), null);
+			g2d.drawImage(herod_t, 30 * heroCoords.getX(), 30 * heroCoords.getY(), null);
 			break;
 		}
 
 		switch (guardDir[0]) {
 		case 'w':
-			g2d.drawImage(guardu_i, 30 * guardCoords[0].getX(), 30 * (guardCoords[0].getY() + 1), null);
+			g2d.drawImage(guardu_t, 30 * guardCoords[0].getX(), 30 * guardCoords[0].getY(), null);
 			break;
 		case 'd':
-			g2d.drawImage(guardr_i, 30 * guardCoords[0].getX(), 30 * (guardCoords[0].getY() + 1), null);
+			g2d.drawImage(guardr_t, 30 * guardCoords[0].getX(), 30 * guardCoords[0].getY(), null);
 			break;
 		case 'a':
-			g2d.drawImage(guardl_i, 30 * guardCoords[0].getX(), 30 * (guardCoords[0].getY() + 1), null);
+			g2d.drawImage(guardl_t, 30 * guardCoords[0].getX(), 30 * guardCoords[0].getY(), null);
 			break;
 		case 's':
-			g2d.drawImage(guardd_i, 30 * guardCoords[0].getX(), 30 * (guardCoords[0].getY() + 1), null);
+			g2d.drawImage(guardd_t, 30 * guardCoords[0].getX(), 30 * guardCoords[0].getY(), null);
+			break;
+		case 'n':
+			g2d.drawImage(guardz_t, 30 * guardCoords[0].getX(), 30 * guardCoords[0].getY(), null);
 			break;
 		}
 
 		for (int i = 0; i < ogreCoords.length; i++) {
-			switch (ogreDir[i]) {
+			switch (clubDir[i]) {
 			case 'w':
-				g2d.drawImage(ogreu_i, 30 * ogreCoords[i].getX(), 30 * (ogreCoords[i].getY() + 1), null);
+				g2d.drawImage(clubu_t, 30 * clubCoords[i].getX(), 30 * clubCoords[i].getY(), null);
 				break;
 			case 'd':
-				g2d.drawImage(ogrer_i, 30 * ogreCoords[i].getX(), 30 * (ogreCoords[i].getY() + 1), null);
+				g2d.drawImage(clubr_t, 30 * clubCoords[i].getX(), 30 * clubCoords[i].getY(), null);
 				break;
 			case 'a':
-				g2d.drawImage(ogrel_i, 30 * ogreCoords[i].getX(), 30 * (ogreCoords[i].getY() + 1), null);
+				g2d.drawImage(clubl_t, 30 * clubCoords[i].getX(), 30 * clubCoords[i].getY(), null);
 				break;
 			case 's':
-				g2d.drawImage(ogred_i, 30 * ogreCoords[i].getX(), 30 * (ogreCoords[i].getY() + 1), null);
+				g2d.drawImage(clubd_t, 30 * clubCoords[i].getX(), 30 * clubCoords[i].getY(), null);
 				break;
 			}
 			
-			switch (clubDir[i]) {
+			switch (ogreDir[i]) {
 			case 'w':
-				g2d.drawImage(clubu_i, 30 * clubCoords[i].getX(), 30 * (clubCoords[i].getY() + 1), null);
+				g2d.drawImage(ogreu_t, 30 * ogreCoords[i].getX(), 30 * ogreCoords[i].getY(), null);
 				break;
 			case 'd':
-				g2d.drawImage(clubr_i, 30 * clubCoords[i].getX(), 30 * (clubCoords[i].getY() + 1), null);
+				g2d.drawImage(ogrer_t, 30 * ogreCoords[i].getX(), 30 * ogreCoords[i].getY(), null);
 				break;
 			case 'a':
-				g2d.drawImage(clubl_i, 30 * clubCoords[i].getX(), 30 * (clubCoords[i].getY() + 1), null);
+				g2d.drawImage(ogrel_t, 30 * ogreCoords[i].getX(), 30 * ogreCoords[i].getY(), null);
 				break;
 			case 's':
-				g2d.drawImage(clubd_i, 30 * clubCoords[i].getX(), 30 * (clubCoords[i].getY() + 1), null);
+				g2d.drawImage(ogred_t, 30 * ogreCoords[i].getX(), 30 * ogreCoords[i].getY(), null);
 				break;
 			}
 		}
@@ -186,31 +238,33 @@ public class GamePanel extends JPanel {
 		for (i = 0; i < gameMap.length; i++) {
 			for (j = 0; j < gameMap[i].length; j++) {
 				currentChar = gameMap[j][i];
-				/*
-				 * if (currentChar == heroChar || currentChar == 'K') { switch
-				 * (heroDir) { case 'w': g2d.drawImage(herou_i, 30 * i, 30 * (j
-				 * + 1), null); break; case 'd': g2d.drawImage(heror_i, 30 * i,
-				 * 30 * (j + 1), null); break; case 'a': g2d.drawImage(herol_i,
-				 * 30 * i, 30 * (j + 1), null); break; case 's':
-				 * g2d.drawImage(herod_i, 30 * i, 30 * (j + 1), null); break; }
-				 * } if (currentChar == 'G') { g2d.drawImage(guard_i, 30 * i, 30
-				 * * (j + 1), null); } if (currentChar == 'O' || currentChar ==
-				 * '$') g2d.drawImage(ogre_i, 30 * i, 30 * (j + 1), null); if
-				 * (currentChar == '*') g2d.drawImage(club_i, 30 * i, 30 * (j +
-				 * 1), null);
-				 */
 				if (currentChar == 'k')
-					g2d.drawImage(lever_i, 30 * i, 30 * (j + 1), null);
+					g2d.drawImage(lever_t, 30 * i, 30 * j, null);
 				if (currentChar == 'S')
-					g2d.drawImage(dooro_i, 30 * i, 30 * (j + 1), null);
+					g2d.drawImage(dooro_t, 30 * i, 30 * j, null);
 				if (currentChar == 'I')
-					g2d.drawImage(doorc_i, 30 * i, 30 * (j + 1), null);
+					g2d.drawImage(doorc_t, 30 * i, 30 * j, null);
 				if (currentChar == 'X')
-					g2d.drawImage(wall_i, 30 * i, 30 * (j + 1), null);
+					g2d.drawImage(wall_i, 30 * i, 30 * j, null);
 			}
 		}
 	}
 
+	public static Image makeColorTransparent(BufferedImage im, Color color) {
+        ImageFilter imf = new RGBImageFilter() {
+            int markerRGB = color.getRGB() | 0xFF000000;
+            public int filterRGB(int x, int y, int rgb) {
+                if ((rgb | 0xFF000000) == markerRGB) {
+                    return 0x00FFFFFF & rgb;
+                } else {
+                    return rgb;
+                }
+            }
+        };
+        ImageProducer ip = new FilteredImageSource(im.getSource(), imf);
+        return Toolkit.getDefaultToolkit().createImage(ip);
+    }
+	
 	public void setGameMap(char[][] map) {
 		gameMap = map;
 		repaint();
