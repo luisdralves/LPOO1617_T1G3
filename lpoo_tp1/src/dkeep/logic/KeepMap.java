@@ -31,7 +31,7 @@ public class KeepMap extends GameMap {
 		ogreMoves = true;
 		ogreAttacks = true;
 		Random rand = new Random();
-		if (ogreA == 0) {
+		if (ogreA == -1) {
 			ogreAmount = rand.nextInt(maxOgres) + 1;
 		} else
 			ogreAmount = ogreA;

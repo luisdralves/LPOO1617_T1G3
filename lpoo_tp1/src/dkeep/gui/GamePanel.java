@@ -48,6 +48,7 @@ public class GamePanel extends JPanel {
 	private static BufferedImage lever_i = null;
 	private static BufferedImage dooro_i = null;
 	private static BufferedImage doorc_i = null;
+	private static BufferedImage key_i = null;
 	private static Image herou_t = null;
 	private static Image herod_t = null;
 	private static Image herol_t = null;
@@ -68,9 +69,12 @@ public class GamePanel extends JPanel {
 	private static Image lever_t = null;
 	private static Image dooro_t = null;
 	private static Image doorc_t = null;
+	private static Image key_t = null;
 	private static Rectangle2D floor_dim = new Rectangle2D.Double(0, 0, 50, 40);
 
 	private char[][] gameMap;
+	private Coords keyCoords;
+	private boolean drawKey;
 	private Coords heroCoords;
 	private char heroDir;
 	private Coords[] guardCoords;
@@ -104,33 +108,36 @@ public class GamePanel extends JPanel {
 			lever_i = ImageIO.read(new File("rsc\\lever.png"));
 			dooro_i = ImageIO.read(new File("rsc\\door_o.png"));
 			doorc_i = ImageIO.read(new File("rsc\\door_c.png"));
+			key_i = ImageIO.read(new File("rsc\\key.png"));
 			
 			int color = herou_i.getRGB(0, 0);
-			herou_t = makeColorTransparent(herou_i, new Color(color));
-			herod_t = makeColorTransparent(herod_i, new Color(color));
-			herol_t = makeColorTransparent(herol_i, new Color(color));
-			heror_t = makeColorTransparent(heror_i, new Color(color));
-			guardu_t = makeColorTransparent(guardu_i, new Color(color));
-			guardd_t = makeColorTransparent(guardd_i, new Color(color));
-			guardl_t = makeColorTransparent(guardl_i, new Color(color));
-			guardr_t = makeColorTransparent(guardr_i, new Color(color));
-			guardz_t = makeColorTransparent(guardz_i, new Color(color));
-			ogreu_t = makeColorTransparent(ogreu_i, new Color(color));
-			ogred_t = makeColorTransparent(ogred_i, new Color(color));
-			ogrel_t = makeColorTransparent(ogrel_i, new Color(color));
-			ogrer_t = makeColorTransparent(ogrer_i, new Color(color));
-			clubu_t = makeColorTransparent(clubu_i, new Color(color));
-			clubd_t = makeColorTransparent(clubd_i, new Color(color));
-			clubl_t = makeColorTransparent(clubl_i, new Color(color));
-			clubr_t = makeColorTransparent(clubr_i, new Color(color));
-			lever_t = makeColorTransparent(lever_i, new Color(color));
-			dooro_t = makeColorTransparent(dooro_i, new Color(color));
-			doorc_t = makeColorTransparent(doorc_i, new Color(color));
+			herou_t = removeColor(herou_i, new Color(color));
+			herod_t = removeColor(herod_i, new Color(color));
+			herol_t = removeColor(herol_i, new Color(color));
+			heror_t = removeColor(heror_i, new Color(color));
+			guardu_t = removeColor(guardu_i, new Color(color));
+			guardd_t = removeColor(guardd_i, new Color(color));
+			guardl_t = removeColor(guardl_i, new Color(color));
+			guardr_t = removeColor(guardr_i, new Color(color));
+			guardz_t = removeColor(guardz_i, new Color(color));
+			ogreu_t = removeColor(ogreu_i, new Color(color));
+			ogred_t = removeColor(ogred_i, new Color(color));
+			ogrel_t = removeColor(ogrel_i, new Color(color));
+			ogrer_t = removeColor(ogrer_i, new Color(color));
+			clubu_t = removeColor(clubu_i, new Color(color));
+			clubd_t = removeColor(clubd_i, new Color(color));
+			clubl_t = removeColor(clubl_i, new Color(color));
+			clubr_t = removeColor(clubr_i, new Color(color));
+			lever_t = removeColor(lever_i, new Color(color));
+			dooro_t = removeColor(dooro_i, new Color(color));
+			doorc_t = removeColor(doorc_i, new Color(color));
+			key_t = removeColor(key_i, new Color(color));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		gameMap = new char[][] { { ' ' } };
+		drawKey = false;
 		heroCoords = new Coords(0, 0);
 		heroDir = 'i';
 		guardCoords = new Coords[1];
@@ -168,6 +175,9 @@ public class GamePanel extends JPanel {
 		g2d.setPaint(paint);
 		g2d.fillRect(0, 0, getWidth(), getHeight());
 
+		if(drawKey)
+			g2d.drawImage(key_t, 30 * keyCoords.getX(), 30 * keyCoords.getY(), null);
+		
 		switch (heroDir) {
 		case 'w':
 			g2d.drawImage(herou_t, 30 * heroCoords.getX(), 30 * heroCoords.getY(), null);
@@ -250,7 +260,7 @@ public class GamePanel extends JPanel {
 		}
 	}
 
-	public static Image makeColorTransparent(BufferedImage im, Color color) {
+	public static Image removeColor(BufferedImage im, Color color) {
         ImageFilter imf = new RGBImageFilter() {
             int markerRGB = color.getRGB() | 0xFF000000;
             public int filterRGB(int x, int y, int rgb) {
@@ -308,5 +318,13 @@ public class GamePanel extends JPanel {
 
 	public void setClubDir(char c, int i) {
 		clubDir[i] = c;
+	}
+
+	public void drawKey(boolean b) {
+		drawKey = b;
+	}
+
+	public void setKeyCoords(Coords c) {
+		keyCoords = c;		
 	}
 }

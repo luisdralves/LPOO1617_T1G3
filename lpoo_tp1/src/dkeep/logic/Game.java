@@ -16,7 +16,7 @@ public class Game implements KeyListener{
 	private boolean gameOver;
 
 	public Game(int llevel) {
-		currentLevel = 0;
+		setCurrentLevel(0);
 		lastLevel = llevel;
 		guardType = "";
 		ogreAmount = 0;
@@ -31,7 +31,7 @@ public class Game implements KeyListener{
 	
 	public Game(int llevel, int oA, String gT) {
 		//this(llevel);
-		currentLevel = 0;
+		setCurrentLevel(0);
 		lastLevel = llevel;
 		guardType = gT;
 		ogreAmount = oA;
@@ -124,6 +124,14 @@ public class Game implements KeyListener{
 		return map.lossMessage;
 	}
 	
+	public int getCurrentLevel() {
+		return currentLevel;
+	}
+
+	public void setCurrentLevel(int currentLevel) {
+		this.currentLevel = currentLevel;
+	}
+
 	public Coords getHeroPos() {
 		return new Coords(hero.getX(), hero.getY());
 	}
@@ -208,9 +216,9 @@ public class Game implements KeyListener{
 			map.keyAquired();
 		}
 		if (map.getChar(newHeroPos) == 'S') {
-			currentLevel++;
+			setCurrentLevel(getCurrentLevel() + 1);
 			ret[0] = true;
-			if (currentLevel >= lastLevel)
+			if (getCurrentLevel() >= lastLevel)
 				gameOver = true;
 			nextLevel();
 			return ret;
@@ -284,7 +292,7 @@ public class Game implements KeyListener{
 	}
 
 	public void nextLevel() {
-		switch (currentLevel) {
+		switch (getCurrentLevel()) {
 		case 0:
 			SetMap(new DungeonMap(guardType));
 			break;
@@ -312,6 +320,10 @@ public class Game implements KeyListener{
 	@Override
 	public void keyTyped(KeyEvent e) {
 
+	}
+
+	public Coords getKeyCoords() {
+		return map.getKeyPos();
 	}
 		
 }

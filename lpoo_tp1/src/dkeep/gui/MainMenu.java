@@ -130,6 +130,7 @@ public class MainMenu {
 				gamePanel.setHeroPos(g.getHeroPos());
 				gamePanel.setGuardDir('a', 0);
 				gamePanel.setGuardPos(g.getGuardPos(0), 0);
+				gamePanel.drawKey(false);
 				for (int i = 0; i < g.getOgreAmount(); i++) {
 					gamePanel.setOgreDir('u', i);
 					gamePanel.setOgrePos(g.getOgrePos(i), i);
@@ -232,6 +233,8 @@ public class MainMenu {
 
 	private void update(char dir) {
 		boolean gameState[] = g.moveHero(dir);
+		if (g.heroHasKey())
+			gamePanel.setKeyCoords(g.getHeroPos());
 		if (gameState[2])
 			lblStatus.setText("Invalid movement");
 		else
@@ -239,6 +242,10 @@ public class MainMenu {
 		if (gameState[0]) {
 			lblStatus.setText(g.getVictoryMessage());
 			g.nextLevel();
+			if (g.getCurrentLevel() == 1) {
+				gamePanel.drawKey(true);
+				gamePanel.setKeyCoords(g.getKeyCoords());
+			}
 		}
 		if (gameState[1]) {
 			lblStatus.setText(g.getLossMessage());
