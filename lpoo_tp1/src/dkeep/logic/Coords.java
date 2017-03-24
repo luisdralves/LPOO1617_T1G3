@@ -57,7 +57,7 @@ public class Coords {
 		else if (c2.getX() < 0 && c2.getY() == 0)
 			return 'a';
 		else 
-			return 'i';
+			return 's';
 	}
 
 	public int getX() {

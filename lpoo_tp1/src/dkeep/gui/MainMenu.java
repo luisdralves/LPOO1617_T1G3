@@ -128,7 +128,15 @@ public class MainMenu {
 				gamePanel.requestFocusInWindow();
 				gamePanel.setHeroDir('d');
 				gamePanel.setHeroPos(g.getHeroPos());
-				gamePanel.repaint();
+				gamePanel.setGuardDir('a', 0);
+				gamePanel.setGuardPos(g.getGuardPos(0), 0);
+				for (int i = 0; i < g.getOgreAmount(); i++) {
+					gamePanel.setOgreDir('u', i);
+					gamePanel.setOgrePos(g.getOgrePos(i), i);
+					gamePanel.setClubDir('u', i);
+					gamePanel.setClubPos(g.getOgreClub(i), i);
+				}
+				// gamePanel.repaint();
 				btnRight.setEnabled(true);
 				btnLeft.setEnabled(true);
 				btnUp.setEnabled(true);
@@ -136,7 +144,6 @@ public class MainMenu {
 				// textArea.setText(g.getGameMapAsString());
 				// gamePanel.setGameMap(g.getGameMapVoid());
 				update('i');
-				gamePanel.setHeroChar('H');
 				lblStatus.setText("Escape the " + guardType + " guard");
 			}
 		});
@@ -219,42 +226,37 @@ public class MainMenu {
 	}
 
 	private void update(char dir) {
-		if (dir == 'i') {
-			gamePanel.setGuardDir('u', 0);
-			gamePanel.setGuardPos(g.getGuardPos(0), 0);
-			for (int i = 0; i < g.getOgreAmount(); i++) {
-				gamePanel.setOgreDir('u', 0);
+		boolean gameState[] = g.moveHero(dir);
+		if (gameState[2])
+			lblStatus.setText("Invalid movement");
+		else
+			lblStatus.setText("You're doing great!");
+		if (gameState[0]) {
+			lblStatus.setText(g.getVictoryMessage());
+			g.nextLevel();
+		}
+		if (gameState[1]) {
+			lblStatus.setText(g.getLossMessage());
+			btnUp.setEnabled(false);
+			btnDown.setEnabled(false);
+			btnRight.setEnabled(false);
+			btnLeft.setEnabled(false);
+		}
+		if (gameState[3])
+			lblStatus.setText("You have beaten an ogre to sleep");
+		gamePanel.setHeroPos(g.getHeroPos());
+		gamePanel.setGuardDir(gamePanel.getGuardPos(0).directionMoved(g.getGuardPos(0)), 0);
+		gamePanel.setGuardPos(g.getGuardPos(0), 0);
+		for (int i = 0; i < g.getOgreAmount(); i++) {
+			char ogreDir = gamePanel.getOgrePos(i).directionMoved(g.getOgrePos(i));
+			if (ogreDir != 'n') {
+				gamePanel.setOgreDir(ogreDir, i);
 				gamePanel.setOgrePos(g.getOgrePos(i), i);
 			}
-		} else {
-			boolean gameState[] = g.moveHero(dir);
-			if (gameState[2])
-				lblStatus.setText("Invalid movement");
-			else
-				lblStatus.setText("You're doing great!");
-			if (gameState[0]) {
-				lblStatus.setText(g.getVictoryMessage());
-				gamePanel.setHeroChar('A');
-				g.nextLevel();
-			}
-			if (gameState[1]) {
-				lblStatus.setText(g.getLossMessage());
-				btnUp.setEnabled(false);
-				btnDown.setEnabled(false);
-				btnRight.setEnabled(false);
-				btnLeft.setEnabled(false);
-			}
-			if (gameState[3])
-				lblStatus.setText("You have beaten an ogre to sleep");
-			gamePanel.setHeroPos(g.getHeroPos());
-			gamePanel.setGuardDir(gamePanel.getGuardPos(0).directionMoved(g.getGuardPos(0)), 0);
-			gamePanel.setGuardPos(g.getGuardPos(0), 0);
-			for (int i = 0; i < g.getOgreAmount(); i++) {
-				char ogreDir = gamePanel.getOgrePos(i).directionMoved(g.getOgrePos(i));
-				if (ogreDir != 'i') {
-					gamePanel.setOgreDir(ogreDir, i);
-					gamePanel.setOgrePos(g.getOgrePos(i), i);
-				}
+			char clubDir = gamePanel.getOgrePos(i).directionMoved(g.getOgreClub(i));
+			if (ogreDir != 'n') {
+				gamePanel.setClubDir(clubDir, i);
+				gamePanel.setClubPos(g.getOgreClub(i), i);
 			}
 		}
 		gamePanel.setGameMap(g.getGameMapVoid());
