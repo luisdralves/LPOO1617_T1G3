@@ -1,7 +1,10 @@
 package dkeep.logic;
 
-//import java.util.Arrays;
-
+/**
+ * Superclass to the game map levels
+ * @author Miguel
+ *
+ */
 public abstract class GameMap {
 	public String name;
 	public String victoryMessage;
@@ -25,18 +28,34 @@ public abstract class GameMap {
 	protected int ogreAmount;
 	protected Coords[] ogreStartingPos;
 
+	/**
+	 * Get the type of the map
+	 * @return String corresponding to the type of map
+	 */
 	public String getName() {
 		return name;
 	}
 	
+	/**
+	 * Get the victory message associated with the map
+	 * @return String with the message
+	 */
 	public String getVictoryMessage() {
 		return victoryMessage;
 	}
 
+	/**
+	 * Get the loss message associated with the map
+	 * @return String with the message
+	 */
 	public String getLossMessage() {
 		return lossMessage;
 	}
 
+	/**
+	 * Get all characters representing walls, spaces and doors
+	 * @return Array of array of chars, analogous to a matrix of the level
+	 */
 	public char[][] getMap() {
 		char[][] ret = new char[map.length][map[0].length];
 		for (int i = 0; i < map.length; i++) {

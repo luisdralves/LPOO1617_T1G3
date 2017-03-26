@@ -2,6 +2,12 @@ package dkeep.logic;
 
 import java.util.Random;
 
+/**
+ * Keep map, the second level
+ * 
+ * @author Miguel
+ *
+ */
 public class KeepMap extends GameMap {
 	public KeepMap(int ogreA) {
 		int maxOgres = 4;

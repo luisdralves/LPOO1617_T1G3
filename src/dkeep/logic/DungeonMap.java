@@ -2,6 +2,12 @@ package dkeep.logic;
 
 import java.util.Random;
 
+/**
+ * Dungeon map, the first level
+ * 
+ * @author Miguel
+ *
+ */
 public class DungeonMap extends GameMap {
 	public DungeonMap(String guardType) {
 		name = "dungeon";
@@ -47,7 +53,7 @@ public class DungeonMap extends GameMap {
 				break;
 			}
 		} else {
-			guardType = guardType.substring(0,1).toLowerCase() + guardType.substring(1);
+			guardType = guardType.substring(0, 1).toLowerCase() + guardType.substring(1);
 			guardTypes[0] = guardType;
 		}
 		ogreAmount = 0;

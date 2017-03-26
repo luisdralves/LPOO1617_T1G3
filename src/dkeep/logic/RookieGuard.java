@@ -1,8 +1,25 @@
 package dkeep.logic;
 
+/**
+ * The most simple guard
+ * 
+ * @author Miguel
+ *
+ */
 public class RookieGuard extends Guard {
-	public RookieGuard(int x, int y, String movement, boolean moving)
-	{
+	/**
+	 * Creates a new Rookie Guard with the specified position and path
+	 * 
+	 * @param x
+	 *            X position
+	 * @param y
+	 *            Y position
+	 * @param movement
+	 *            Path the guard takes
+	 * @param moving
+	 *            true if the guard moves, false otherwise
+	 */
+	public RookieGuard(int x, int y, String movement, boolean moving) {
 		coords = new Coords(x, y);
 		this.c = 'G';
 		this.movement = movement;
@@ -10,6 +27,9 @@ public class RookieGuard extends Guard {
 		iterator = 0;
 	}
 
+	/**
+	 * Advances one position on its path, never changing
+	 */
 	@Override
 	public void move() {
 		switch (movement.charAt(iterator)) {
