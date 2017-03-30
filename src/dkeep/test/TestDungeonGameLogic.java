@@ -126,6 +126,7 @@ public class TestDungeonGameLogic {
 		assertFalse(g.isGameOver());
 	}
 	
+	
 	@Test
 	public void TestHeroEscapes() {
 		Game g = new Game(new TestKeepMap(keep), 0);

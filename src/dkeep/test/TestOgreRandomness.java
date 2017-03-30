@@ -9,6 +9,7 @@ import dkeep.logic.Game;
 import dkeep.logic.KeepMap;
 
 public class TestOgreRandomness {
+
 	@Test(timeout=1000)
 	public void TestOgreMovement() {
 		Game g = new Game(new KeepMap(true), 0);
@@ -47,6 +48,7 @@ public class TestOgreRandomness {
 		assertEquals(0.25, ((double)countS)/total, 0.001);
 		assertEquals(total, countA + countD + countW + countS);
 	}
+
 	
 	@Test(timeout=1000)
 	public void TestOgreAttack() {
