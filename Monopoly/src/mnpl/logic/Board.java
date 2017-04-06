@@ -7,7 +7,10 @@ public class Board {
 	protected List<Square> squares;
 	
 	public Board() {
-		squares = new ArrayList<Square>(40);
+		squares = new ArrayList<Square>(0);
+		for (int i = 0; i < 40; i++) {
+			squares.add(new Square());
+		}
 		Colour brown 		= new Colour("Brown", 		128, 064, 000);
 		Colour lightBlue 	= new Colour("Light blue", 	128, 255, 255);
 		Colour pink 		= new Colour("Pink", 		255, 000, 255);
@@ -51,5 +54,15 @@ public class Board {
 		//utilities
 		squares.set(12, new Utility("Electric Company"));
 		squares.set(28, new Utility("Water Works"));
+	}
+	
+	@Override
+	public String toString() {
+		String ret = "";
+		for (Square sq : squares) {
+			ret += sq;
+			ret += '\n';
+		}
+		return ret;
 	}
 }

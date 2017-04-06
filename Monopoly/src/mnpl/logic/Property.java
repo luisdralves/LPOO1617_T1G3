@@ -1,5 +1,7 @@
 package mnpl.logic;
 
+import java.util.Arrays;
+
 public class Property extends Collectable {
 	protected Colour set;
 	protected int houseCost;
@@ -11,7 +13,7 @@ public class Property extends Collectable {
 	}
 	
 	public Property(String name, int landCost, int[] rent, int mortgage, int houseCost, Colour set) {
-		super(name + " Station", landCost, rent, mortgage);
+		super(name, landCost, rent, mortgage);
 		this.houseCost = houseCost;
 		this.set = set;
 	}
@@ -30,5 +32,10 @@ public class Property extends Collectable {
 
 	public void setColourSet(Colour set) {
 		this.set = set;
+	}
+	
+	@Override
+	public String toString() {
+		return title + ",\t\t" + "cost: " + cost + ", rent: " + Arrays.toString(rent) + ", mortgage: " + mortgage + ", house cost: " + houseCost + ", colour: " + set.getName();
 	}
 }

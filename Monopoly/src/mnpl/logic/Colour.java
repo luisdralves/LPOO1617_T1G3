@@ -19,9 +19,13 @@ public class Colour {
 	}
 	
 	public Colour(String n, int red, int green, int blue) {
-		name = "";
+		name = n;
 		r = red;
 		g = green;
 		b = blue;
+	}
+	
+	public String getName() {
+		return name;
 	}
 }
