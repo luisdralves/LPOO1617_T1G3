@@ -10,5 +10,9 @@ public class Square {
 	public Square(String title) {
 		this.title = title;
 	}
+	
+	public String getTitle() {
+		return title;
+	}
 }
  

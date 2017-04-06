@@ -59,9 +59,48 @@ public class Board {
 	@Override
 	public String toString() {
 		String ret = "";
-		for (Square sq : squares) {
+		/*for (Square sq : squares) {
 			ret += sq;
 			ret += '\n';
+		}*/
+		for (int i = 20; i < 31; i++) {
+			for (int j = 0; j < 10; j++) {
+				if (j < squares.get(i).getTitle().length())
+					ret += squares.get(i).getTitle().charAt(j);
+				else
+					ret += ' ';
+			}
+			ret += " | ";
+		}
+		ret += '\n';
+		ret += '\n';
+		for (int i = 11; i < 20; i++) {
+			for (int j = 0; j < 10; j++) {
+				if (j < squares.get(i).getTitle().length())
+					ret += squares.get(i).getTitle().charAt(j);
+				else
+					ret += ' ';
+			}
+			ret += "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ";
+			for (int j = 0; j < 10; j++) {
+				if (j < squares.get(i+20).getTitle().length())
+					ret += squares.get(i+20).getTitle().charAt(j);
+				else
+					ret += ' ';
+			}
+			ret += '\n';
+			ret += '\n';
+		}
+		ret += '\n';
+		ret += '\n';
+		for (int i = 0; i < 11; i++) {
+			for (int j = 0; j < 10; j++) {
+				if (j < squares.get(i).getTitle().length())
+					ret += squares.get(i).getTitle().charAt(j);
+				else
+					ret += ' ';
+			}
+			ret += " | ";
 		}
 		return ret;
 	}
