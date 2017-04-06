@@ -74,17 +74,17 @@ public class Board {
 		}
 		ret += '\n';
 		ret += '\n';
-		for (int i = 11; i < 20; i++) {
+		for (int i = 1; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
-				if (j < squares.get(i).getTitle().length())
-					ret += squares.get(i).getTitle().charAt(j);
+				if (j < squares.get(20-i).getTitle().length())
+					ret += squares.get(20-i).getTitle().charAt(j);
 				else
 					ret += ' ';
 			}
 			ret += "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  ";
 			for (int j = 0; j < 10; j++) {
-				if (j < squares.get(i+20).getTitle().length())
-					ret += squares.get(i+20).getTitle().charAt(j);
+				if (j < squares.get(i+30).getTitle().length())
+					ret += squares.get(i+30).getTitle().charAt(j);
 				else
 					ret += ' ';
 			}
@@ -95,8 +95,8 @@ public class Board {
 		ret += '\n';
 		for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 10; j++) {
-				if (j < squares.get(i).getTitle().length())
-					ret += squares.get(i).getTitle().charAt(j);
+				if (j < squares.get(10-i).getTitle().length())
+					ret += squares.get(10-i).getTitle().charAt(j);
 				else
 					ret += ' ';
 			}
