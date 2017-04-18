@@ -2,6 +2,8 @@ package mnpl.logic;
 
 public class Purchasable extends Square {
 	protected int cost, mortgage;
+	protected boolean owned;
+	protected Player owner;
 	
 	public Purchasable() {
 		super();
@@ -13,6 +15,7 @@ public class Purchasable extends Square {
 		super(name);
 		this.cost = cost;
 		this.mortgage = mortgage;
+		owned = false;
 	}
 	
 	public int getLandCost() {
@@ -29,6 +32,10 @@ public class Purchasable extends Square {
 
 	public void setMortgage(int mortgage) {
 		this.mortgage = mortgage;
+	}
+	
+	public boolean isOwned() {
+		return owned;
 	}
 
 }

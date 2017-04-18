@@ -5,8 +5,13 @@ import java.util.List;
 
 public class Board {
 	protected List<Square> squares;
+	protected List<Player> players;
+	protected int houses, hotels;
 	
 	public Board() {
+		houses = 32;
+		hotels = 12;
+		
 		squares = new ArrayList<Square>(0);
 		for (int i = 0; i < 40; i++) {
 			squares.add(new Square());
@@ -54,6 +59,8 @@ public class Board {
 		//utilities
 		squares.set(12, new Utility("Electric Company"));
 		squares.set(28, new Utility("Water Works"));
+		
+		players = new ArrayList<Player>();
 	}
 	
 	@Override
