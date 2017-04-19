@@ -3,17 +3,19 @@ package mnpl.logic;
 import java.util.Arrays;
 
 public class Property extends Collectable {
-	protected Colour set;
-	protected int houseCost;
+	private Colour set;
+	private int houseCost, houses;
 	
 	public Property() {
 		super();
+		houses = 0;
 		houseCost = 0;
 		set = new Colour();
 	}
 	
 	public Property(String name, int landCost, int[] rent, int mortgage, int houseCost, Colour set) {
 		super(name, landCost, rent, mortgage);
+		houses = 0;
 		this.houseCost = houseCost;
 		this.set = set;
 	}
@@ -32,6 +34,11 @@ public class Property extends Collectable {
 
 	public void setColourSet(Colour set) {
 		this.set = set;
+	}
+	
+	@Override
+	public void playerLands(Player p) {
+		p.transaction(owner, rent[houses]);
 	}
 	
 	@Override

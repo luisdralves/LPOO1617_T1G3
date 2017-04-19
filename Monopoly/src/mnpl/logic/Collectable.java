@@ -24,4 +24,6 @@ public class Collectable extends Purchasable {
 	public void setRent(int rent, int i) {
 		this.rent[i] = rent;
 	}
+	
+	public abstract void playerLands(Player p);
 }

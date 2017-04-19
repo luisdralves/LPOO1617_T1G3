@@ -1,12 +1,15 @@
 package mnpl.logic;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Board {
-	protected List<Square> squares;
-	protected List<Player> players;
-	protected int houses, hotels;
+	private List<Square> squares;
+	private List<Player> players;
+	private List<Card> chanceCards;
+	private List<Card> commCards;
+	private int houses, hotels;
 	
 	public Board() {
 		houses = 32;
@@ -60,7 +63,57 @@ public class Board {
 		squares.set(12, new Utility("Electric Company"));
 		squares.set(28, new Utility("Water Works"));
 		
+		//cards
+		squares.set(2, new Square("Community Chest"));
+		squares.set(17, new Square("Community Chest"));
+		squares.set(33, new Square("Community Chest"));
+		squares.set(7, new Square("Chance"));
+		squares.set(22, new Square("Chance"));
+		squares.set(35, new Square("Chance"));
+		
+		chanceCards = new ArrayList<Card>();
+		chanceCards.add(new Card("Advance to Go", "(Collect £200)"));
+		chanceCards.add(new Card("Advance to Trafalgar Square", "If you pass Go, collect £200"));
+		chanceCards.add(new Card("Advance to Pall Mall", "If you pass Go, collect £200"));
+		chanceCards.add(new Card("Advance token to nearest Utility", "If unowned, you may buy it from the Bank. If owned, throw dice and pay owner a total ten times the amount thrown"));
+		chanceCards.add(new Card("Advance token to the nearest Railroad", "Pay owner twice the rental to which they are otherwise entitled. If Railroad is unowned, you may buy it from the Bank."));
+		chanceCards.add(new Card("Advance token to the nearest Railroad", "Pay owner twice the rental to which they are otherwise entitled. If Railroad is unowned, you may buy it from the Bank."));
+		chanceCards.add(new Card("Bank pays you dividend of $50", ""));
+		chanceCards.add(new Card("Get out of Jail Free", "This card may be kept until needed or sold"));
+		chanceCards.add(new Card("Go Back 3 Spaces", ""));
+		chanceCards.add(new Card("Go directly to Jail", "Do not pass Go, do not collect £200"));
+		chanceCards.add(new Card("Make general repairs on all your property", "For each house pay £25, for each hotel £100"));
+		chanceCards.add(new Card("Pay poor tax of £15", ""));
+		chanceCards.add(new Card("Take a trip to King's Cross Station", "If you pass Go, collect £200"));
+		chanceCards.add(new Card("Take a walk on Mayfair", "Advance to Mayfair"));
+		chanceCards.add(new Card("You have been elected Chairman of the Board", "Pay each player £50"));
+		chanceCards.add(new Card("Your building loan matures", "Collect £150"));
+		Collections.shuffle(chanceCards);
+		
+		commCards = new ArrayList<Card>();
+		commCards.add(new Card("Advance to Go", "(Collect £200)"));
+		commCards.add(new Card("Bank error in your favor", "Collect £200"));
+		commCards.add(new Card("Doctor's fees", "Pay £50"));
+		commCards.add(new Card("From sale of stock you get £45", ""));
+		commCards.add(new Card("Get out of Jail Free", "This card may be kept until needed or sold"));
+		commCards.add(new Card("Go directly to Jail", "Do not pass Go, do not collect £200"));
+		commCards.add(new Card("Grand opera opening", "Collect £50 from every player for opening night seats"));
+		commCards.add(new Card("Holiday fund matures", "Collect £100"));
+		commCards.add(new Card("Income tax refund", "Collect £20"));
+		commCards.add(new Card("It's your birthday", "Collect $10 from each player"));
+		commCards.add(new Card("Life insurance matures", "Collect £100"));
+		commCards.add(new Card("Pay hospital fees of £100", ""));
+		commCards.add(new Card("Pay school fees of £150", ""));
+		commCards.add(new Card("Receive £25 consultancy fee", ""));
+		commCards.add(new Card("You are assessed for street repairs", "£40 per house, £115 per hotel"));
+		commCards.add(new Card("You have won second prize in a beauty contest", "Collect £10"));
+		Collections.shuffle(commCards);
+		
 		players = new ArrayList<Player>();
+	}
+	
+	public Square getSquare(int i) {
+		return squares.get(i);
 	}
 	
 	@Override
