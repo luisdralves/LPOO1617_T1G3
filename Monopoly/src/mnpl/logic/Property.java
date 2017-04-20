@@ -2,7 +2,7 @@ package mnpl.logic;
 
 import java.util.Arrays;
 
-public class Property extends Collectable {
+public class Property extends Purchasable {
 	private Colour set;
 	private int houseCost, houses;
 	

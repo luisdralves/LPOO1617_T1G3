@@ -2,7 +2,7 @@ package mnpl.logic;
 
 import java.util.Arrays;
 
-public class Utility extends Collectable {
+public class Utility extends Purchasable {
 	//some member about how many are owned
 	public Utility() {
 		super();
@@ -20,5 +20,11 @@ public class Utility extends Collectable {
 	@Override
 	public String toString() {
 		return title + ",\t\t" + "cost: " + cost + ", rent: " + Arrays.toString(rent) + ", mortgage: " + mortgage;
+	}
+
+	@Override
+	public void playerLands(Player p) {
+		p.transaction(owner, rent[0] * p.getDiceRoll());
+		
 	}
 }

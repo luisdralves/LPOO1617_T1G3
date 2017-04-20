@@ -5,10 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class Board {
-	private List<Square> squares;
-	private List<Player> players;
-	private List<Card> chanceCards;
-	private List<Card> commCards;
+	private static List<Square> squares;
+	private static List<Player> players;
+	private static List<Card> chanceCards;
+	private static List<Card> commCards;
 	private int houses, hotels;
 	
 	public Board() {
@@ -63,13 +63,20 @@ public class Board {
 		squares.set(12, new Utility("Electric Company"));
 		squares.set(28, new Utility("Water Works"));
 		
+		//others
+		squares.set(4, new Square("Income Tax(pay £200)"));
+		squares.set(38, new Square("Super Tax (pay £100)"));
+		squares.set(10, new Square("Jail"));
+		squares.set(20, new Square("Free parking"));
+		squares.set(30, new Square("Go to jail"));
+		
 		//cards
 		squares.set(2, new Square("Community Chest"));
 		squares.set(17, new Square("Community Chest"));
 		squares.set(33, new Square("Community Chest"));
 		squares.set(7, new Square("Chance"));
 		squares.set(22, new Square("Chance"));
-		squares.set(35, new Square("Chance"));
+		squares.set(36, new Square("Chance"));
 		
 		chanceCards = new ArrayList<Card>();
 		chanceCards.add(new Card("Advance to Go", "(Collect £200)"));
@@ -110,10 +117,24 @@ public class Board {
 		Collections.shuffle(commCards);
 		
 		players = new ArrayList<Player>();
+		players.add(new Player());
+		players.add(new Player());
 	}
 	
-	public Square getSquare(int i) {
+	public static Square getSquare(int i) {
 		return squares.get(i);
+	}
+	
+	public static List<Square> getSquares() {
+		return squares;
+	}
+	
+	public static Player getPlayer(int i) {
+		return players.get(i);
+	}
+	
+	public static List<Player> getPlayers() {
+		return players;
 	}
 	
 	@Override

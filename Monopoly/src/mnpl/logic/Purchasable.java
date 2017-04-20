@@ -1,19 +1,22 @@
 package mnpl.logic;
 
-public class Purchasable extends Square {
+public abstract class Purchasable extends Square {
 	protected int cost, mortgage;
 	protected boolean owned, active;
 	protected Player owner;
+	protected int[] rent;
 	
 	public Purchasable() {
 		super();
 		cost = 0;
 		mortgage = 0;
+		rent = new int[]{0,0,0,0,0,0};
 	}
 	
-	public Purchasable(String name, int cost, int mortgage) {
+	public Purchasable(String name, int cost, int[] rent, int mortgage) {
 		super(name);
 		this.cost = cost;
+		this.rent = rent;
 		this.mortgage = mortgage;
 		owned = false;
 		active = false;
@@ -52,5 +55,19 @@ public class Purchasable extends Square {
 	public void suspend() {
 		active = false;
 	}
+	
+	public int getRent(int i) {
+		return rent[i];
+	}
+
+	public void setRent(int[] rent) {
+		this.rent = rent;
+	}
+	
+	public void setRent(int rent, int i) {
+		this.rent[i] = rent;
+	}
+	
+	public abstract void playerLands(Player p);
 
 }
