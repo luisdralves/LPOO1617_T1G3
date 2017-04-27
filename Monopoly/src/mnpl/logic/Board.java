@@ -18,8 +18,9 @@ public class Board {
 		}
 		
 		squares.set(0, new Square("GO"));
-		
-		//properties
+	}
+	
+	private void initProperties() {
 		squares.set(1, new Property("Old Kent Road",			 60, new int[]{ 2,  10,  30,   90,  160,  250},  50,  30, ColourSet.brown));
 		squares.set(3, new Property("Whitechapel Road",			 60, new int[]{ 4,  20,  60,  180,  360,  450},  50,  30, ColourSet.brown));
 		squares.set(6, new Property("The Angel Islington",		100, new int[]{ 6,  30,  90,  270,  400,  550},  50,  50, ColourSet.lightBlue));
@@ -42,26 +43,30 @@ public class Board {
 		squares.set(34, new Property("Bond Street",				320, new int[]{28, 150, 450, 1000, 1200, 1400}, 200, 160, ColourSet.green));
 		squares.set(37, new Property("Park Lane",				350, new int[]{35, 175, 500, 1100, 1300, 1500}, 175, 200, ColourSet.darkBlue));
 		squares.set(39, new Property("Mayfair",					400, new int[]{50, 200, 600, 1400, 1700, 2000}, 200, 200, ColourSet.darkBlue));
-		
-		//stations
+	}
+	
+	private void initStations() {
 		squares.set( 5, new Station("King's Cross"));
 		squares.set(15, new Station("Marylebone"));
 		squares.set(25, new Station("Fenchurch Street"));
 		squares.set(35, new Station("Liverpool Street"));
-		
-		//utilities
+	}
+	
+	private void initUtilities() {
 		squares.set(12, new Utility("Electric Company"));
 		squares.set(28, new Utility("Water Works"));
-		
-		//cards
+	}
+	
+	private void initCardSquares() {
 		squares.set(2, new Square("Community Chest"));
 		squares.set(17, new Square("Community Chest"));
 		squares.set(33, new Square("Community Chest"));
 		squares.set(7, new Square("Chance"));
 		squares.set(22, new Square("Chance"));
 		squares.set(36, new Square("Chance"));
-		
-		//others
+	}
+	
+	private void initOtherSquares() {
 		squares.set(4, new Square("Income Tax(pay £200)"));
 		squares.set(38, new Square("Super Tax (pay £100)"));
 		squares.set(10, new Square("Jail"));
@@ -69,7 +74,7 @@ public class Board {
 		squares.set(30, new Square("Go to jail"));
 	}
 	
-	private void initCards() {
+	private void initChanceCards() {
 		chanceCards = new ArrayList<Card>();
 		chanceCards.add(new Card("Advance to Go", "(Collect £200)"));                                                                                                                                //1
 		chanceCards.add(new Card("Advance to Trafalgar Square", "If you pass Go, collect £200"));                                                                                                    //2
@@ -88,7 +93,9 @@ public class Board {
 		chanceCards.add(new Card("You have been elected Chairman of the Board", "Pay each player £50"));                                                                                             //15
 		chanceCards.add(new Card("Your building loan matures", "Collect £150"));                                                                                                                     //16
 		Collections.shuffle(chanceCards);
-		
+	}
+
+	private void initCommunityCards() {
 		commCards = new ArrayList<Card>();
 		commCards.add(new Card("Advance to Go", "(Collect £200)"));                                             //17
 		commCards.add(new Card("Bank error in your favor", "Collect £200"));                                    //18
@@ -114,7 +121,13 @@ public class Board {
 		hotels = 12;
 		
 		initSquares();
-		initCards();
+		initProperties();
+		initStations();
+		initUtilities();
+		initCardSquares();
+		initOtherSquares();
+		initChanceCards();
+		initCommunityCards();
 		
 		players = new ArrayList<Player>();
 		players.add(new Player());
