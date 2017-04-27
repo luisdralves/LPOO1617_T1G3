@@ -4,21 +4,36 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Station extends Purchasable {
-	//some member about how many are owned
+	private int totalStations;
 	public Station() {
 		super();
 	}
 	
 	public Station(String name) {
 		super(name + " Station", 200, new int[]{25, 50, 100, 200}, 100);
+		totalStations = 0;
 	}
 	
 	public Station(String name, int cost, int[] rent, int mortgage) {
 		super(name + " Station", cost, rent, mortgage);
+		totalStations = 0;
 	}
 	
 	public boolean ownedBy(Player p) {
 		return p == owner;
+	}
+	
+	private void updateTotalSations() {
+		totalStations = 0;		
+		for(int i : owner.getAquired())
+			if (i == 5 || i == 15 || i == 25 || i == 35)
+				totalStations++;
+	}
+	
+	@Override
+	public int getRent() {
+		updateTotalSations();
+		return rent[totalStations];
 	}
 	
 	@Override
@@ -28,19 +43,8 @@ public class Station extends Purchasable {
 
 	@Override
 	public void playerLands(Player p) {
-		int totalStations = -1;
-		/*List<Square> squares = Board.getSquares();
-		for(Square sq : squares) {
-			if (sq instanceof Station)
-				if (((Station) sq).ownedBy(owner))
-					totalStations++;
-					
-		}*/
 		
-		for(int i : owner.getAquired())
-			if (i == 5 || i == 15 || i == 25 || i == 35)
-				totalStations++;
 		
-		p.transaction(owner, rent[totalStations]);
+		p.transaction(owner, getRent());
 	}
 }

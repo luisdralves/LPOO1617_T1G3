@@ -3,7 +3,7 @@ package mnpl.logic;
 import java.util.Arrays;
 
 public class Utility extends Purchasable {
-	//some member about how many are owned
+	private int totalUtilities;
 	public Utility() {
 		super();
 		rent = new int[] {4, 10};
@@ -15,8 +15,21 @@ public class Utility extends Purchasable {
 	
 	public int getRent(int i, int diceRoll) {
 		return rent[i] * diceRoll;
+	}	
+	
+	private void updateTotalUtilities() {
+		totalUtilities = 0;		
+		for(int i : owner.getAquired())
+			if (i == 12 || i == 28)
+				totalUtilities++;
 	}
 	
+	@Override
+	public int getRent() {
+		updateTotalUtilities();
+		return rent[totalUtilities];
+	}
+
 	@Override
 	public String toString() {
 		return title + ",\t\t" + "cost: " + cost + ", rent: " + Arrays.toString(rent) + ", mortgage: " + mortgage;
@@ -24,7 +37,7 @@ public class Utility extends Purchasable {
 
 	@Override
 	public void playerLands(Player p) {
-		p.transaction(owner, rent[0] * p.getDiceRoll());
+		p.transaction(owner, getRent() * p.getDiceRoll());
 		
 	}
 }

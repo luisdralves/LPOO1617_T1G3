@@ -59,6 +59,8 @@ public abstract class Purchasable extends Square {
 	public int getRent(int i) {
 		return rent[i];
 	}
+	
+	public abstract int getRent();
 
 	public void setRent(int[] rent) {
 		this.rent = rent;

@@ -37,6 +37,11 @@ public class Property extends Purchasable {
 	}
 	
 	@Override
+	public int getRent() {
+		return rent[houses];
+	}
+	
+	@Override
 	public void playerLands(Player p) {
 		p.transaction(owner, rent[houses]);
 	}

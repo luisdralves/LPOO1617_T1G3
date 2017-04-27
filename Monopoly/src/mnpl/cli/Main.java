@@ -9,6 +9,7 @@ import mnpl.logic.Player;
 import mnpl.logic.Property;
 import mnpl.logic.Purchasable;
 import mnpl.logic.Square;
+import mnpl.logic.Utility;
 
 public class Main {
 	public static void main(String[] args) {
@@ -18,6 +19,30 @@ public class Main {
 		while (true) {
 			printBoard(b);
 			Player currentPlayer = Board.getPlayer(i);
+			char inputChar;
+			int inputInt, propertyIt = 1;
+			if (!currentPlayer.getAquired().isEmpty() && (Board.getHotels() > 0 || Board.getHouses() > 0)) {
+				System.out.println("Do you wish to buy houses or hotels? (y/n)");
+				inputChar = sc.next().charAt(0);
+				if (inputChar == 'y' || inputChar == 'Y') {
+					for (Integer playerProperty : currentPlayer.getAquired()) {
+						System.out.println(propertyIt + ": " + Board.getSquare(playerProperty));
+						propertyIt++;
+					}
+					propertyIt--;
+					System.out.println("Select a property (1-" + propertyIt + ")");
+					do {
+						inputInt = sc.nextInt();
+					} while (inputInt > propertyIt || inputInt < 1);
+					propertyIt = inputInt;
+					System.out.println("How many houses? (hotel is 5)");
+					inputInt = sc.nextInt();
+					if (inputInt == 5 && Board.getHotels() > 0) {
+
+					}
+				}
+			}
+
 			int turnsRemaining = 1;
 			int doublesOld = 0;
 			int doublesNew = 0;
@@ -35,17 +60,23 @@ public class Main {
 
 				Square currentSquare = Board.getSquare(currentPlayer.getPosition());
 				System.out.println("You land on " + currentSquare.getTitle() + '!');
+				System.out.println(currentSquare);
 				if (currentSquare instanceof Purchasable) {
 					if (!((Purchasable) currentSquare).isOwned()) {
 						System.out.println(currentSquare.getTitle() + " currently has no owner!");
 						System.out.println("Do you buy it? (y/n)");
-						char answer = sc.next().charAt(0);
-						if (answer == 'y' || answer == 'Y') {
+						inputChar = sc.next().charAt(0);
+						if (inputChar == 'y' || inputChar == 'Y') {
 							currentPlayer.purchase();
 							System.out.println("Congratulations on your purchase!");
 							sc.nextLine();
 						}
 
+					} else if (currentSquare instanceof Utility) {
+						System.out.println(
+								"You pay " + ((Purchasable) currentSquare).getRent() * currentPlayer.getDiceRoll());
+					} else {
+						System.out.println("You pay " + ((Purchasable) currentSquare).getRent());
 					}
 				}
 
@@ -57,239 +88,22 @@ public class Main {
 	}
 
 	public static void printBoard(Board b) {
-		String ret = "------------------------------------------------------------------------------------------------------------------------------------------------\n";
-
+		char[] head;
 		List<Square> squares = b.getSquares();
 		List<Integer> playersPos = new ArrayList<Integer>();
 		for (Player p : b.getPlayers()) {
 			playersPos.add(p.getPosition());
 		}
 
-		// top row, line 0
-		ret += "| ";
-		for (int i = 20; i < 31; i++) {
-			for (int j = 0; j < 10; j++) {
-				if (squares.get(i) instanceof Property) {
-					if (j < ((Property) squares.get(i)).getColourSet().getName().length())
-						ret += ((Property) squares.get(i)).getColourSet().getName().charAt(j);
-					else
-						ret += ' ';
-				} else
-					ret += ' ';
+		for (int i = 0; i < squares.size(); i++) {
+			head = "_ _\t: ".toCharArray();
+			if (playersPos.get(0) == i) {
+				head[0] = '1';
 			}
-			ret += " | ";
+			if (playersPos.get(0) == i) {
+				head[2] = '2';
+			}
+			System.out.println(new String(head) + i + ", " + Board.getSquare(i));
 		}
-		ret += '\n';
-		// top row, line 1
-		ret += "| ";
-		for (int i = 20; i < 31; i++) {
-			for (int j = 0; j < 10; j++) {
-				if (j < squares.get(i).getTitle().length())
-					ret += squares.get(i).getTitle().charAt(j);
-				else
-					ret += ' ';
-			}
-			ret += " | ";
-		}
-		ret += '\n';
-		// top row, line 2
-		ret += "| ";
-		for (int i = 20; i < 31; i++) {
-			for (int j = 10; j < 20; j++) {
-				if (j < squares.get(i).getTitle().length())
-					ret += squares.get(i).getTitle().charAt(j);
-				else
-					ret += ' ';
-			}
-			ret += " | ";
-		}
-		ret += '\n';
-		// top row, line 3 player 1
-		ret += "| ";
-		for (int i = 0; i < 11; i++) {
-			if (i + 20 == playersPos.get(0))
-				ret += " Player 1 ";
-			else
-				for (int j = 0; j < 10; j++) {
-					ret += ' ';
-				}
-			ret += " | ";
-		}
-		ret += '\n';
-		// top row, line 4 player 2
-		ret += "| ";
-		for (int i = 0; i < 11; i++) {
-			if (i + 20 == playersPos.get(1))
-				ret += " Player 2 ";
-			else
-				for (int j = 0; j < 10; j++) {
-					ret += ' ';
-				}
-			ret += " | ";
-		}
-		ret += '\n';
-
-		ret += "------------------------------------------------------------------------------------------------------------------------------------------------\n";
-
-		// middle rows
-		for (int i = 1; i < 10; i++) {
-			// line 0
-			ret += "| ";
-			for (int j = 0; j < 10; j++) {
-				if (squares.get(20 - i) instanceof Property) {
-					if (j < ((Property) squares.get(20 - i)).getColourSet().getName().length())
-						ret += ((Property) squares.get(20 - i)).getColourSet().getName().charAt(j);
-					else
-						ret += ' ';
-				} else
-					ret += ' ';
-			}
-			ret += " |\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  | ";
-			for (int j = 0; j < 10; j++) {
-				if (squares.get(i + 30) instanceof Property) {
-					if (j < ((Property) squares.get(i + 30)).getColourSet().getName().length())
-						ret += ((Property) squares.get(i + 30)).getColourSet().getName().charAt(j);
-					else
-						ret += ' ';
-				} else
-					ret += ' ';
-			}
-			ret += " |\n";
-			// line 1
-			ret += "| ";
-			for (int j = 0; j < 10; j++) {
-				if (j < squares.get(20 - i).getTitle().length())
-					ret += squares.get(20 - i).getTitle().charAt(j);
-				else
-					ret += ' ';
-			}
-			ret += " |\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  | ";
-			for (int j = 0; j < 10; j++) {
-				if (j < squares.get(i + 30).getTitle().length())
-					ret += squares.get(i + 30).getTitle().charAt(j);
-				else
-					ret += ' ';
-			}
-			ret += " |\n";
-			// line 2
-			ret += "| ";
-			for (int j = 10; j < 20; j++) {
-				if (j < squares.get(20 - i).getTitle().length())
-					ret += squares.get(20 - i).getTitle().charAt(j);
-				else
-					ret += ' ';
-			}
-			ret += " |\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  | ";
-			for (int j = 10; j < 20; j++) {
-				if (j < squares.get(i + 30).getTitle().length())
-					ret += squares.get(i + 30).getTitle().charAt(j);
-				else
-					ret += ' ';
-			}
-			ret += " |\n";
-			// line 3 player 1
-			ret += "| ";
-			if (20 - i == playersPos.get(0))
-				ret += " Player 1 ";
-			else
-				for (int j = 0; j < 10; j++) {
-					ret += ' ';
-				}
-			ret += " |\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  | ";
-			if (i + 30 == playersPos.get(0))
-				ret += " Player 1 ";
-			else
-				for (int j = 0; j < 10; j++) {
-					ret += ' ';
-				}
-			ret += " |\n";
-			// line 4 player 2
-			ret += "| ";
-			if (20 - i == playersPos.get(1))
-				ret += " Player 2 ";
-			else
-				for (int j = 0; j < 10; j++) {
-					ret += ' ';
-				}
-			ret += " |\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  | ";
-			if (i + 30 == playersPos.get(1))
-				ret += " Player 2 ";
-			else
-				for (int j = 0; j < 10; j++) {
-					ret += ' ';
-				}
-			ret += " |\n";
-			if (i < 9)
-				ret += "--------------\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  --------------\n";
-		}
-		ret += "------------------------------------------------------------------------------------------------------------------------------------------------\n";
-
-		// bottom row, line 0
-		ret += "| ";
-		for (int i = 0; i < 11; i++) {
-			for (int j = 0; j < 10; j++) {
-				if (squares.get(10 - i) instanceof Property) {
-					if (j < ((Property) squares.get(10 - i)).getColourSet().getName().length())
-						ret += ((Property) squares.get(10 - i)).getColourSet().getName().charAt(j);
-					else
-						ret += ' ';
-				} else
-					ret += ' ';
-			}
-			ret += " | ";
-		}
-		ret += '\n';
-		// bottom row, line 1
-		ret += "| ";
-		for (int i = 0; i < 11; i++) {
-			for (int j = 0; j < 10; j++) {
-				if (j < squares.get(10 - i).getTitle().length())
-					ret += squares.get(10 - i).getTitle().charAt(j);
-				else
-					ret += ' ';
-			}
-			ret += " | ";
-		}
-		ret += '\n';
-		// bottom row, line 2
-		ret += "| ";
-		for (int i = 0; i < 11; i++) {
-			for (int j = 10; j < 20; j++) {
-				if (j < squares.get(10 - i).getTitle().length())
-					ret += squares.get(10 - i).getTitle().charAt(j);
-				else
-					ret += ' ';
-			}
-			ret += " | ";
-		}
-		ret += '\n';
-		// bottom row, line 3 player 1
-		ret += "| ";
-		for (int i = 0; i < 11; i++) {
-			if (10 - i == playersPos.get(0))
-				ret += " Player 1 ";
-			else
-				for (int j = 0; j < 10; j++) {
-					ret += ' ';
-				}
-			ret += " | ";
-		}
-		ret += '\n';
-		// bottom row, line 4 player 2
-		ret += "| ";
-		for (int i = 0; i < 11; i++) {
-			if (10 - i == playersPos.get(1))
-				ret += " Player 2 ";
-			else
-				for (int j = 0; j < 10; j++) {
-					ret += ' ';
-				}
-			ret += " | ";
-		}
-		ret += '\n';
-
-		ret += "------------------------------------------------------------------------------------------------------------------------------------------------\n";
-
-		System.out.print(ret);
 	}
 }
