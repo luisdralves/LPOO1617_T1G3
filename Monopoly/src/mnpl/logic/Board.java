@@ -153,8 +153,16 @@ public class Board {
 	public static int getHouses() {
 		return houses;
 	}
+	
+	public static void addToHouses(int amount) {
+		houses += amount;
+	}
 
 	public static int getHotels() {
 		return hotels;
+	}
+	
+	public static void addToHotels(int amount) {
+		hotels += amount;
 	}
 }

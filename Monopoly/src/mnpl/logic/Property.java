@@ -18,6 +18,14 @@ public class Property extends Purchasable {
 		houses = 0;
 		this.houseCost = houseCost;
 		this.set = set;
+	}	
+	
+	public int getHouses() {
+		return houses;
+	}
+	
+	public void addToHouses(int amount) {
+		houses += amount;
 	}
 
 	public int getHouseCost() {
@@ -48,6 +56,6 @@ public class Property extends Purchasable {
 	
 	@Override
 	public String toString() {
-		return title + ",\t\t" + "cost: " + cost + ", rent: " + Arrays.toString(rent) + ", mortgage: " + mortgage + ", house cost: " + houseCost + ", colour: " + set.getName();
+		return title + ",\t\t" + "houses: " + houses + ", cost: " + cost + ", rent: " + Arrays.toString(rent) + ", mortgage: " + mortgage + ", house cost: " + houseCost + ", colour: " + set.getName();
 	}
 }

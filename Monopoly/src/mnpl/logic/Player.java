@@ -115,6 +115,10 @@ public class Player {
 		square = 10;
 		turnsInJail = 3;
 	}
+	
+	public void addToBalance(int amount) {
+		balance += amount;
+	}
 
 	public void transaction(Player p, int amount) {
 		this.balance -= amount;

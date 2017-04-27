@@ -19,30 +19,11 @@ public class Main {
 		while (true) {
 			printBoard(b);
 			Player currentPlayer = Board.getPlayer(i);
-			char inputChar;
-			int inputInt, propertyIt = 1;
 			if (!currentPlayer.getAquired().isEmpty() && (Board.getHotels() > 0 || Board.getHouses() > 0)) {
-				System.out.println("Do you wish to buy houses or hotels? (y/n)");
-				inputChar = sc.next().charAt(0);
-				if (inputChar == 'y' || inputChar == 'Y') {
-					for (Integer playerProperty : currentPlayer.getAquired()) {
-						System.out.println(propertyIt + ": " + Board.getSquare(playerProperty));
-						propertyIt++;
-					}
-					propertyIt--;
-					System.out.println("Select a property (1-" + propertyIt + ")");
-					do {
-						inputInt = sc.nextInt();
-					} while (inputInt > propertyIt || inputInt < 1);
-					propertyIt = inputInt;
-					System.out.println("How many houses? (hotel is 5)");
-					inputInt = sc.nextInt();
-					if (inputInt == 5 && Board.getHotels() > 0) {
-
-					}
-				}
+				buyHouses(currentPlayer);
 			}
 
+			char inputChar;
 			int turnsRemaining = 1;
 			int doublesOld = 0;
 			int doublesNew = 0;
@@ -69,14 +50,14 @@ public class Main {
 						if (inputChar == 'y' || inputChar == 'Y') {
 							currentPlayer.purchase();
 							System.out.println("Congratulations on your purchase!");
-							sc.nextLine();
+							buyHouses(currentPlayer);
 						}
 
 					} else if (currentSquare instanceof Utility) {
 						System.out.println(
-								"You pay " + ((Purchasable) currentSquare).getRent() * currentPlayer.getDiceRoll());
+								"You pay £" + ((Purchasable) currentSquare).getRent() * currentPlayer.getDiceRoll());
 					} else {
-						System.out.println("You pay " + ((Purchasable) currentSquare).getRent());
+						System.out.println("You pay £" + ((Purchasable) currentSquare).getRent());
 					}
 				}
 
@@ -84,6 +65,53 @@ public class Main {
 			}
 			i++;
 			i %= 2;
+		}
+	}
+	
+	private static void buyHouses(Player currentPlayer) {
+		Scanner sc = new Scanner(System.in);
+		char inputChar;
+		int inputInt, propertyIt = 1;
+		System.out.println("Do you wish to buy houses or hotels? (y/n)");
+		inputChar = sc.next().charAt(0);
+		if (inputChar == 'y' || inputChar == 'Y') {
+			List<Property> currentPlayerProperties = new ArrayList<Property>();
+			for (Integer playerProperty : currentPlayer.getAquired()) {
+				System.out.println(propertyIt + ": " + Board.getSquare(playerProperty));
+				currentPlayerProperties.add((Property) Board.getSquare(playerProperty));
+				propertyIt++;
+			}
+			propertyIt--;
+			System.out.println("Select a property (1-" + propertyIt + ")");
+			do {
+				inputInt = sc.nextInt();
+			} while (inputInt > propertyIt || inputInt < 1);
+			propertyIt = inputInt - 1;
+			System.out.println("How many houses? (hotel is 5)");
+			inputInt = sc.nextInt();
+			if (inputInt == 5 && Board.getHotels() > 0
+					&& Board.getHouses() >= 4 - currentPlayerProperties.get(propertyIt).getHouses()) {
+				currentPlayer.addToBalance(-(5 - currentPlayerProperties.get(propertyIt).getHouses())
+						* currentPlayerProperties.get(propertyIt).getHouseCost());
+				Board.addToHotels(-1);
+				Board.addToHouses(-(4 - currentPlayerProperties.get(propertyIt).getHouses()));
+				currentPlayerProperties.get(propertyIt)
+						.addToHouses(5 - currentPlayerProperties.get(propertyIt).getHouses());
+			} else if (Board.getHotels() == 0) {
+				System.out.println("There are no hotels left!");
+			}
+
+			else if (inputInt > 0 && inputInt <= Board.getHouses()
+					&& inputInt + currentPlayerProperties.get(propertyIt).getHouses() <= 4) {
+				currentPlayer
+						.addToBalance(-(inputInt * currentPlayerProperties.get(propertyIt).getHouseCost()));
+				Board.addToHouses(-inputInt);
+				currentPlayerProperties.get(propertyIt).addToHouses(inputInt);
+			} else if (inputInt > Board.getHouses()) {
+				System.out.println("There are only " + Board.getHouses() + " houses left!");
+			} else {
+				System.out.println("Too many houses, each property can only have 4 (to buy hotel, use '5')");
+			}
 		}
 	}
 
@@ -100,7 +128,7 @@ public class Main {
 			if (playersPos.get(0) == i) {
 				head[0] = '1';
 			}
-			if (playersPos.get(0) == i) {
+			if (playersPos.get(1) == i) {
 				head[2] = '2';
 			}
 			System.out.println(new String(head) + i + ", " + Board.getSquare(i));
