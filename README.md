@@ -13,9 +13,19 @@ Miguel Rodrigues Pires, up201406989, up201406989@fe.up.pt
 #### Behavioural Aspects
 ![Behavioural Aspects](Behavioural%20Aspects.png)
 #### Design Patterns
+The design pattern we decided to use is the **Abstract Factory Pattern** because we find it the best to suit our needs.
 ## GUI Design
 #### Main Functionalities
+- New game
+ - Buy houses/hotels
+ - Mortgage/unmortgage properties
+ - Roll dice
+ - Buy properties
+ - Auction properties
+- High Scores
+- Exit
 #### Mock-up
+(to add)
 ## Test Design
 - Manually select dice value and check if the square on which the player lands is the expected
 - Check if dice probability distribuition is equivalent to 2d6
@@ -29,4 +39,4 @@ Miguel Rodrigues Pires, up201406989, up201406989@fe.up.pt
 - Check if player can mortgage his properties
 - Check if player plays again after double dice roll
 - Check if player goes to jail after 3 double dice rolls in succession
-- Check if other players can acquire property via action after player refuses to buy it
+- Check if other players can acquire property via auction after player refuses to buy it
