@@ -17,11 +17,11 @@ The design pattern we decided to use is the **Abstract Factory Pattern** because
 ## GUI Design
 #### Main Functionalities
 - New game
- - Buy houses/hotels
- - Mortgage/unmortgage properties
- - Roll dice
- - Buy properties
- - Auction properties
+  - Buy houses/hotels
+  - Mortgage/unmortgage properties
+  - Roll dice
+  - Buy properties
+  - Auction properties
 - High Scores
 - Exit
 #### Mock-up
