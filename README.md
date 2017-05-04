@@ -17,6 +17,8 @@ The design pattern we decided to use is the **Abstract Factory Pattern** because
 ## GUI Design
 #### Main Functionalities
 - New game
+  - Number of Players
+  - Choose pawn
   - Buy houses/hotels
   - Mortgage/unmortgage properties
   - Roll dice
