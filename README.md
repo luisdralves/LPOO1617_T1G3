@@ -9,9 +9,9 @@ Miguel Rodrigues Pires, up201406989, up201406989@fe.up.pt
 
 ## Architecture Design
 #### Package and class diagram
-![Package and class diagram](Classes.png)
+![Package and class diagram](README_rsc/Classes.png)
 #### Behavioural Aspects
-![Behavioural Aspects](Behavioural%20Aspects.png)
+![Behavioural Aspects](README_rsc/Behavioural%20Aspects.png)
 #### Design Patterns
 The design pattern we decided to use is the **Abstract Factory Pattern** because we find it the best to suit our needs.
 ## GUI Design
@@ -28,8 +28,8 @@ The design pattern we decided to use is the **Abstract Factory Pattern** because
 - Rules
 - Exit
 #### Mock-up
-![Main Menu](MonopolyMainMenu.jpg)
-![Play Mode](MonopolyPlayMode.jpg)
+![Main Menu](README_rsc/MonopolyMainMenu.jpg)
+![Play Mode](README_rsc/MonopolyPlayMode.jpg)
 ## Test Design
 - Manually select dice value and check if the square on which the player lands is the expected
 - Check if dice probability distribuition is equivalent to 2d6
