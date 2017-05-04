@@ -35,6 +35,7 @@ The design pattern we decided to use is the **Abstract Factory Pattern** because
 - Check if player lands on another player's property, doesn't have enough money to cover the rent, has properties, and can mortgage them
 - Check if player can acquire properties
 - Check if player can't acquire houses without acquiring a property first
+- Check if player can't acquire houses if not enough houses are available in the board
 - Check if player can acquire houses for his properties
 - Check if player acquires hotel after acquiring 4 houses
 - Check if player can mortgage his properties
