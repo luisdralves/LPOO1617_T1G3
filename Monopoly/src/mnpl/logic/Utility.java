@@ -19,7 +19,7 @@ public class Utility extends Purchasable {
 	
 	private void updateTotalUtilities() {
 		totalUtilities = 0;		
-		for(int i : owner.getAquired())
+		for(int i : owner.getAcquired())
 			if (i == 12 || i == 28)
 				totalUtilities++;
 	}

@@ -17,15 +17,19 @@ The design pattern we decided to use is the **Abstract Factory Pattern** because
 ## GUI Design
 #### Main Functionalities
 - New game
+  - Number of Players
+  - Choose pawn
   - Buy houses/hotels
   - Mortgage/unmortgage properties
   - Roll dice
   - Buy properties
   - Auction properties
 - High Scores
+- Rules
 - Exit
 #### Mock-up
-(to add)
+![Main Menu](MonopolyMainMenu.jpg)
+![Play Mode](MonopolyPlayMode.jpg)
 ## Test Design
 - Manually select dice value and check if the square on which the player lands is the expected
 - Check if dice probability distribuition is equivalent to 2d6
@@ -34,6 +38,7 @@ The design pattern we decided to use is the **Abstract Factory Pattern** because
 - Check if player lands on another player's property, doesn't have enough money to cover the rent, has properties, and can mortgage them
 - Check if player can acquire properties
 - Check if player can't acquire houses without acquiring a property first
+- Check if player can't acquire houses if not enough houses are available in the board
 - Check if player can acquire houses for his properties
 - Check if player acquires hotel after acquiring 4 houses
 - Check if player can mortgage his properties
