@@ -23,6 +23,7 @@ The design pattern we decided to use is the **Abstract Factory Pattern** because
   - Buy properties
   - Auction properties
 - High Scores
+- Rules
 - Exit
 #### Mock-up
 (to add)
