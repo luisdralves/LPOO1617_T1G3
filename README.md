@@ -28,7 +28,8 @@ The design pattern we decided to use is the **Abstract Factory Pattern** because
 - Rules
 - Exit
 #### Mock-up
-(to add)
+![Main Menu](MonopolyMainMenu.jpg)
+![Play Mode](MonopolyPlayMode.jpg)
 ## Test Design
 - Manually select dice value and check if the square on which the player lands is the expected
 - Check if dice probability distribuition is equivalent to 2d6
