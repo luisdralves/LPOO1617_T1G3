@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class Player {
 	private static int playerNumber = 1;
 	private String name;
+	private boolean isAI;
 	private int square;
 	private int balance;
 	private int turnsInJail;
@@ -26,6 +27,7 @@ public class Player {
 		name = "Player ";
 		name += playerNumber;
 		playerNumber++;
+		isAI = false;
 		square = 0;
 		balance = 1500;
 		turnsInJail = 0;
@@ -40,10 +42,18 @@ public class Player {
 		return name;
 	}
 
+	public boolean isAI() {
+		return isAI;
+	}
+
 	public List<Integer> getAcquired() {
 		return acquired;
 	}
 	
+	public List<Integer> getSuspended() {
+		return suspended;
+	}
+
 	public List<Integer> getProperties() {
 		List<Integer> ret = new ArrayList<Integer>();
 		for(int i : acquired) {
@@ -123,7 +133,7 @@ public class Player {
 		System.out.println("roll:");
 		roll1 = sc.nextInt();
 		roll2 = sc.nextInt();
-		sc.close();
+		//sc.close();
 	}
 	
 	public void move() {

@@ -46,6 +46,13 @@ public abstract class Purchasable extends Square {
 		return active;
 	}
 	
+	public void toggleMortgage() {
+		if (active)
+			active = false;
+		else
+			active = true;
+	}
+
 	public void setOwner(Player p) {
 		owned = true;
 		active = true;

@@ -68,59 +68,117 @@ public class TextBased {
 
 	public static void improveProperties(Player cp) {
 		char inputChar;
-		int inputInt;
 		System.out.println("Do you wish to improve one of your properties? (y/n)");
 		inputChar = readYN();
 
 		if (inputChar == 'y' || inputChar == 'Y') {
-			boolean improveMore = true;
-			while (improveMore) {
-				int i = 1;
-				System.out.println("Choose a property to improve:");
-				for (int prop : cp.getProperties()) {
-					System.out.println(i + ". " + Board.getSquare(prop));
-					i++;
-				}
-				inputInt = readInt(1, i);
+			improveMore(cp);
+		}
+	}
+	
+	private static void improveMore(Player cp) {
+		char inputChar;
+		int inputInt;
+		boolean improveMore = true;
+		while (improveMore) {
+			int i = 1;
+			System.out.println("Choose a property to improve:");
+			for (int prop : cp.getProperties()) {
+				System.out.println(i + ". " + Board.getSquare(prop));
+				i++;
+			}
+			inputInt = readInt(1, i);
 
-				Property property = (Property) Board.getSquare(cp.getProperties().get(inputInt));
-				if (property.getHouses() == 5) {
-					System.out.println("Your property is already developed to the max, you fool!");
-				} else if (property.getHouses() == 4) {
-					System.out.println("Buy a hotel?");
-					inputChar = readYN();
-					if (inputChar == 'y' || inputChar == 'Y') {
-						if (Board.getHotels() > 0) {
-							property.addToHouses(1);
-							Board.addToHotels(-1);
-							Board.addToHouses(4);
-						} else {
-							System.out.println("Sorry, no more hotels available to develop");
-						}
-					}
-				} else if (property.getHouses() < 4) {
-					System.out.println("Do you wish to buy:");
-					for (i = 1; i < 5 - property.getHouses(); i++) {
-						if (i == 1)
-							System.out.println(i + ". a hotel?");
-						else
-							System.out.println(i + ". " + (6 - i) + " houses?");
-					}
-					inputInt = readInt(1, i);
-				}
-				System.out.println("Improve another property? (y/n)");
-				inputChar = readYN();
-				if (inputChar == 'y' || inputChar == 'Y')
-					improveMore = true;
-				else
-					improveMore = false;
+			Property property = (Property) Board.getSquare(cp.getProperties().get(inputInt));
+			if (property.getHouses() == 5) {
+				System.out.println("Your property is already developed to the max, you fool!");
+			} else if (property.getHouses() == 4) {
+				buyHotel(cp, property);
+			} else if (property.getHouses() < 4) {
+				buyHouses(cp, property);
+			}
+			System.out.println("Improve another property? (y/n)");
+			inputChar = readYN();
+			if (inputChar == 'y' || inputChar == 'Y')
+				improveMore = true;
+			else
+				improveMore = false;
+		}
+	}
+	
+	private static void buyHotel(Player cp, Property p) {
+		char inputChar;
+		System.out.println("Buy a hotel?");
+		inputChar = readYN();
+		if (inputChar == 'y' || inputChar == 'Y') {
+			if (Board.getHotels() > 0) {
+				p.addToHouses(1);
+				Board.addToHotels(-1);
+				Board.addToHouses(4);
+			} else {
+				System.out.println("Sorry, no more hotels available to develop");
 			}
 		}
 	}
+	
+	private static void buyHouses(Player cp, Property p) {
+		int inputInt;
+		System.out.println("Do you wish to buy:");
+		int i;
+		for (i = 1; i < 5 - p.getHouses(); i++) {
+			if (i == 1)
+				System.out.println(i + ". a hotel?");
+			else
+				System.out.println(i + ". " + (6 - i) + " houses?");
+		}
+		inputInt = readInt(1, i);
+		p.addToHouses(inputInt);
+		if (p.getHouses() == 5) {
+			Board.addToHotels(-1);
+			Board.addToHouses(4);
+		} else {
+			Board.addToHouses(-inputInt);
+		}
+	}
 
-	public static void mortgageProperties(Player currentPlayer) {
-		// TODO Auto-generated method stub
+	public static void mortgageProperties(Player cp) {
+		char inputChar;
+		System.out.println("Do you wish to mortgage or unmortgage one of your properties? (y/n)");
+		inputChar = readYN();
 
+		if (inputChar == 'y' || inputChar == 'Y') {
+			mortgageMore(cp);
+		}
+	}
+	
+	private static void mortgageMore(Player cp) {
+		char inputChar;
+		int inputInt;
+		boolean improveMore = true;
+		while (improveMore) {
+			int i = 1;
+			System.out.println("Choose a property to toggle mortgage/unmortgage:");
+			for (int prop : cp.getAcquired()) {
+				System.out.println(i + ". " + Board.getSquare(prop) + " (" + (((Purchasable) Board.getSquare(prop)).isActive() ? "active" : "mortgaged") + ")");
+				i++;
+			}
+			inputInt = readInt(1, i);
+
+			Purchasable purchasable = (Purchasable) Board.getSquare(cp.getAcquired().get(inputInt));
+			if (purchasable.isActive()) {
+				cp.addToBalance(purchasable.getMortgage());
+			} else {
+				cp.addToBalance(-purchasable.getMortgage());
+			}
+			purchasable.toggleMortgage();
+			
+			System.out.println("Mortgage or unmortgage another property? (y/n)");
+			inputChar = readYN();
+			if (inputChar == 'y' || inputChar == 'Y')
+				improveMore = true;
+			else
+				improveMore = false;
+		}
 	}
 
 	public static void newPurchasableFound(Purchasable p) {

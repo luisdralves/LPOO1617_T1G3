@@ -15,7 +15,7 @@ public final class Game {
 	private static boolean gameOver;
 	
 	static {
-		currentPlayerInt = 0;
+		currentPlayerInt = 1;
 		useGUI = false;
 		gameOver = false;
 
@@ -74,6 +74,7 @@ public final class Game {
 	
 	public static void gameLoop() {
 		while (!gameOver) {
+			//printBoard();
 			currentPlayerInt++;
 			currentPlayerInt %= players.size();
 			Player currentPlayer = players.get(currentPlayerInt);
@@ -93,6 +94,7 @@ public final class Game {
 				int doubles = 0;
 
 				while (turnsRemaining > 0) {
+					printBoard();
 					currentPlayer.play(turnsRemaining, doubles);
 					printPlayerDice(currentPlayer);
 					turnsRemaining = currentPlayer.getTurnsRemaining();
@@ -113,6 +115,14 @@ public final class Game {
 			}
 		}
 	}
+	
+	private static void printBoard() {
+		if (!useGUI) {
+			TextBased.printBoard();
+		} else {
+			//implement gui
+		}
+	}
 
 	private static void printPlayer(Player currentPlayer) {
 		if (!useGUI) {
@@ -131,18 +141,26 @@ public final class Game {
 	}
 
 	private static void improveProperties(Player currentPlayer) {
-		if (!useGUI) {
-			TextBased.improveProperties(currentPlayer);
+		if (!currentPlayer.isAI()) {
+			if (!useGUI) {
+				TextBased.improveProperties(currentPlayer);
+			} else {
+				// implement gui
+			}
 		} else {
-			//implement gui
+			// implement ai
 		}
 	}
-	
+
 	private static void mortgageProperties(Player currentPlayer) {
-		if (!useGUI) {
-			TextBased.mortgageProperties(currentPlayer);
+		if (!currentPlayer.isAI()) {
+			if (!useGUI) {
+				TextBased.mortgageProperties(currentPlayer);
+			} else {
+				// implement gui
+			}
 		} else {
-			//implement gui
+			// implement ai
 		}
 	}
 
