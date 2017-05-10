@@ -38,7 +38,12 @@ public class Station extends Purchasable {
 	
 	@Override
 	public String toString() {
-		return title + ",\t\t" + "cost: " + cost + ", rent: " + Arrays.toString(rent) + ", mortgage: " + mortgage;
+		String ret = title + ',';
+		for (int i = title.length(); i < 30; i++) {
+			ret += ' ';
+		}
+		ret += "owned: " + owned + ", active: " + active + ", cost: " + cost + ", rent: " + Arrays.toString(rent) + ", mortgage: " + mortgage;
+		return ret;
 	}
 
 	@Override

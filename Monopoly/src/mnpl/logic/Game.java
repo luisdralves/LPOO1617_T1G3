@@ -15,7 +15,7 @@ public final class Game {
 	private static boolean gameOver;
 	
 	static {
-		currentPlayerInt = 1;
+		currentPlayerInt = -1;
 		useGUI = false;
 		gameOver = false;
 
@@ -26,6 +26,8 @@ public final class Game {
 	
 	private static void initPlayers() {
 		players = new ArrayList<Player>();
+		players.add(new Player(true));
+		players.add(new Player(true));
 		players.add(new Player(true));
 		players.add(new Player(true));
 	}
@@ -78,6 +80,8 @@ public final class Game {
 			currentPlayerInt++;
 			currentPlayerInt %= players.size();
 			Player currentPlayer = players.get(currentPlayerInt);
+			
+			printBoard();
 			printPlayer(currentPlayer);
 
 			if (!currentPlayer.getProperties().isEmpty() && (Board.getHouses() > 0 || Board.getHotels() > 0)) {
@@ -94,7 +98,6 @@ public final class Game {
 				int doubles = 0;
 
 				while (turnsRemaining > 0) {
-					printBoard();
 					currentPlayer.play(turnsRemaining, doubles);
 					printPlayerDice(currentPlayer);
 					turnsRemaining = currentPlayer.getTurnsRemaining();
@@ -103,6 +106,8 @@ public final class Game {
 
 					if (inJail) {
 						break;
+					} else {
+						printBoard();
 					}
 				}
 			}
@@ -119,6 +124,14 @@ public final class Game {
 	private static void printBoard() {
 		if (!useGUI) {
 			TextBased.printBoard();
+		} else {
+			//implement gui
+		}
+	}
+	
+	public static void printSquare(int square) {
+		if (!useGUI) {
+			TextBased.printSquare(square);
 		} else {
 			//implement gui
 		}
@@ -172,9 +185,9 @@ public final class Game {
 		return players;
 	}
 
-	public static void newPurchasableFound(Purchasable p) {
+	public static void newPurchasableFound(Player cp) {
 		if (!useGUI) {
-			TextBased.newPurchasableFound(p);
+			TextBased.newPurchasableFound(cp);
 		} else {
 			//implement gui
 		}

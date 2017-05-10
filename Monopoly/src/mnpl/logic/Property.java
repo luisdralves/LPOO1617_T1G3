@@ -56,6 +56,11 @@ public class Property extends Purchasable {
 	
 	@Override
 	public String toString() {
-		return title + ",\t\t" + "houses: " + houses + ", cost: " + cost + ", rent: " + Arrays.toString(rent) + ", mortgage: " + mortgage + ", house cost: " + houseCost + ", colour: " + set.getName();
+		String ret = title + ',';
+		for (int i = title.length(); i < 30; i++) {
+			ret += ' ';
+		}
+		ret += "owned: " + owned + ", active: " + active + ", houses: " + houses + ", cost: " + cost + ", rent: " + Arrays.toString(rent) + ", mortgage: " + mortgage + ", house cost: " + houseCost + ", colour: " + set.getName();
+		return ret;
 	}
 }

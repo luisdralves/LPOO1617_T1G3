@@ -44,15 +44,37 @@ public class TextBased {
 		}
 
 		for (int i = 0; i < squares.size(); i++) {
-			head = "_ _\t: ".toCharArray();
+			head = "_ _ _ _ : ".toCharArray();
+			for (int j = 0; j < playersPos.size(); j++) {
+				
+				if (playersPos.get(j) == i) {
+					head[j*2] = (char) (j+1+'0');
+				}
+			}
+			/*
 			if (playersPos.get(0) == i) {
 				head[0] = '1';
 			}
 			if (playersPos.get(1) == i) {
 				head[2] = '2';
 			}
-			System.out.println(new String(head) + i + ", " + Board.getSquare(i));
+			if (playersPos.get(2) == i) {
+				head[4] = '3';
+			}
+			if (playersPos.get(3) == i) {
+				head[6] = '4';
+			}
+			*/
+			System.out.print(new String(head));
+			if (i < 10)
+				System.out.print('0');
+			System.out.print(i + ", " + Board.getSquare(i) + '\n');
 		}
+	}
+	
+	public static void printSquare(int i) {
+		System.out.println("You land on " + Board.getSquare(i).getTitle());
+		System.out.println(Board.getSquare(i));
 	}
 
 	public static void printPlayer(Player cp) {
@@ -89,7 +111,7 @@ public class TextBased {
 			}
 			inputInt = readInt(1, i);
 
-			Property property = (Property) Board.getSquare(cp.getProperties().get(inputInt));
+			Property property = (Property) Board.getSquare(cp.getProperties().get(inputInt - 1));
 			if (property.getHouses() == 5) {
 				System.out.println("Your property is already developed to the max, you fool!");
 			} else if (property.getHouses() == 4) {
@@ -125,11 +147,11 @@ public class TextBased {
 		int inputInt;
 		System.out.println("Do you wish to buy:");
 		int i;
-		for (i = 1; i < 5 - p.getHouses(); i++) {
-			if (i == 1)
+		for (i = 1; i <= 5 - p.getHouses(); i++) {
+			if (i == 5 - p.getHouses())
 				System.out.println(i + ". a hotel?");
 			else
-				System.out.println(i + ". " + (6 - i) + " houses?");
+				System.out.println(i + ". " + i + " houses?");
 		}
 		inputInt = readInt(1, i);
 		p.addToHouses(inputInt);
@@ -164,7 +186,7 @@ public class TextBased {
 			}
 			inputInt = readInt(1, i);
 
-			Purchasable purchasable = (Purchasable) Board.getSquare(cp.getAcquired().get(inputInt));
+			Purchasable purchasable = (Purchasable) Board.getSquare(cp.getAcquired().get(inputInt - 1));
 			if (purchasable.isActive()) {
 				cp.addToBalance(purchasable.getMortgage());
 			} else {
@@ -180,9 +202,59 @@ public class TextBased {
 				improveMore = false;
 		}
 	}
-
-	public static void newPurchasableFound(Purchasable p) {
-		// TODO Auto-generated method stub
-
+	
+	public static void newPurchasableFound(Player cp) {
+		char inputChar;
+		Purchasable p = (Purchasable) Board.getSquare(cp.getPosition());
+		
+		System.out.println("Do you wish to buy it? (y/n)");
+		inputChar = readYN();
+		if (inputChar == 'y' || inputChar == 'Y') {
+			cp.purchase();
+		} else {
+			auction(cp);
+		}
+	}
+	
+	public static void auction(Player playerWhoRefused) {
+		char inputChar;
+		int inputInt;
+		Purchasable p = (Purchasable) Board.getSquare(playerWhoRefused.getPosition());
+		int bid = p.getLandCost() / 2;
+		int bidMin = bid;
+		int bidMax = bid * 4 + 1;
+		int greatestBidder = 0;
+		int turnsWithoutNewBid = 0;
+		int totalPlayers = Game.getPlayers().size();
+		List<Integer> playersNotBidding = new ArrayList<Integer>();
+		playersNotBidding.add(Game.getPlayers().indexOf(playerWhoRefused));
+		
+		System.out.println(p.getTitle() + " goes on auction!");
+		
+		int i;
+		for (i = 0; turnsWithoutNewBid < totalPlayers; i++, i%=totalPlayers, turnsWithoutNewBid++) {
+			if (!playersNotBidding.contains(i)) {
+				Player cp = Game.getPlayer(i);
+				System.out.println(cp.getName() + ", do you wish to place a bid? (y/n)");
+				inputChar = readYN();
+				if (inputChar == 'n' || inputChar == 'N') {
+					playersNotBidding.add(i);
+				} else {
+					turnsWithoutNewBid = 0;
+					System.out.println("Current bid: " + bid);
+					System.out.println("Minimum bid: " + bidMin);
+					System.out.println("Maximum bid: " + (bidMax - 1));
+					inputInt = readInt(bidMin, bidMax);
+					bid = inputInt;
+					bidMin = bid + (bid/4);
+					bidMax = bid * 4 + 1;
+					greatestBidder = i;
+				}
+			}
+		}
+		
+		if (playersNotBidding.size() + 1 == Game.getPlayers().size()) {
+			Game.getPlayer(greatestBidder).purchase(playerWhoRefused.getPosition(), bid);
+		}
 	}
 }

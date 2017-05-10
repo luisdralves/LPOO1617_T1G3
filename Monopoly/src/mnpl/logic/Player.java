@@ -138,6 +138,9 @@ public class Player {
 	
 	public void move() {
 		square += roll1 + roll2;
+
+		Game.printSquare(square);
+		
 		checkGO();
 		Square currentSquare = Board.getSquare(square);
 		if (currentSquare instanceof CardSquare) {
@@ -174,7 +177,7 @@ public class Player {
 		} else if (p.isOwned() && !p.isActive()) {
 			return;
 		} else if (!p.isOwned()) {
-			Game.newPurchasableFound(p);
+			Game.newPurchasableFound(this);
 		}
 	}
 
@@ -217,7 +220,16 @@ public class Player {
 		Square toPurchase = Board.getSquare(square);
 		if (toPurchase instanceof Purchasable) {
 			acquired.add(square);
-			balance -= ((Purchasable) toPurchase).getLandCost();
+			addToBalance(-((Purchasable) toPurchase).getLandCost());
+			((Purchasable) toPurchase).setOwner(this);
+		}
+	}
+	
+	public void purchase(int position, int amount) {
+		Square toPurchase = Board.getSquare(position);
+		if (toPurchase instanceof Purchasable) {
+			acquired.add(position);
+			addToBalance(-amount);
 			((Purchasable) toPurchase).setOwner(this);
 		}
 	}
