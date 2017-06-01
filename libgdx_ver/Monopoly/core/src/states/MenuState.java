@@ -1,13 +1,10 @@
 package states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lpoo1617t1g3.Monopoly;
-
-/**
- * Created by up201405308 on 25/05/2017.
- */
 
 public class MenuState extends State{
     protected Texture bg;

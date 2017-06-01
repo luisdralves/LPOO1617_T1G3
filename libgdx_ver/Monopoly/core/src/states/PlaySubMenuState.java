@@ -1,12 +1,9 @@
 package states;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lpoo1617t1g3.Monopoly;
-
-/**
- * Created by up201405308 on 25/05/2017.
- */
 
 public class PlaySubMenuState extends State {
     protected Texture bg;
@@ -17,7 +14,10 @@ public class PlaySubMenuState extends State {
 
     @Override
     protected void handleInput() {
-
+        if (Gdx.input.justTouched()) {
+            gsm.set(new PlayState(gsm));
+            dispose();
+        }
     }
 
     @Override

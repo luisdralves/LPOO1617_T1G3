@@ -4,10 +4,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-/**
- * Created by up201405308 on 25/05/2017.
- */
-
 public abstract class State {
     protected Vector2 cur;
     protected OrthographicCamera cam;

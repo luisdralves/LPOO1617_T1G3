@@ -1,28 +1,34 @@
 android {
-    buildToolsVersion "25.0.3"
-    compileSdkVersion 25
-    sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
-            aidl.srcDirs = ['src']
-            renderscript.srcDirs = ['src']
-            res.srcDirs = ['res']
-            assets.srcDirs = ['assets']
-            jniLibs.srcDirs = ['libs']
+    buildTypes {
+        debug {
+            debuggable true
         }
+    }
+        buildToolsVersion "25.0.3"
+        compileSdkVersion 25
+        sourceSets {
+            main {
+                manifest.srcFile 'AndroidManifest.xml'
+                java.srcDirs = ['src']
+                aidl.srcDirs = ['src']
+                renderscript.srcDirs = ['src']
+                res.srcDirs = ['res']
+                assets.srcDirs = ['assets']
+                jniLibs.srcDirs = ['libs']
+            }
 
-        instrumentTest.setRoot('tests')
+            instrumentTest.setRoot('tests')
+        }
+        packagingOptions {
+            exclude 'META-INF/robovm/ios/robovm.xml'
+        }
+        defaultConfig {
+            applicationId "com.lpoo1617t1g3"
+            minSdkVersion 9
+            targetSdkVersion 25
+        }
     }
-    packagingOptions {
-        exclude 'META-INF/robovm/ios/robovm.xml'
-    }
-    defaultConfig {
-        applicationId "com.lpoo1617t1g3"
-        minSdkVersion 9
-        targetSdkVersion 25
-    }
-}
+
 
 
 // called every time gradle gets executed, takes the native dependencies of

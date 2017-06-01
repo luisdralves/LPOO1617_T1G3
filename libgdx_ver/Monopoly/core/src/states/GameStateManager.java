@@ -4,10 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Stack;
 
-/**
- * Created by up201405308 on 25/05/2017.
- */
-
 public class GameStateManager {
     private Stack<State> states;
 
