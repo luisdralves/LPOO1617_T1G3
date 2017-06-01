@@ -20,6 +20,7 @@ public class Player {
 	private boolean inJail;
 	private int roll1, roll2;
 	private boolean manualRoll;
+	private boolean dicesHaveBeenRolled;
 	private static int[] properties = new int[] { 3, 6, 8, 9, 11, 13, 14, 16, 18, 19, 21, 23, 24, 26, 27, 29, 31, 32, 34, 37, 39 };
 	private static int[] stations = new int[] { 5, 15, 25, 35 };
 	private static int[] utilities = new int[] { 12, 28 };
@@ -40,6 +41,7 @@ public class Player {
 		roll1 = 0;
 		roll2 = 0;
 		manualRoll = mr;
+		dicesHaveBeenRolled = false;
 		acquired = new ArrayList<Integer>();
 		suspended = new ArrayList<Integer>();
 
@@ -122,6 +124,10 @@ public class Player {
 		return inJail;
 	}
 
+	public boolean haveDicesBeenRolled() {
+		return dicesHaveBeenRolled;
+	}
+
 	public int getDiceRoll() {
 		return roll1 + roll2;
 	}
@@ -134,7 +140,7 @@ public class Player {
 		return token;
 	}
 
-	private void rollDice() {
+	public void rollDice() {
 		if (manualRoll) {
 			rollDiceManual();
 		} else {
@@ -142,6 +148,7 @@ public class Player {
 			roll1 = dice.nextInt(6) + 1;
 			roll2 = dice.nextInt(6) + 1;
 		}
+		dicesHaveBeenRolled = true;
 	}
 
 	private void rollDiceManual() {
@@ -178,7 +185,7 @@ public class Player {
 	public int checkJail() {
 		if (turnsInJail > 0) {
 			turnsInJail--;
-			rollDice();
+			//rollDice();
 			if (roll1 == roll2)
 				return 1;
 			else
@@ -199,7 +206,7 @@ public class Player {
 
 	public void play(int turns, int doubles) {
 		boolean inJail = false;
-		rollDice();
+		//rollDice();
 
 		if (roll1 == roll2) {
 			turns++;
@@ -216,6 +223,7 @@ public class Player {
 		this.turnsInJail = turns;
 		this.doubles = doubles;
 		this.inJail = inJail;
+		dicesHaveBeenRolled = false;
 	}
 
 	public void goToJail() {

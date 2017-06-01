@@ -42,7 +42,7 @@ public class Hud {
         table.top();
         table.setFillParent(true);
 
-        lblStyle = new Label.LabelStyle(new BitmapFont(Gdx.files.internal("kabel.fnt")), Color.BLACK);
+        lblStyle = new Label.LabelStyle(new BitmapFont(Gdx.files.internal("Kabel.fnt")), Color.BLACK);
 
         playerNo = 1;
         playerName = "Miguel";

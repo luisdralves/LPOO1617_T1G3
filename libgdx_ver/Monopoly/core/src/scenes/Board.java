@@ -25,7 +25,7 @@ public class Board {
     }
 
     public void handleInput() {
-        if (Gdx.input.isTouched()) {
+        if (Gdx.input.isTouched() && Gdx.input.getX() > 0 && Gdx.input.getX() < 9*Monopoly.WIDTH/16) {
             if(released) {
                 cur1.set(Gdx.input.getX(), -Gdx.input.getY());
                 released = false;

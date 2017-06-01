@@ -31,7 +31,7 @@ public class Monopoly extends Game {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		screen = new MainMenu(this);
 		setScreen(screen);
-		kabelBlack = new BitmapFont(Gdx.files.internal("kabel.fnt"));
+		kabelBlack = new BitmapFont(Gdx.files.internal("Kabel.fnt"));
 		gameOver = false;
 		musicInit();
 	}
@@ -57,42 +57,5 @@ public class Monopoly extends Game {
 			}
 		});
 		musicIntro.play();
-	}
-
-	public void gameLoop() {
-		GameData.currentPlayerInt++;
-		GameData.currentPlayerInt %= GameData.getPlayers().size();
-		Player currentPlayer = GameData.getPlayer();
-		if (!currentPlayer.getProperties().isEmpty() && (Board.getHouses() > 0 || Board.getHotels() > 0)) {
-			//improveProperties(currentPlayer);
-			//mortgageProperties(currentPlayer);
-		} else if (!currentPlayer.getAcquired().isEmpty()) {
-			//mortgageProperties(currentPlayer);
-		}
-		int jailStatus = currentPlayer.checkJail();
-		if (jailStatus == 0) {
-			//not in jail
-			int turnsRemaining = 1;
-			int doubles = 0;
-			while (turnsRemaining > 0) {
-				currentPlayer.play(turnsRemaining, doubles);
-				//screen.resume();
-				turnsRemaining = currentPlayer.getTurnsRemaining();
-				doubles = currentPlayer.getDoubles();
-				boolean inJail = currentPlayer.isInJail();
-				if (inJail) {
-					break;
-				} else {
-					//printBoard();
-				}
-			}
-		}
-		else if (jailStatus == 1) {
-			//in jail but gets out
-			currentPlayer.move();
-		}
-		else if (jailStatus == 2) {
-			//still in jail
-		}
 	}
 }

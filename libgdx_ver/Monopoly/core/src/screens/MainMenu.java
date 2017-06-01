@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -14,10 +15,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lpoo1617t1g3.Monopoly;
 
 public class MainMenu implements Screen {
     private Monopoly game;
+    private Viewport vp;
+    private OrthographicCamera cam;
     private Stage stage;
     private TextureAtlas atlas;
     private Skin skin;
@@ -29,6 +34,8 @@ public class MainMenu implements Screen {
 
     public MainMenu(Monopoly m) {
         game = m;
+        cam = new OrthographicCamera();
+        vp = new FitViewport(Monopoly.WIDTH, Monopoly.HEIGHT, cam);
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         atlas = new TextureAtlas("btn/button.pack");
@@ -59,7 +66,7 @@ public class MainMenu implements Screen {
             }
         });
 
-        table.setBounds(0, 0, 1280, 720);
+        table.setBounds(0, 0, Monopoly.WIDTH, Monopoly.HEIGHT);
         table.add(new Label("Monopoly", lblStyle));
         table.row();
         Label subTitle = new Label("Versao MIEIC", lblStyle);
@@ -88,7 +95,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        vp.update(width, height);
     }
 
     @Override
