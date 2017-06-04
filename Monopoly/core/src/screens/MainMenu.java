@@ -50,7 +50,7 @@ public class MainMenu implements Screen {
         btnStyle.disabled = skin.getDrawable("btn_dis");
         btnStyle.font = bmf;
 
-        lblStyle = new Label.LabelStyle(new BitmapFont(Gdx.files.internal("Kabel.fnt")), Color.BLACK);
+        lblStyle = new Label.LabelStyle(bmf, Color.BLACK);
 
         btnPlay = new TextButton("Play", btnStyle);
         btnPlay.addListener(new ClickListener() {

@@ -24,10 +24,11 @@ public class Station extends Purchasable {
 	}
 	
 	private void updateTotalSations() {
-		totalStations = 0;		
-		for(int i : owner.getAcquired())
-			if (i == 5 || i == 15 || i == 25 || i == 35)
-				totalStations++;
+		totalStations = 0;
+		if(owner != null)
+			for(int i : owner.getAcquired())
+				if (i == 5 || i == 15 || i == 25 || i == 35)
+					totalStations++;
 	}
 	
 	@Override

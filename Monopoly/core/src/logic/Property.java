@@ -1,19 +1,21 @@
 package logic;
 
+import com.badlogic.gdx.graphics.Color;
+
 import java.util.Arrays;
 
 public class Property extends Purchasable {
-	private Colour set;
+	private Color set;
 	private int houseCost, houses;
 	
 	public Property() {
 		super();
 		houses = 0;
 		houseCost = 0;
-		set = new Colour();
+		set = Color.BLACK;
 	}
 	
-	public Property(String name, int landCost, int[] rent, int mortgage, int houseCost, Colour set) {
+	public Property(String name, int landCost, int[] rent, int mortgage, int houseCost, Color set) {
 		super(name, landCost, rent, mortgage);
 		houses = 0;
 		this.houseCost = houseCost;
@@ -36,11 +38,11 @@ public class Property extends Purchasable {
 		this.houseCost = houseCost;
 	}
 
-	public Colour getColourSet() {
+	public Color getColourSet() {
 		return set;
 	}
 
-	public void setColourSet(Colour set) {
+	public void setColourSet(Color set) {
 		this.set = set;
 	}
 	
@@ -60,7 +62,7 @@ public class Property extends Purchasable {
 		for (int i = title.length(); i < 30; i++) {
 			ret += ' ';
 		}
-		ret += "owned: " + owned + ", active: " + active + ", houses: " + houses + ", cost: " + cost + ", rent: " + Arrays.toString(rent) + ", mortgage: " + mortgage + ", house cost: " + houseCost + ", colour: " + set.getName();
+		ret += "owned: " + owned + ", active: " + active + ", houses: " + houses + ", cost: " + cost + ", rent: " + Arrays.toString(rent) + ", mortgage: " + mortgage + ", house cost: " + houseCost + ", colour: " + set.toString();
 		return ret;
 	}
 }
