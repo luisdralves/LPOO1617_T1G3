@@ -38,7 +38,7 @@ public class MainMenu implements Screen {
         vp = new FitViewport(Monopoly.WIDTH, Monopoly.HEIGHT, cam);
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-        atlas = new TextureAtlas("btn/button.pack");
+        atlas = new TextureAtlas("btn2/btn2.pack");
         skin = new Skin(atlas);
         table = new Table(skin);
         bmf = new BitmapFont(Gdx.files.internal("Kabel.fnt"));
@@ -47,6 +47,7 @@ public class MainMenu implements Screen {
         btnStyle.up = skin.getDrawable("btn_up");
         btnStyle.down = skin.getDrawable("btn_down");
         btnStyle.over = skin.getDrawable("btn_hover");
+        btnStyle.disabled = skin.getDrawable("btn_dis");
         btnStyle.font = bmf;
 
         lblStyle = new Label.LabelStyle(new BitmapFont(Gdx.files.internal("Kabel.fnt")), Color.BLACK);

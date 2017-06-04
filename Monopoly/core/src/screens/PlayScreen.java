@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -48,7 +49,7 @@ public class PlayScreen implements Screen {
 
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-        atlas = new TextureAtlas("btn/button.pack");
+        atlas = new TextureAtlas("btn2/btn2.pack");
         skin = new Skin(atlas);
         table = new Table(skin);
         bmf = new BitmapFont(Gdx.files.internal("Kabel.fnt"));
@@ -57,6 +58,7 @@ public class PlayScreen implements Screen {
         btnStyle.up = skin.getDrawable("btn_up");
         btnStyle.down = skin.getDrawable("btn_down");
         btnStyle.over = skin.getDrawable("btn_hover");
+        btnStyle.disabled = skin.getDrawable("btn_dis");
         btnStyle.font = bmf;
 
         btnEndTurn = new TextButton("End turn", btnStyle);
@@ -71,7 +73,7 @@ public class PlayScreen implements Screen {
         btnDice.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y)  {
-                GameData.getPlayer().rollDice();
+                moveLoop();
             }
         });
 
@@ -145,17 +147,7 @@ public class PlayScreen implements Screen {
         int jailStatus = currentPlayer.checkJail();
         if (jailStatus == 0) {
             //not in jail
-            int turnsRemaining = 1;
-            int doubles = 0;
-            while (turnsRemaining > 0) {
-                currentPlayer.play(turnsRemaining, doubles);
-                turnsRemaining = currentPlayer.getTurnsRemaining();
-                doubles = currentPlayer.getDoubles();
-                boolean inJail = currentPlayer.isInJail();
-                if (inJail) {
-                    break;
-                }
-            }
+
         }
         else if (jailStatus == 1) {
             //in jail but gets out
@@ -164,5 +156,23 @@ public class PlayScreen implements Screen {
         else if (jailStatus == 2) {
             //still in jail
         }
+        resetButtons();
+    }
+
+    private void moveLoop(){
+        GameData.getPlayer().rollDice();
+        GameData.getPlayer().play(1, 0);
+        int turnsRemaining = GameData.getPlayer().getTurnsRemaining();
+        int doubles = GameData.getPlayer().getDoubles();
+        boolean inJail = GameData.getPlayer().isInJail();
+        if ((inJail || turnsRemaining < 1) && (doubles < 1 || doubles > 2)) {
+            btnDice.setDisabled(true);
+            btnDice.setTouchable(Touchable.disabled);
+        }
+    }
+
+    private void resetButtons() {
+        btnDice.setDisabled(false);
+        btnDice.setTouchable(Touchable.enabled);
     }
 }

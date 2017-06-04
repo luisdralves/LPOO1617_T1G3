@@ -26,11 +26,13 @@ public class Hud {
     private Label lblPlayerName;
     private Label lblPlayerBalance;
     private Label lblPlayerDice;
+    private Label lblPlayerPos;
 
     private int playerNo;
     private String playerName;
     private int playerBalance;
     private int playerDice1, playerDice2;
+    private int playerPos;
 
     private Label.LabelStyle lblStyle;
 
@@ -49,11 +51,13 @@ public class Hud {
         playerBalance = 1550;
         playerDice1 = 0;
         playerDice2 = 0;
+        playerPos = 0;
 
         lblPlayerNo = new Label("game hasnt started yet!", lblStyle);
         lblPlayerName = new Label("game hasnt started yet!", lblStyle);
         lblPlayerBalance = new Label("game hasnt started yet!", lblStyle);
         lblPlayerDice = new Label("game hasnt started yet!", lblStyle);
+        lblPlayerPos = new Label("game hasnt started yet!", lblStyle);
 
         table.right().top();
         table.add(lblPlayerNo).width(250).padTop(40);
@@ -65,6 +69,8 @@ public class Hud {
         table.add(new Label("Dice roll", lblStyle)).width(250);
         table.add(lblPlayerDice).width(250);
         table.row();
+        table.add(new Label("Position", lblStyle)).width(250);
+        table.add(lblPlayerPos).width(250);
         table.row();
 
         stage.addActor(table);
@@ -76,11 +82,13 @@ public class Hud {
         playerBalance = p.getBalance();
         playerDice1 = p.getDice()[0];
         playerDice2 = p.getDice()[1];
+        playerPos = p.getPosition();
 
         lblPlayerNo.setText(String.format("Player %01d", playerNo));
         lblPlayerName.setText(playerName);
         lblPlayerBalance.setText(String.format("$ %05d", playerBalance));
         lblPlayerDice.setText(String.format("%01d + %01d", playerDice1, playerDice2));
+        lblPlayerPos.setText(String.format("%01d", playerPos));
     }
 
     public void render(SpriteBatch spb) {
