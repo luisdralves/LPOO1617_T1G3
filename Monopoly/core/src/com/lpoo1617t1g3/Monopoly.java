@@ -5,8 +5,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import logic.Board;
 import logic.Player;
@@ -25,13 +31,29 @@ public class Monopoly extends Game {
 	public SpriteBatch spb;
 	private boolean gameOver;
 
+	public static TextureAtlas atlas;
+	public static Skin skin;
+	public static Label.LabelStyle lblStyle;
+	public static TextButton.TextButtonStyle btnStyle;
+
 	@Override
 	public void create () {
 		spb = new SpriteBatch();
 		Gdx.gl.glClearColor(1, 1, 1, 1);
+
+		atlas = new TextureAtlas("btn2/btn2.pack");
+		skin = new Skin(atlas);
+		kabelBlack = new BitmapFont(Gdx.files.internal("Kabel.fnt"));
+		lblStyle = new Label.LabelStyle(kabelBlack, Color.BLACK);
+		btnStyle = new TextButton.TextButtonStyle();
+		btnStyle.up = skin.getDrawable("btn_up");
+		btnStyle.down = skin.getDrawable("btn_down");
+		btnStyle.over = skin.getDrawable("btn_hover");
+		btnStyle.disabled = skin.getDrawable("btn_dis");
+		btnStyle.font = kabelBlack;
+
 		screen = new MainMenu(this);
 		setScreen(screen);
-		kabelBlack = new BitmapFont(Gdx.files.internal("Kabel.fnt"));
 		gameOver = false;
 		musicInit();
 	}

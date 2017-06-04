@@ -22,10 +22,9 @@ import com.lpoo1617t1g3.Monopoly;
 import logic.Board;
 import logic.GameData;
 import logic.Player;
-import logic.Purchasable;
-import logic.Square;
 import scenes.BoardScene;
 import scenes.Hud;
+import scenes.PropertyScene;
 
 public class PlayScreen implements Screen {
     private Monopoly game;
@@ -33,14 +32,14 @@ public class PlayScreen implements Screen {
     private Viewport vp;
     private Hud hud;
     private BoardScene board;
+    private PropertyScene propertyScene;
+    private static boolean viewingAProp;
     private Label.LabelStyle lblStyle;
 
     private Stage stage;
     private TextureAtlas atlas;
     private Skin skin;
-    private Table tableButtons;
-    private Table tableProperty;
-    private Label lblTP1, lblTP2, lblTP3, lblTP4;
+    private Table table;
     private TextButton btnEndTurn;
     private TextButton btnDice;
     private TextButton btnViewProp;
@@ -53,13 +52,14 @@ public class PlayScreen implements Screen {
         vp = new FitViewport(Monopoly.WIDTH, Monopoly.HEIGHT, cam);
         hud = new Hud(game.spb);
         board = new BoardScene();
+        propertyScene = new PropertyScene();
+        viewingAProp = false;
         lblStyle = new Label.LabelStyle(new BitmapFont(Gdx.files.internal("Kabel.fnt")), Color.BLACK);
 
         stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
         atlas = new TextureAtlas("btn2/btn2.pack");
         skin = new Skin(atlas);
-        tableButtons = new Table(skin);
+        table = new Table(skin);
         bmf = new BitmapFont(Gdx.files.internal("Kabel.fnt"));
 
         btnStyle = new TextButton.TextButtonStyle();
@@ -85,35 +85,24 @@ public class PlayScreen implements Screen {
             }
         });
 
-        btnViewProp = new TextButton("View property", btnStyle);
+        btnViewProp = new TextButton("GO", btnStyle);
         btnViewProp.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y)  {
-                viewProperty();
+                viewingAProp = true;
+                propertyScene.viewProperty();
             }
         });
 
-        tableButtons.setBounds(9 * Monopoly.WIDTH / 16, 0, 7 * Monopoly.WIDTH / 16, 3 * Monopoly.HEIGHT / 5);
-        tableButtons.debug();
-        tableButtons.top();
-        tableButtons.add(btnDice);
-        tableButtons.row();
-        tableButtons.add(btnViewProp);
-        tableButtons.row();
-        tableButtons.add(btnEndTurn);
-        stage.addActor(tableButtons);
-
-        tableProperty = new Table();
-        tableProperty.setBounds(0, 0, Monopoly.WIDTH, Monopoly.HEIGHT);
-        lblTP1 = new Label("", lblStyle);
-        tableProperty.add(lblTP1).row();
-        lblTP2 = new Label("", lblStyle);
-        tableProperty.add(lblTP2).row();
-        lblTP3 = new Label("", lblStyle);
-        tableProperty.add(lblTP3).row();
-        lblTP4 = new Label("", lblStyle);
-        tableProperty.add(lblTP4).row();
-        stage.addActor(tableProperty);
+        table.setBounds(9 * Monopoly.WIDTH / 16, 0, 7 * Monopoly.WIDTH / 16, 25 * Monopoly.HEIGHT / 36);
+        table.debug();
+        table.top();
+        table.add(btnViewProp).width(2 * Monopoly.WIDTH / 5);
+        table.row();
+        table.add(btnDice).padTop(1 * Monopoly.HEIGHT / 16);
+        table.row();
+        table.add(btnEndTurn);
+        stage.addActor(table);
 
         gameCycle();
     }
@@ -127,6 +116,7 @@ public class PlayScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.input.setInputProcessor(stage);
 
         board.handleInput();
         board.render(game.spb);
@@ -137,6 +127,8 @@ public class PlayScreen implements Screen {
         hud.stage.draw();
         stage.act(delta);
         stage.draw();
+        if(viewingAProp)
+            propertyScene.render(game.spb);
     }
 
     @Override
@@ -190,31 +182,35 @@ public class PlayScreen implements Screen {
     }
 
     private void moveLoop(){
-        GameData.getPlayer().rollDice();
-        GameData.getPlayer().play(1, 0);
-        int turnsRemaining = GameData.getPlayer().getTurnsRemaining();
-        int doubles = GameData.getPlayer().getDoubles();
-        boolean inJail = GameData.getPlayer().isInJail();
+        Player currentPlayer;
+        currentPlayer = GameData.getPlayer();
+        currentPlayer.rollDice();
+        currentPlayer.play(1, 0);
+        int turnsRemaining = currentPlayer.getTurnsRemaining();
+        int doubles = currentPlayer.getDoubles();
+        boolean inJail = currentPlayer.isInJail();
         if ((inJail || turnsRemaining < 1) && (doubles < 1 || doubles > 2)) {
             btnDice.setDisabled(true);
             btnDice.setTouchable(Touchable.disabled);
+            btnEndTurn.setDisabled(false);
+            btnEndTurn.setTouchable(Touchable.enabled);
         }
+        btnViewProp.setText(Board.getSquare(currentPlayer.getPosition()).getTitle());
     }
 
     private void resetUI() {
         btnDice.setDisabled(false);
         btnDice.setTouchable(Touchable.enabled);
-        lblTP1.setText("");
+        btnEndTurn.setDisabled(true);
+        btnEndTurn.setTouchable(Touchable.disabled);
+        btnViewProp.setText(Board.getSquare(GameData.getPlayer().getPosition()).getTitle());
+        /*lblTP1.setText("");
         lblTP2.setText("");
         lblTP3.setText("");
-        lblTP4.setText("");
+        lblTP4.setText("");*/
     }
 
-    private void viewProperty() {
-        Square sq = Board.getSquare(GameData.getPlayer().getPosition());
-        lblTP1.setText(sq.getTitle());
-        lblTP2.setText(String.format("Cost: $%d", ((Purchasable) sq).getLandCost()));
-        lblTP3.setText(String.format("Rent: $%d", ((Purchasable) sq).getRent()));
-        lblTP4.setText(((Purchasable) sq).getOwnerName());
+    public static void exitPropertyScene() {
+        viewingAProp = false;
     }
 }
