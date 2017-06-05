@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 import screens.MainMenu;
 
@@ -24,6 +25,7 @@ public class Monopoly extends Game {
 	public static Skin skin;
 	public static Label.LabelStyle lblStyle;
 	public static TextButton.TextButtonStyle btnStyle;
+	public static TextField.TextFieldStyle tflStyle;
 	public static ShapeRenderer shapeRenderer;
 	public Music musicIntro;
 	public Music musicLoop;
@@ -36,7 +38,7 @@ public class Monopoly extends Game {
 		spb = new SpriteBatch();
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 
-		atlas = new TextureAtlas("btn2/btn2.pack");
+		atlas = new TextureAtlas("tpack/tpack.atlas");
 		skin = new Skin(atlas);
 		kabelBlack = new BitmapFont(Gdx.files.internal("Kabel.fnt"));
 		lblStyle = new Label.LabelStyle(kabelBlack, Color.BLACK);
@@ -46,6 +48,12 @@ public class Monopoly extends Game {
 		btnStyle.over = skin.getDrawable("btn_hover");
 		btnStyle.disabled = skin.getDrawable("btn_dis");
 		btnStyle.font = kabelBlack;
+		tflStyle = new TextField.TextFieldStyle();
+		tflStyle.cursor = skin.getDrawable("tfl_cur");
+		tflStyle.selection = skin.getDrawable("tfl_sel");
+		tflStyle.background = skin.getDrawable("tfl_bg");
+		tflStyle.font = kabelBlack;
+		tflStyle.fontColor = Color.BLACK;
 		shapeRenderer = new ShapeRenderer();
 
 		screen = new MainMenu(this);

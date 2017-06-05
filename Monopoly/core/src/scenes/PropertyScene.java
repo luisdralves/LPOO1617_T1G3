@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.lpoo1617t1g3.Monopoly;
 
@@ -29,6 +30,9 @@ public class PropertyScene {
     private Table tableInfo;
     private Table tableButtons;
     private Texture bg;
+
+    private TextField propNo;
+
     private TextButton btnExit;
     private TextButton btnBuy;
     private TextButton btnAuction;
@@ -38,6 +42,9 @@ public class PropertyScene {
         stage = new Stage();
         bg = new Texture("prop_bg.png");
         set = Color.BLACK;
+
+        propNo = new TextField("", Monopoly.tflStyle);
+        propNo.setTextFieldFilter(new TextField.TextFieldFilter.DigitsOnlyFilter());
 
         btnExit = new TextButton("Exit", Monopoly.btnStyle);
         btnExit.addListener(new ClickListener() {
@@ -61,6 +68,8 @@ public class PropertyScene {
         tableInfo.top();
         tableInfo.setBounds(0, (Monopoly.HEIGHT - bg.getHeight()) / 2, Monopoly.WIDTH, bg.getHeight());
         tableInfo.add(new Label("", Monopoly.lblStyle)).width(8 * bg.getWidth() / 10).height(padding).colspan(2).row();
+
+        tableInfo.add(propNo).colspan(2).row();
 
         lblTitle = new Label("", Monopoly.lblStyle);
         lblTitle.setFontScale(0.7f);
