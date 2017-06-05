@@ -1,11 +1,14 @@
 package logic;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+
+import scenes.BoardScene;
 
 public class Player {
 	private static int playerNumber = 1;
@@ -28,6 +31,9 @@ public class Player {
 	private List<Integer> suspended;
 
 	private Texture token;
+	private Vector2 position;
+	private Vector2 destination;
+	private Vector2 velocity;
 
 	public Player(boolean mr, String path) {
 		id = playerNumber;
@@ -46,6 +52,9 @@ public class Player {
 		suspended = new ArrayList<Integer>();
 
 		token = new Texture(path);
+		position = new Vector2(0, 0);
+		destination = new Vector2(0, 0);
+		velocity = new Vector2(0, 0);
 	}
 
 	public int getID() {
@@ -159,15 +168,20 @@ public class Player {
 	}
 	
 	public void move() {
+		int pos1 = square;
 		square += roll1 + roll2;
 
-		
 		checkGO();
 		Square currentSquare = Board.getSquare(square);
 		if (currentSquare instanceof CardSquare) {
 		} else if (currentSquare instanceof Purchasable) {
 			checkOwner((Purchasable) currentSquare);
 		}
+		position = BoardScene.posToCoords(pos1);
+		destination = BoardScene.posToCoords(square);
+		velocity = new Vector2(destination.x, destination.y);
+		velocity.add(-position.x, -position.y);
+		velocity.scl(velocity.len());
 	}
 
 	private void checkGO() {
@@ -259,5 +273,13 @@ public class Player {
 			balance += ((Purchasable) toMortgage).getMortgage();
 			((Purchasable) toMortgage).suspend();
 		}
+	}
+
+	public void update() {
+		position.add(velocity);
+	}
+
+	public Vector2 getPositionVec() {
+		return position;
 	}
 }

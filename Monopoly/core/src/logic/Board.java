@@ -8,13 +8,25 @@ import java.util.List;
 public final class Board {
 	private static List<Square> squares;
 	private static int houses, hotels;
+
+	static {
+		houses = 32;
+		hotels = 12;
+
+		initSquares();
+		initProperties();
+		initStations();
+		initUtilities();
+		initCardSquares();
+		initOtherSquares();
+	}
 	
 	private static void initSquares() {
 		squares = new ArrayList<Square>(0);
 		for (int i = 0; i < 40; i++) {
 			squares.add(new Square());
 		}
-		
+
 		squares.set(0, new Square("GO"));
 	}
 	
@@ -39,8 +51,8 @@ public final class Board {
 		squares.set(31, new Property("Regent Street",			300, new int[]{26, 130, 390,  900, 1100, 1275}, 200, 150, Color.GREEN));
 		squares.set(32, new Property("Oxford Street",			300, new int[]{26, 130, 390,  900, 1100, 1275}, 200, 150, Color.GREEN));
 		squares.set(34, new Property("Bond Street",				320, new int[]{28, 150, 450, 1000, 1200, 1400}, 200, 160, Color.GREEN));
-		squares.set(37, new Property("Park Lane",				350, new int[]{35, 175, 500, 1100, 1300, 1500}, 175, 200, Color.BLUE));
-		squares.set(39, new Property("Mayfair",					400, new int[]{50, 200, 600, 1400, 1700, 2000}, 200, 200, Color.BLUE));
+		squares.set(37, new Property("Park Lane", 350, new int[]{35, 175, 500, 1100, 1300, 1500}, 175, 200, Color.ROYAL));
+		squares.set(39, new Property("Mayfair", 400, new int[]{50, 200, 600, 1400, 1700, 2000}, 200, 200, Color.ROYAL));
 	}
 	
 	private static void initStations() {
@@ -70,18 +82,6 @@ public final class Board {
 		squares.set(10, new Square("Jail"));
 		squares.set(20, new Square("Free parking"));
 		squares.set(30, new Square("Go to jail"));
-	}
-	
-	static {
-		houses = 32;
-		hotels = 12;
-		
-		initSquares();
-		initProperties();
-		initStations();
-		initUtilities();
-		initCardSquares();
-		initOtherSquares();
 	}
 	
 	public static Square getSquare(int i) {

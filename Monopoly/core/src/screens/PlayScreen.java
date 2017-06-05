@@ -23,6 +23,7 @@ import logic.GameData;
 import logic.Player;
 import scenes.BoardScene;
 import scenes.Hud;
+import scenes.IndexedButton;
 import scenes.SquareScene;
 
 

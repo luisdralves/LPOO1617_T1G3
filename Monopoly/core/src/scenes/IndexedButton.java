@@ -1,4 +1,4 @@
-package screens;
+package scenes;
 
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.lpoo1617t1g3.Monopoly;

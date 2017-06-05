@@ -27,16 +27,12 @@ import screens.PlayScreen;
 public class SquareScene {
     private static TextField propNo;
     private static Label lblTitle, lblCosts, lblRents, lblOwner;
+    private static TextButton btnExit, btnBuy, btnAuction, btnMortgage;
     private static Color set;
+    private static Table tableInfo;
     private Stage stage;
-    private Table tableInfo;
     private Table tableButtons;
     private Texture bg;
-
-    private TextButton btnExit;
-    private TextButton btnBuy;
-    private TextButton btnAuction;
-    private TextButton btnMortgage;
 
     public SquareScene() {
         stage = new Stage();
@@ -75,8 +71,7 @@ public class SquareScene {
 
         tableInfo = new Table();
         tableInfo.top();
-        tableInfo.debug();
-        tableInfo.setBounds(0, (Monopoly.HEIGHT - bg.getHeight()) / 2, Monopoly.WIDTH, bg.getHeight() + propNo.getHeight());
+        tableInfo.setBounds(0, (Monopoly.HEIGHT - bg.getHeight()) / 2, Monopoly.WIDTH, bg.getHeight() + propNo.getHeight() - 3);
 
         tableInfo.add(propNo).width(30).right().colspan(2).row();
         tableInfo.add(new Label("", Monopoly.lblStyle)).width(8 * bg.getWidth() / 10).height(padding).colspan(2).row();
@@ -120,6 +115,14 @@ public class SquareScene {
         Square sq = Board.getSquare(pos);
         propNo.setText(String.valueOf(pos));
         if(sq instanceof Purchasable) {
+            tableInfo.getCells().get(3).getActor().setVisible(true);
+            tableInfo.getCells().get(5).getActor().setVisible(true);
+            lblCosts.setVisible(true);
+            lblRents.setVisible(true);
+            lblOwner.setVisible(true);
+            btnBuy.setVisible(true);
+            btnAuction.setVisible(true);
+            btnMortgage.setVisible(true);
             lblTitle.setText(sq.getTitle());
             lblCosts.setText(String.format("$%d/Land", ((Purchasable) sq).getLandCost()));
             lblOwner.setText(((Purchasable) sq).getOwnerName());
@@ -133,9 +136,19 @@ public class SquareScene {
             } else if(sq instanceof Utility) {
                 lblRents.setText(String.format("$%d\n$%d", ((Purchasable) sq).getRent(0), ((Purchasable) sq).getRent(1)));
             }
+        } else {
+            set = Color.GRAY;
+            tableInfo.getCells().get(3).getActor().setVisible(false);
+            tableInfo.getCells().get(5).getActor().setVisible(false);
+            lblTitle.setText(sq.getTitle());
+            lblTitle.setVisible(true);
+            lblCosts.setVisible(false);
+            lblRents.setVisible(false);
+            lblOwner.setVisible(false);
+            btnBuy.setVisible(false);
+            btnAuction.setVisible(false);
+            btnMortgage.setVisible(false);
         }
-        else
-            PlayScreen.exitPropertyScene();
     }
 
     public void render(SpriteBatch spb) {

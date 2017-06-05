@@ -2,6 +2,7 @@ package scenes;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -11,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import logic.GameData;
-import logic.Player;
 import logic.Purchasable;
 import logic.Square;
 
@@ -61,6 +61,18 @@ public class BoardScene {
         stage.addActor(table);
     }
 
+    public static Vector2 posToCoords(int pos) {
+        if (pos < 10)
+            return new Vector2((10 - pos) * 50, 0);
+        else if (pos < 20)
+            return new Vector2(0, (pos - 10) * 50);
+        else if (pos < 30)
+            return new Vector2((pos - 20) * 50, 500);
+        else if (pos < 40)
+            return new Vector2(500, (40 - pos) * 50);
+        return new Vector2(0, 0);
+    }
+
     private void init(int size) {
         titles = new ArrayList<Label>(size);
         costs = new ArrayList<Label>(size);
@@ -97,21 +109,11 @@ public class BoardScene {
     public void render(SpriteBatch spb) {
         spb.begin();
         spb.draw(board, 0, 0);
-        for(Player p : GameData.getPlayers()) {
+        GameData.getPlayer(1).update();
+        spb.draw(GameData.getPlayer(1).getToken(), GameData.getPlayer(1).getPositionVec().x, GameData.getPlayer(1).getPositionVec().y);
+        /*for(Player p : GameData.getPlayers()) {
             spb.draw(p.getToken(), posToCoords(p.getPosition())[0], posToCoords(p.getPosition())[1]);
-        }
+        }*/
         spb.end();
-    }
-
-    private int[] posToCoords(int pos) {
-        if(pos < 10)
-            return new int[]{(10 - pos) * 50, 0};
-        else if(pos < 20)
-            return new int[]{0, (pos - 10) * 50};
-        else if(pos < 30)
-            return new int[]{(pos-20) * 50, 500};
-        else if(pos < 40)
-            return new int[]{500, (40 - pos) * 50};
-        return new int[]{0, 0};
     }
 }
