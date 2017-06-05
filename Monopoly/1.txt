@@ -1,0 +1,27 @@
+ Volume in drive D is WORKAREA
+ Volume Serial Number is 6EA6-D269
+
+ Directory of D:\Temp\LPOO1617_T1G3\Monopoly
+
+05/06/2017  23:14    <DIR>          .
+05/06/2017  23:14    <DIR>          ..
+05/06/2017  22:37             1ÿ547 .gitignore
+05/06/2017  22:46    <DIR>          .gradle
+05/06/2017  23:11    <DIR>          .idea
+05/06/2017  23:14                 0 1.txt
+05/06/2017  22:58    <DIR>          android
+05/06/2017  22:54    <DIR>          build
+05/06/2017  22:37             3ÿ735 build.gradle
+05/06/2017  22:49    <DIR>          core
+05/06/2017  22:49    <DIR>          desktop
+05/06/2017  22:37    <DIR>          gradle
+05/06/2017  22:37                98 gradle.properties
+05/06/2017  22:37             5ÿ244 gradlew
+05/06/2017  22:37             2ÿ404 gradlew.bat
+05/06/2017  22:48    <DIR>          html
+05/06/2017  22:48    <DIR>          ios
+05/06/2017  22:44               495 local.properties
+05/06/2017  22:48               862 Monopoly.iml
+05/06/2017  22:37                51 settings.gradle
+               9 File(s)         14ÿ436 bytes
+              11 Dir(s)  319ÿ727ÿ554ÿ560 bytes free

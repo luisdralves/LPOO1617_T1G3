@@ -1,0 +1,19 @@
+exclude:
+- /README_rsc/.*
+- /README.md
+- /Monopoly/.gitignore/.*
+- /Monopoly/.gradle/.*
+- /Monopoly/.idea/.*
+- /Monopoly/android/.*
+- /Monopoly/build/.*
+- /Monopoly/build.gradle/.*
+- /Monopoly/desktop/.*
+- /Monopoly/gradle/.*
+- /Monopoly/gradle.properties/.*
+- /Monopoly/gradlew/.*
+- /Monopoly/gradlew.bat/.*
+- /Monopoly/html/.*
+- /Monopoly/ios/.*
+- /Monopoly/local.properties/.*
+- /Monopoly/Monopoly.iml/.*
+- /Monopoly/settings.gradle/.*
