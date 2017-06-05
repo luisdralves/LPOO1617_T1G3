@@ -69,7 +69,6 @@ public class Hud {
         table.row();
         table.add(new Label("Position", Monopoly.lblStyle)).width(columnWidth);
         table.add(lblPlayerPos).right();
-        table.debug();
 
         stage.addActor(table);
     }

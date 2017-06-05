@@ -83,6 +83,7 @@ public class BoardScene {
                 costs.get(i).setText(String.format("Cost: $%d", ((Purchasable) sq).getLandCost()));
         }
     }
+
     public void update(int size) {
         for(int i = 0; i < size; i++) {
             Square sq = logic.Board.getSquare(i);
@@ -92,11 +93,6 @@ public class BoardScene {
             }
         }
     }
-
-    public void handleInput() {
-
-    }
-
 
     public void render(SpriteBatch spb) {
         spb.begin();

@@ -1,11 +1,13 @@
 package scenes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -15,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.lpoo1617t1g3.Monopoly;
 
 import logic.Board;
-import logic.GameData;
 import logic.Property;
 import logic.Purchasable;
 import logic.Square;
@@ -23,7 +24,8 @@ import logic.Station;
 import logic.Utility;
 import screens.PlayScreen;
 
-public class PropertyScene {
+public class SquareScene {
+    private static TextField propNo;
     private static Label lblTitle, lblCosts, lblRents, lblOwner;
     private static Color set;
     private Stage stage;
@@ -31,20 +33,27 @@ public class PropertyScene {
     private Table tableButtons;
     private Texture bg;
 
-    private TextField propNo;
-
     private TextButton btnExit;
     private TextButton btnBuy;
     private TextButton btnAuction;
     private TextButton btnMortgage;
 
-    public PropertyScene() {
+    public SquareScene() {
         stage = new Stage();
         bg = new Texture("prop_bg.png");
         set = Color.BLACK;
 
         propNo = new TextField("", Monopoly.tflStyle);
         propNo.setTextFieldFilter(new TextField.TextFieldFilter.DigitsOnlyFilter());
+        propNo.addListener(new InputListener() {
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.ENTER) {
+                    view(Integer.parseInt(propNo.getText()));
+                }
+                return false;
+            }
+        });
 
         btnExit = new TextButton("Exit", Monopoly.btnStyle);
         btnExit.addListener(new ClickListener() {
@@ -66,10 +75,11 @@ public class PropertyScene {
 
         tableInfo = new Table();
         tableInfo.top();
-        tableInfo.setBounds(0, (Monopoly.HEIGHT - bg.getHeight()) / 2, Monopoly.WIDTH, bg.getHeight());
-        tableInfo.add(new Label("", Monopoly.lblStyle)).width(8 * bg.getWidth() / 10).height(padding).colspan(2).row();
+        tableInfo.debug();
+        tableInfo.setBounds(0, (Monopoly.HEIGHT - bg.getHeight()) / 2, Monopoly.WIDTH, bg.getHeight() + propNo.getHeight());
 
-        tableInfo.add(propNo).colspan(2).row();
+        tableInfo.add(propNo).width(30).right().colspan(2).row();
+        tableInfo.add(new Label("", Monopoly.lblStyle)).width(8 * bg.getWidth() / 10).height(padding).colspan(2).row();
 
         lblTitle = new Label("", Monopoly.lblStyle);
         lblTitle.setFontScale(0.7f);
@@ -106,8 +116,9 @@ public class PropertyScene {
         stage.addActor(tableButtons);
     }
 
-    public static void viewProperty() {
-        Square sq = Board.getSquare(GameData.getPlayer().getPosition());
+    public static void view(int pos) {
+        Square sq = Board.getSquare(pos);
+        propNo.setText(String.valueOf(pos));
         if(sq instanceof Purchasable) {
             lblTitle.setText(sq.getTitle());
             lblCosts.setText(String.format("$%d/Land", ((Purchasable) sq).getLandCost()));

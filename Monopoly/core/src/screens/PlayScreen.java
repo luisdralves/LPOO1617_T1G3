@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -14,26 +15,32 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lpoo1617t1g3.Monopoly;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import logic.Board;
 import logic.GameData;
 import logic.Player;
 import scenes.BoardScene;
 import scenes.Hud;
-import scenes.PropertyScene;
+import scenes.SquareScene;
+
 
 public class PlayScreen implements Screen {
-    private static boolean viewingAProp;
+    private static boolean viewingASquare;
     private Monopoly game;
     private OrthographicCamera cam;
     private Viewport vp;
     private Hud hud;
     private BoardScene board;
-    private PropertyScene propertyScene;
+    private SquareScene squareScene;
     private Stage stage;
-    private Table table;
+    private Table tblButtons;
+    private Table tblSquares;
     private TextButton btnEndTurn;
     private TextButton btnDice;
     private TextButton btnViewProp;
+    private List<Button> btnSq;
 
     public PlayScreen(Monopoly m) {
         game = m;
@@ -41,11 +48,50 @@ public class PlayScreen implements Screen {
         vp = new FitViewport(Monopoly.WIDTH, Monopoly.HEIGHT, cam);
         hud = new Hud(game.spb);
         board = new BoardScene();
-        propertyScene = new PropertyScene();
-        viewingAProp = false;
+        squareScene = new SquareScene();
+        viewingASquare = false;
 
         stage = new Stage();
-        table = new Table(Monopoly.skin);
+        tblButtons = new Table(Monopoly.skin);
+        tblSquares = new Table(Monopoly.skin);
+        tblSquares.setBounds(0, 0, Monopoly.HEIGHT, Monopoly.HEIGHT);
+
+        btnSq = new ArrayList<Button>();
+        for (int i = 0; i < 40; i++) {
+            int width = 59 * Monopoly.HEIGHT / 720;
+            int height = 2 * Monopoly.HEIGHT / 15;
+            final IndexedButton btnTmp = new IndexedButton(i);
+            btnTmp.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    viewingASquare = true;
+                    SquareScene.view(btnTmp.id);
+                }
+            });
+            btnSq.add(btnTmp);
+            if (i < 11) {
+                if (i == 0 || i == 10)
+                    tblSquares.add(btnSq.get(i)).width(height).height(height);
+                else
+                    tblSquares.add(btnSq.get(i)).width(width).height(height);
+                if (i == 10)
+                    tblSquares.row();
+            } else if (i < 29) {
+                if (i % 2 == 1) {
+                    tblSquares.add(btnSq.get(i)).height(width).width(height).left();
+                } else {
+                    tblSquares.add().colspan(9);
+                    tblSquares.add(btnSq.get(i)).height(width).width(height).right().row();
+                }
+            } else {
+                if (i == 29 || i == 39)
+                    tblSquares.add(btnSq.get(i)).width(height).height(height);
+                else
+                    tblSquares.add(btnSq.get(i)).width(width).height(height);
+            }
+        }
+        stage.addActor(tblSquares);
+
 
         btnEndTurn = new TextButton("End turn", Monopoly.btnStyle);
         btnEndTurn.addListener(new ClickListener() {
@@ -67,26 +113,25 @@ public class PlayScreen implements Screen {
         btnViewProp.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y)  {
-                viewingAProp = true;
-                PropertyScene.viewProperty();
+                viewingASquare = true;
+                SquareScene.view(GameData.getPlayer().getPosition());
             }
         });
 
-        table.setBounds(9 * Monopoly.WIDTH / 16, 0, 7 * Monopoly.WIDTH / 16, 25 * Monopoly.HEIGHT / 36);
-        table.debug();
-        table.top();
-        table.add(btnViewProp).width(2 * Monopoly.WIDTH / 5);
-        table.row();
-        table.add(btnDice).padTop(1 * Monopoly.HEIGHT / 16);
-        table.row();
-        table.add(btnEndTurn);
-        stage.addActor(table);
+        tblButtons.setBounds(9 * Monopoly.WIDTH / 16, 0, 7 * Monopoly.WIDTH / 16, 25 * Monopoly.HEIGHT / 36);
+        tblButtons.top();
+        tblButtons.add(btnViewProp).width(2 * Monopoly.WIDTH / 5);
+        tblButtons.row();
+        tblButtons.add(btnDice).width(Monopoly.WIDTH / 5).padTop(1 * Monopoly.HEIGHT / 16);
+        tblButtons.row();
+        tblButtons.add(btnEndTurn).width(Monopoly.WIDTH / 5);
+        stage.addActor(tblButtons);
 
         gameCycle();
     }
 
     public static void exitPropertyScene() {
-        viewingAProp = false;
+        viewingASquare = false;
     }
 
     @Override
@@ -100,7 +145,6 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.input.setInputProcessor(stage);
 
-        board.handleInput();
         board.render(game.spb);
 
         hud.update(GameData.getPlayer());
@@ -109,8 +153,8 @@ public class PlayScreen implements Screen {
         hud.stage.draw();
         stage.act(delta);
         stage.draw();
-        if(viewingAProp)
-            propertyScene.render(game.spb);
+        if (viewingASquare)
+            squareScene.render(game.spb);
     }
 
     @Override

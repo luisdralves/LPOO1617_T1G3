@@ -52,7 +52,8 @@ public class Monopoly extends Game {
 		tflStyle.cursor = skin.getDrawable("tfl_cur");
 		tflStyle.selection = skin.getDrawable("tfl_sel");
 		tflStyle.background = skin.getDrawable("tfl_bg");
-		tflStyle.font = kabelBlack;
+		tflStyle.font = new BitmapFont(Gdx.files.internal("Kabel.fnt"));
+		tflStyle.font.getData().setScale(0.5f);
 		tflStyle.fontColor = Color.BLACK;
 		shapeRenderer = new ShapeRenderer();
 
