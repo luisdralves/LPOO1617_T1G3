@@ -1,11 +1,7 @@
 package scenes;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -20,17 +16,15 @@ import logic.Purchasable;
 import logic.Square;
 
 public class BoardScene {
+    public Stage stage;
     private Texture board;
     private List<Label> titles;
     private List<Label> costs;
     private List<Label> rents;
     private List<Label> owners;
-    private Label.LabelStyle lblStyle;
-    public Stage stage;
     private Table table;
 
     public BoardScene() {
-        lblStyle = new Label.LabelStyle(new BitmapFont(Gdx.files.internal("Kabel.fnt")), Color.BLACK);
         board = new Texture("board.jpg");
         stage = new Stage();
         table = new Table();
@@ -73,13 +67,13 @@ public class BoardScene {
         rents = new ArrayList<Label>(size);
         owners = new ArrayList<Label>(size);
         for(int i = 0; i < size; i++) {
-            titles.add(new Label("", lblStyle));
+            titles.add(new Label("", Monopoly.lblStyle));
             titles.get(i).setFontScale(0.4f);
-            costs.add(new Label("", lblStyle));
+            costs.add(new Label("", Monopoly.lblStyle));
             costs.get(i).setFontScale(0.4f);
-            rents.add(new Label("", lblStyle));
+            rents.add(new Label("", Monopoly.lblStyle));
             rents.get(i).setFontScale(0.4f);
-            owners.add(new Label("", lblStyle));
+            owners.add(new Label("", Monopoly.lblStyle));
             owners.get(i).setFontScale(0.4f);
         }
         for(int i = 0; i < size; i++) {

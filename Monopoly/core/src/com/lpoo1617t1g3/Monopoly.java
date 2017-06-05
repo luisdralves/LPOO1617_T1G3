@@ -4,37 +4,32 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
-import logic.Board;
-import logic.Player;
-import logic.GameData;
 import screens.MainMenu;
-import screens.PlayScreen;
 
 public class Monopoly extends Game {
 	public final static int WIDTH  = 1280;
 	public final static int HEIGHT = 720;
 	public final static String TITLE  = "Monopoly";
 	public static BitmapFont kabelBlack;
-	private Screen screen;
-	public Music musicIntro;
-	public Music musicLoop;
-	public SpriteBatch spb;
-	private boolean gameOver;
-
 	public static TextureAtlas atlas;
 	public static Skin skin;
 	public static Label.LabelStyle lblStyle;
 	public static TextButton.TextButtonStyle btnStyle;
+	public static ShapeRenderer shapeRenderer;
+	public Music musicIntro;
+	public Music musicLoop;
+	public SpriteBatch spb;
+	private Screen screen;
+	private boolean gameOver;
 
 	@Override
 	public void create () {
@@ -51,6 +46,7 @@ public class Monopoly extends Game {
 		btnStyle.over = skin.getDrawable("btn_hover");
 		btnStyle.disabled = skin.getDrawable("btn_dis");
 		btnStyle.font = kabelBlack;
+		shapeRenderer = new ShapeRenderer();
 
 		screen = new MainMenu(this);
 		setScreen(screen);

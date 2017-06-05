@@ -23,13 +23,12 @@ import logic.Utility;
 import screens.PlayScreen;
 
 public class PropertyScene {
+    private static Label lblTitle, lblCosts, lblRents, lblOwner;
+    private static Color set;
     private Stage stage;
     private Table tableInfo;
     private Table tableButtons;
-    private static Label lblTitle, lblCosts, lblRents, lblOwner;
     private Texture bg;
-    private ShapeRenderer shapeRenderer;
-    private static Color set;
     private TextButton btnExit;
     private TextButton btnBuy;
     private TextButton btnAuction;
@@ -38,7 +37,6 @@ public class PropertyScene {
     public PropertyScene() {
         stage = new Stage();
         bg = new Texture("prop_bg.png");
-        shapeRenderer = new ShapeRenderer();
         set = Color.BLACK;
 
         btnExit = new TextButton("Exit", Monopoly.btnStyle);
@@ -122,13 +120,13 @@ public class PropertyScene {
 
     public void render(SpriteBatch spb) {
         Gdx.input.setInputProcessor(this.stage);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 0.6f);
-        shapeRenderer.rect(0, 0, Monopoly.WIDTH, Monopoly.HEIGHT);
-        shapeRenderer.setColor(set);
-        shapeRenderer.rect((Monopoly.WIDTH - bg.getWidth()) / 2, (Monopoly.HEIGHT - bg.getHeight()) / 2, bg.getWidth(), bg.getHeight());
-        shapeRenderer.end();
-        shapeRenderer.end();
+        Monopoly.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        Monopoly.shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 0.6f);
+        Monopoly.shapeRenderer.rect(0, 0, Monopoly.WIDTH, Monopoly.HEIGHT);
+        Monopoly.shapeRenderer.setColor(set);
+        Monopoly.shapeRenderer.rect((Monopoly.WIDTH - bg.getWidth()) / 2, (Monopoly.HEIGHT - bg.getHeight()) / 2, bg.getWidth(), bg.getHeight());
+        Monopoly.shapeRenderer.end();
+        Monopoly.shapeRenderer.end();
         spb.begin();
         spb.draw(bg, (Monopoly.WIDTH - bg.getWidth()) / 2, (Monopoly.HEIGHT - bg.getHeight()) / 2);
         spb.end();

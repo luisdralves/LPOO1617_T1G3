@@ -2,16 +2,11 @@ package screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -27,24 +22,18 @@ import scenes.Hud;
 import scenes.PropertyScene;
 
 public class PlayScreen implements Screen {
+    private static boolean viewingAProp;
     private Monopoly game;
     private OrthographicCamera cam;
     private Viewport vp;
     private Hud hud;
     private BoardScene board;
     private PropertyScene propertyScene;
-    private static boolean viewingAProp;
-    private Label.LabelStyle lblStyle;
-
     private Stage stage;
-    private TextureAtlas atlas;
-    private Skin skin;
     private Table table;
     private TextButton btnEndTurn;
     private TextButton btnDice;
     private TextButton btnViewProp;
-    private TextButton.TextButtonStyle btnStyle;
-    private BitmapFont bmf;
 
     public PlayScreen(Monopoly m) {
         game = m;
@@ -54,22 +43,11 @@ public class PlayScreen implements Screen {
         board = new BoardScene();
         propertyScene = new PropertyScene();
         viewingAProp = false;
-        lblStyle = new Label.LabelStyle(new BitmapFont(Gdx.files.internal("Kabel.fnt")), Color.BLACK);
 
         stage = new Stage();
-        atlas = new TextureAtlas("btn2/btn2.pack");
-        skin = new Skin(atlas);
-        table = new Table(skin);
-        bmf = new BitmapFont(Gdx.files.internal("Kabel.fnt"));
+        table = new Table(Monopoly.skin);
 
-        btnStyle = new TextButton.TextButtonStyle();
-        btnStyle.up = skin.getDrawable("btn_up");
-        btnStyle.down = skin.getDrawable("btn_down");
-        btnStyle.over = skin.getDrawable("btn_hover");
-        btnStyle.disabled = skin.getDrawable("btn_dis");
-        btnStyle.font = bmf;
-
-        btnEndTurn = new TextButton("End turn", btnStyle);
+        btnEndTurn = new TextButton("End turn", Monopoly.btnStyle);
         btnEndTurn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y)  {
@@ -77,7 +55,7 @@ public class PlayScreen implements Screen {
             }
         });
 
-        btnDice = new TextButton("Roll dice", btnStyle);
+        btnDice = new TextButton("Roll dice", Monopoly.btnStyle);
         btnDice.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y)  {
@@ -85,12 +63,12 @@ public class PlayScreen implements Screen {
             }
         });
 
-        btnViewProp = new TextButton("GO", btnStyle);
+        btnViewProp = new TextButton("GO", Monopoly.btnStyle);
         btnViewProp.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y)  {
                 viewingAProp = true;
-                propertyScene.viewProperty();
+                PropertyScene.viewProperty();
             }
         });
 
@@ -105,6 +83,10 @@ public class PlayScreen implements Screen {
         stage.addActor(table);
 
         gameCycle();
+    }
+
+    public static void exitPropertyScene() {
+        viewingAProp = false;
     }
 
     @Override
@@ -208,9 +190,5 @@ public class PlayScreen implements Screen {
         lblTP2.setText("");
         lblTP3.setText("");
         lblTP4.setText("");*/
-    }
-
-    public static void exitPropertyScene() {
-        viewingAProp = false;
     }
 }

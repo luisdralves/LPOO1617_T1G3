@@ -1,29 +1,21 @@
 package scenes;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lpoo1617t1g3.Monopoly;
 
-import logic.*;
-import screens.PlayScreen;
+import logic.Player;
 
 public class Hud {
+    public Stage stage;
     private Viewport vp;
     private Texture bg;
-    public Stage stage;
     private Table table;
 
     private Label lblPlayerNo;
@@ -37,7 +29,6 @@ public class Hud {
     private int playerBalance;
     private int playerDice1, playerDice2;
     private int playerPos;
-    private String playerPosName;
 
     public Hud(SpriteBatch spb){
         vp = new FitViewport(Monopoly.WIDTH, Monopoly.HEIGHT, new OrthographicCamera());
@@ -53,7 +44,6 @@ public class Hud {
         playerDice1 = 0;
         playerDice2 = 0;
         playerPos = 0;
-        playerPosName = "GO";
 
         lblPlayerNo = new Label("game hasnt started yet!", Monopoly.lblStyle);
         lblPlayerName = new Label("game hasnt started yet!", Monopoly.lblStyle);
@@ -92,7 +82,6 @@ public class Hud {
         playerDice1 = p.getDice()[0];
         playerDice2 = p.getDice()[1];
         playerPos = p.getPosition();
-        playerPosName = logic.Board.getSquare(p.getPosition()).getTitle();
 
         lblPlayerNo.setText(String.format("Player %01d", playerNo));
         lblPlayerName.setText(playerName);
