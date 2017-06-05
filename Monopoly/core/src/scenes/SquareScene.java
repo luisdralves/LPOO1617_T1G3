@@ -126,7 +126,7 @@ public class SquareScene {
         if(sq instanceof Purchasable) {
             if(GameData.getPlayer().getID() == ((Purchasable) sq).getOwnerID()) {
                 btnBuy.setText("Improve");
-                btnBuy.listener
+                //btnBuy.listener
             }
             tableInfo.getCells().get(3).getActor().setVisible(true);
             tableInfo.getCells().get(5).getActor().setVisible(true);
