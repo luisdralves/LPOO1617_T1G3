@@ -46,7 +46,7 @@ public class MainMenu implements Screen {
         });
 
         table.setBounds(0, 0, Monopoly.WIDTH, Monopoly.HEIGHT);
-        table.add(new Label("Monopoly", Monopoly.lblStyle));
+        table.add(new Label("Monlpooy", Monopoly.lblStyle));
         table.row();
         Label subTitle = new Label("Versao MIEIC", Monopoly.lblStyle);
         subTitle.setFontScale(0.6f);

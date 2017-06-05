@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.lpoo1617t1g3.Monopoly;
 
 import logic.Board;
+import logic.GameData;
 import logic.Property;
 import logic.Purchasable;
 import logic.Square;
@@ -61,7 +62,15 @@ public class SquareScene {
         btnExit.getLabel().setFontScale(0.6f);
 
         btnBuy = new TextButton("Acquire", Monopoly.btnStyle);
+        btnBuy.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y)  {
+                GameData.getPlayer().purchase();
+                view(GameData.getPlayer().getPosition());
+            }
+        });
         btnBuy.getLabel().setFontScale(0.6f);
+
         btnAuction = new TextButton("Auction", Monopoly.btnStyle);
         btnAuction.getLabel().setFontScale(0.6f);
         btnMortgage = new TextButton("Mortgage", Monopoly.btnStyle);
@@ -115,6 +124,10 @@ public class SquareScene {
         Square sq = Board.getSquare(pos);
         propNo.setText(String.valueOf(pos));
         if(sq instanceof Purchasable) {
+            if(GameData.getPlayer().getID() == ((Purchasable) sq).getOwnerID()) {
+                btnBuy.setText("Improve");
+                btnBuy.listener
+            }
             tableInfo.getCells().get(3).getActor().setVisible(true);
             tableInfo.getCells().get(5).getActor().setVisible(true);
             lblCosts.setVisible(true);

@@ -62,7 +62,11 @@ public abstract class Purchasable extends Square {
 	public String getOwnerName() {
 		return (owner != null ? owner.getName() : "Not owned");
 	}
-	
+
+	public int getOwnerID() {
+		return (owner != null ? owner.getID() : 0);
+	}
+
 	public void suspend() {
 		active = false;
 	}
