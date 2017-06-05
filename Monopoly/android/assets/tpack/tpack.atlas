@@ -1,79 +1,124 @@
 
 tpack.png
-size: 256,64
+size: 512,64
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 btn_dis
   rotate: false
-  xy: 36, 20
+  xy: 70, 20
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 btn_dis
   rotate: false
+  xy: 70, 20
+  size: 32, 32
+  split: 3, 3, 3, 3
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn_down
+  rotate: false
+  xy: 104, 20
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn_down
+  rotate: false
+  xy: 104, 20
+  size: 32, 32
+  split: 3, 3, 3, 3
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn_down_alpha
+  rotate: false
+  xy: 206, 20
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn_down_alpha
+  rotate: false
+  xy: 206, 20
+  size: 32, 32
+  split: 3, 3, 3, 3
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn_hover
+  rotate: false
+  xy: 2, 20
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn_hover
+  rotate: false
+  xy: 2, 20
+  size: 32, 32
+  split: 3, 3, 3, 3
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn_hover_alpha
+  rotate: false
+  xy: 138, 20
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn_hover_alpha
+  rotate: false
+  xy: 138, 20
+  size: 32, 32
+  split: 3, 3, 3, 3
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn_up
+  rotate: false
+  xy: 36, 20
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn_up
+  rotate: false
   xy: 36, 20
   size: 32, 32
   split: 3, 3, 3, 3
   orig: 32, 32
   offset: 0, 0
   index: -1
-btn_down
-  rotate: false
-  xy: 70, 20
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-btn_down
-  rotate: false
-  xy: 70, 20
-  size: 32, 32
-  split: 3, 3, 3, 3
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-btn_hover
-  rotate: false
-  xy: 104, 20
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-btn_hover
-  rotate: false
-  xy: 104, 20
-  size: 32, 32
-  split: 3, 3, 3, 3
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-btn_up
-  rotate: false
-  xy: 2, 20
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-btn_up
-  rotate: false
-  xy: 2, 20
-  size: 32, 32
-  split: 3, 3, 3, 3
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
 tfl_bg
   rotate: false
-  xy: 2, 20
+  xy: 36, 20
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 tfl_bg
   rotate: false
-  xy: 2, 20
+  xy: 36, 20
+  size: 32, 32
+  split: 3, 3, 3, 3
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn_up_alpha
+  rotate: false
+  xy: 172, 20
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn_up_alpha
+  rotate: false
+  xy: 172, 20
   size: 32, 32
   split: 3, 3, 3, 3
   orig: 32, 32
@@ -81,14 +126,14 @@ tfl_bg
   index: -1
 tfl_cur
   rotate: false
-  xy: 170, 2
+  xy: 272, 2
   size: 10, 50
   orig: 10, 50
   offset: 0, 0
   index: -1
 tfl_sel
   rotate: false
-  xy: 138, 22
+  xy: 240, 22
   size: 30, 30
   orig: 30, 30
   offset: 0, 0

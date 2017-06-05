@@ -7,7 +7,7 @@ public class IndexedButton extends TextButton {
     public int id;
 
     public IndexedButton(int id) {
-        super("", Monopoly.btnStyle);
+        super("", Monopoly.btnStyleInvisible);
         if (id <= 39 && id >= 29)
             this.id = 39 - id;
         else if (id < 29 && id >= 11 && id % 2 == 0)

@@ -25,6 +25,7 @@ public class Monopoly extends Game {
 	public static Skin skin;
 	public static Label.LabelStyle lblStyle;
 	public static TextButton.TextButtonStyle btnStyle;
+	public static TextButton.TextButtonStyle btnStyleInvisible;
 	public static TextField.TextFieldStyle tflStyle;
 	public static ShapeRenderer shapeRenderer;
 	public Music musicIntro;
@@ -42,12 +43,19 @@ public class Monopoly extends Game {
 		skin = new Skin(atlas);
 		kabelBlack = new BitmapFont(Gdx.files.internal("Kabel.fnt"));
 		lblStyle = new Label.LabelStyle(kabelBlack, Color.BLACK);
+
 		btnStyle = new TextButton.TextButtonStyle();
 		btnStyle.up = skin.getDrawable("btn_up");
 		btnStyle.down = skin.getDrawable("btn_down");
 		btnStyle.over = skin.getDrawable("btn_hover");
 		btnStyle.disabled = skin.getDrawable("btn_dis");
 		btnStyle.font = kabelBlack;
+		btnStyleInvisible = new TextButton.TextButtonStyle();
+		btnStyleInvisible.up = skin.getDrawable("btn_up_alpha");
+		btnStyleInvisible.down = skin.getDrawable("btn_down_alpha");
+		btnStyleInvisible.over = skin.getDrawable("btn_hover_alpha");
+		btnStyleInvisible.font = kabelBlack;
+
 		tflStyle = new TextField.TextFieldStyle();
 		tflStyle.cursor = skin.getDrawable("tfl_cur");
 		tflStyle.selection = skin.getDrawable("tfl_sel");
