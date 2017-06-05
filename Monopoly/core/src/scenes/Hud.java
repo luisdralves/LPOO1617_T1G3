@@ -54,7 +54,6 @@ public class Hud {
         int columnWidth = Monopoly.WIDTH/5;
 
         table.setBounds(93 * Monopoly.WIDTH / 160, 0, 0, Monopoly.HEIGHT);
-        //x bound value is simplification of (9 * Monopoly.WIDTH / 16) + ((7 * Monopoly.WIDTH / 16) - (2 * columnWidth))/2
         table.left().top();
         table.add(new Label("", Monopoly.lblStyle)).width(columnWidth);
         table.add(new Label("", Monopoly.lblStyle)).width(columnWidth);

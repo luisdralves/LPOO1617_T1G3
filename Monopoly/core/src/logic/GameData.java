@@ -6,12 +6,12 @@ import java.util.List;
 
 
 public final class GameData {
-	private static List<Player> players;
-	private static List<Card> chanceCards;
-	private static List<Card> commCards;
 	public static int currentPlayerInt;
 	public static boolean useGUI;
 	public static boolean gameOver;
+	private static List<Player> players;
+	private static List<Card> chanceCards;
+	private static List<Card> commCards;
 	
 	static {
 		currentPlayerInt = -1;
@@ -82,71 +82,4 @@ public final class GameData {
 	public static List<Player> getPlayers() {
 		return players;
 	}
-
-	/*
-	private static void printBoard() {
-		if (!useGUI) {
-			TextBased.printBoard();
-		} else {
-			//implement gui
-		}
-	}
-	
-	public static void printSquare(int square) {
-		if (!useGUI) {
-			TextBased.printSquare(square);
-		} else {
-			//implement gui
-		}
-	}
-
-	private static void printPlayer(Player currentPlayer) {
-		if (!useGUI) {
-			TextBased.printPlayer(currentPlayer);
-		} else {
-			//implement gui
-		}
-	}
-	
-	private static void printPlayerDice(Player currentPlayer) {
-		if (!useGUI) {
-			TextBased.printPlayerDice(currentPlayer);
-		} else {
-			//implement gui
-		}
-	}
-
-	private static void improveProperties(Player currentPlayer) {
-		if (!currentPlayer.isAI()) {
-			if (!useGUI) {
-				TextBased.improveProperties(currentPlayer);
-			} else {
-				// implement gui
-			}
-		} else {
-			// implement ai
-		}
-	}
-
-	private static void mortgageProperties(Player currentPlayer) {
-		if (!currentPlayer.isAI()) {
-			if (!useGUI) {
-				TextBased.mortgageProperties(currentPlayer);
-			} else {
-				// implement gui
-			}
-		} else {
-			// implement ai
-		}
-	}
-
-	public static void newPurchasableFound(Player cp) {
-		if (!useGUI) {
-			TextBased.newPurchasableFound(cp);
-		} else {
-			//implement gui
-		}
-	}
-
-	*/
 }

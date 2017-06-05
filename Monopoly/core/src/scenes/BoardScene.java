@@ -105,7 +105,6 @@ public class BoardScene {
             spb.draw(p.getToken(), posToCoords(p.getPosition())[0], posToCoords(p.getPosition())[1]);
         }
         spb.end();
-        //stage.draw();
     }
 
     private int[] posToCoords(int pos) {

@@ -143,22 +143,16 @@ public class PlayScreen implements Screen {
         GameData.currentPlayerInt %= GameData.getPlayers().size();
         Player currentPlayer = GameData.getPlayer();
         if (!currentPlayer.getProperties().isEmpty() && (logic.Board.getHouses() > 0 || logic.Board.getHotels() > 0)) {
-            //improveProperties(currentPlayer);
-            //mortgageProperties(currentPlayer);
         } else if (!currentPlayer.getAcquired().isEmpty()) {
-            //mortgageProperties(currentPlayer);
         }
         int jailStatus = currentPlayer.checkJail();
         if (jailStatus == 0) {
-            //not in jail
 
         }
         else if (jailStatus == 1) {
-            //in jail but gets out
             currentPlayer.move();
         }
         else if (jailStatus == 2) {
-            //still in jail
         }
         resetUI();
     }
@@ -186,9 +180,5 @@ public class PlayScreen implements Screen {
         btnEndTurn.setDisabled(true);
         btnEndTurn.setTouchable(Touchable.disabled);
         btnViewProp.setText(Board.getSquare(GameData.getPlayer().getPosition()).getTitle());
-        /*lblTP1.setText("");
-        lblTP2.setText("");
-        lblTP3.setText("");
-        lblTP4.setText("");*/
     }
 }

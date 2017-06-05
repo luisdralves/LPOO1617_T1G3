@@ -9,6 +9,9 @@ import java.util.Scanner;
 
 public class Player {
 	private static int playerNumber = 1;
+	private static int[] properties = new int[]{3, 6, 8, 9, 11, 13, 14, 16, 18, 19, 21, 23, 24, 26, 27, 29, 31, 32, 34, 37, 39};
+	private static int[] stations = new int[]{5, 15, 25, 35};
+	private static int[] utilities = new int[]{12, 28};
 	private int id;
 	private String name;
 	private boolean isAI;
@@ -21,9 +24,6 @@ public class Player {
 	private int roll1, roll2;
 	private boolean manualRoll;
 	private boolean dicesHaveBeenRolled;
-	private static int[] properties = new int[] { 3, 6, 8, 9, 11, 13, 14, 16, 18, 19, 21, 23, 24, 26, 27, 29, 31, 32, 34, 37, 39 };
-	private static int[] stations = new int[] { 5, 15, 25, 35 };
-	private static int[] utilities = new int[] { 12, 28 };
 	private List<Integer> acquired;
 	private List<Integer> suspended;
 
@@ -156,18 +156,15 @@ public class Player {
 		System.out.println("roll:");
 		roll1 = sc.nextInt();
 		roll2 = sc.nextInt();
-		//sc.close();
 	}
 	
 	public void move() {
 		square += roll1 + roll2;
 
-		//GameData.printSquare(square);
 		
 		checkGO();
 		Square currentSquare = Board.getSquare(square);
 		if (currentSquare instanceof CardSquare) {
-			//drawCard
 		} else if (currentSquare instanceof Purchasable) {
 			checkOwner((Purchasable) currentSquare);
 		}
@@ -185,7 +182,6 @@ public class Player {
 	public int checkJail() {
 		if (turnsInJail > 0) {
 			turnsInJail--;
-			//rollDice();
 			if (roll1 == roll2)
 				return 1;
 			else
@@ -200,13 +196,11 @@ public class Player {
 		} else if (p.isOwned() && !p.isActive()) {
 			return;
 		} else if (!p.isOwned()) {
-			//GameData.newPurchasableFound(this);
 		}
 	}
 
 	public void play(int turns, int doubles) {
 		boolean inJail = false;
-		//rollDice();
 
 		if (roll1 == roll2) {
 			turns++;
