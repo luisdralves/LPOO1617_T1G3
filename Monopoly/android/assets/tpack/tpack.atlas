@@ -1,0 +1,110 @@
+
+tpack.png
+size: 256,64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+btn_dis
+  rotate: false
+  xy: 70, 20
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn_dis
+  rotate: false
+  xy: 70, 20
+  size: 32, 32
+  split: 3, 3, 3, 3
+  pad: 3, 3, -1, -1
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn_down
+  rotate: false
+  xy: 104, 20
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn_down
+  rotate: false
+  xy: 104, 20
+  size: 32, 32
+  split: 3, 3, 3, 3
+  pad: 3, 3, -1, -1
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn_hover
+  rotate: false
+  xy: 2, 20
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn_hover
+  rotate: false
+  xy: 2, 20
+  size: 32, 32
+  split: 3, 3, 3, 3
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn_up
+  rotate: false
+  xy: 36, 20
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn_up
+  rotate: false
+  xy: 36, 20
+  size: 32, 32
+  split: 3, 3, 3, 3
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tfl_bg
+  rotate: false
+  xy: 138, 22
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+tfl_bg
+  rotate: false
+  xy: 138, 22
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+tfl_cur
+  rotate: false
+  xy: 202, 2
+  size: 10, 50
+  orig: 10, 50
+  offset: 0, 0
+  index: -1
+tfl_cur
+  rotate: false
+  xy: 202, 2
+  size: 10, 50
+  orig: 10, 50
+  offset: 0, 0
+  index: -1
+tfl_sel
+  rotate: false
+  xy: 170, 22
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+tfl_sel
+  rotate: false
+  xy: 170, 22
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
