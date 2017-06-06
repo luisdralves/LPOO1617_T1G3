@@ -112,6 +112,7 @@ public class PlayScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y)  {
                 rollingDice = true;
+                diceScene.render(game.spb);
                 //moveLoop();
             }
         });
