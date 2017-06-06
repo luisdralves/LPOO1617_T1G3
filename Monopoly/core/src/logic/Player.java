@@ -25,7 +25,6 @@ public class Player {
 	private int doubles;
 	private boolean inJail;
 	private int roll1, roll2;
-	private boolean manualRoll;
 	private boolean dicesHaveBeenRolled;
 	private List<Integer> acquired;
 	private List<Integer> suspended;
@@ -35,18 +34,17 @@ public class Player {
 	private Vector2 destination;
 	private Vector2 velocity;
 
-	public Player(boolean mr, String path) {
+	public Player(boolean ai, String path) {
 		id = playerNumber;
 		name = "Player ";
 		name += playerNumber;
 		playerNumber++;
-		isAI = false;
+		isAI = ai;
 		square = 0;
 		balance = 1500;
 		turnsInJail = 0;
 		roll1 = 0;
 		roll2 = 0;
-		manualRoll = mr;
 		dicesHaveBeenRolled = false;
 		acquired = new ArrayList<Integer>();
 		suspended = new ArrayList<Integer>();
@@ -55,6 +53,11 @@ public class Player {
 		position = new Vector2(0, 0);
 		destination = new Vector2(0, 0);
 		velocity = new Vector2(0, 0);
+	}
+
+	public Player(String name, boolean ai, String path) {
+		this(ai, path);
+		this.name = name;
 	}
 
 	public int getID() {
@@ -150,21 +153,10 @@ public class Player {
 	}
 
 	public void rollDice() {
-		if (manualRoll) {
-			rollDiceManual();
-		} else {
-			Random dice = new Random();
-			roll1 = dice.nextInt(6) + 1;
-			roll2 = dice.nextInt(6) + 1;
-		}
+		Random dice = new Random();
+		roll1 = dice.nextInt(6) + 1;
+		roll2 = dice.nextInt(6) + 1;
 		dicesHaveBeenRolled = true;
-	}
-
-	private void rollDiceManual() {
-		Scanner sc = new Scanner(System.in);
-		System.out.println("roll:");
-		roll1 = sc.nextInt();
-		roll2 = sc.nextInt();
 	}
 	
 	public void move() {

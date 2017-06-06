@@ -26,15 +26,15 @@ public class MainMenu implements Screen {
         game = m;
         cam = new OrthographicCamera();
         vp = new FitViewport(Monopoly.WIDTH, Monopoly.HEIGHT, cam);
-        stage = new Stage();
+        stage = new Stage(vp);
         Gdx.input.setInputProcessor(stage);
         table = new Table(Monopoly.skin);
 
-        btnPlay = new TextButton("Play", Monopoly.btnStyle);
+        btnPlay = new TextButton("New game", Monopoly.btnStyle);
         btnPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y)  {
-                game.setScreen(new PlayScreen(game));
+                game.setScreen(new PlayersScreen(game));
             }
         });
         btnExit = new TextButton("Exit", Monopoly.btnStyle);

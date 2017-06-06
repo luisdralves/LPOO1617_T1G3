@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import screens.PlayersScreen;
+
 
 public final class GameData {
 	public static int currentPlayerInt;
@@ -23,12 +25,11 @@ public final class GameData {
 		initPlayers();
 	}
 	
-	private static void initPlayers() {
+	public static void initPlayers() {
 		players = new ArrayList<Player>();
-		players.add(new Player(false, "token1.png"));
-		players.add(new Player(false, "token2.png"));
-		players.add(new Player(false, "token3.png"));
-		players.add(new Player(false, "token4.png"));
+		for(int i = 0; i < PlayersScreen.playerCount; i++) {
+			players.add(new Player(PlayersScreen.playerNames.get(i).getText(), PlayersScreen.isAI.get(i).isChecked(), "token" + (i + 1) + ".png"));
+		}
 	}
 
 	private static void initChanceCards() {

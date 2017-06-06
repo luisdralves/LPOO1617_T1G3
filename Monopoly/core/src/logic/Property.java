@@ -27,7 +27,10 @@ public class Property extends Purchasable {
 	}
 	
 	public void addToHouses(int amount) {
-		houses += amount;
+		if(houses < 5) {
+			GameData.getPlayer().addToBalance(-houseCost);
+			houses += amount;
+		}
 	}
 
 	public int getHouseCost() {

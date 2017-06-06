@@ -11,13 +11,17 @@ import com.lpoo1617t1g3.Monopoly;
 import java.util.ArrayList;
 import java.util.List;
 
+import logic.Board;
 import logic.GameData;
+import logic.Player;
+import logic.Property;
 import logic.Purchasable;
 import logic.Square;
 
 public class BoardScene {
     public Stage stage;
     private Texture board;
+    private Texture house, hotel;
     private List<Label> titles;
     private List<Label> costs;
     private List<Label> rents;
@@ -26,6 +30,8 @@ public class BoardScene {
 
     public BoardScene() {
         board = new Texture("board.jpg");
+        house = new Texture("house.png");
+        hotel = new Texture("hotel.png");
         stage = new Stage();
         table = new Table();
         int size = logic.Board.getSquares().size();
@@ -59,18 +65,6 @@ public class BoardScene {
         for(int i = 10; i >= 0; i--)
             table.add(owners.get(i));
         stage.addActor(table);
-    }
-
-    public static Vector2 posToCoords(int pos) {
-        if (pos < 10)
-            return new Vector2((10 - pos) * 50, 0);
-        else if (pos < 20)
-            return new Vector2(0, (pos - 10) * 50);
-        else if (pos < 30)
-            return new Vector2((pos - 20) * 50, 500);
-        else if (pos < 40)
-            return new Vector2(500, (40 - pos) * 50);
-        return new Vector2(0, 0);
     }
 
     private void init(int size) {
@@ -108,12 +102,56 @@ public class BoardScene {
 
     public void render(SpriteBatch spb) {
         spb.begin();
-        spb.draw(board, 0, 0);
-        GameData.getPlayer(1).update();
-        spb.draw(GameData.getPlayer(1).getToken(), GameData.getPlayer(1).getPositionVec().x, GameData.getPlayer(1).getPositionVec().y);
-        /*for(Player p : GameData.getPlayers()) {
-            spb.draw(p.getToken(), posToCoords(p.getPosition())[0], posToCoords(p.getPosition())[1]);
-        }*/
+        spb.draw(board, 0, 0, Monopoly.HEIGHT, Monopoly.HEIGHT);
+
+        for(Player p : GameData.getPlayers()) {
+            spb.draw(p.getToken(), posToCoords(p.getPosition()).x, posToCoords(p.getPosition()).y);
+        }
+
+        for(int j = 0; j < Board.getSquares().size(); j++) {
+            if(Board.getSquare(j) instanceof Property) {
+                Property p = ((Property) Board.getSquare(j));
+                if (p.getHouses() == 5) {
+                    if(j < 10)
+                        spb.draw(hotel, posToCoords(j).x + 20, posToCoords(j).y + 75, 20, 20);
+                    else if (j < 20)
+                        spb.draw(hotel, posToCoords(j).x + 75, posToCoords(j).y + 20, 20, 20);
+                    else if (j < 30)
+                        spb.draw(hotel, posToCoords(j).x + 20, posToCoords(j).y + 3, 20, 20);
+                    else
+                        spb.draw(hotel, posToCoords(j).x + 3, posToCoords(j).y + 20, 20, 20);
+                }
+                else {
+                    if (j < 10)
+                        for (int i = 0; i < p.getHouses(); i++)
+                            spb.draw(house, posToCoords(j).x + i * 14, posToCoords(j).y + 75, 20, 20);
+                    else if (j < 20)
+                        for (int i = 0; i < p.getHouses(); i++)
+                            spb.draw(house, posToCoords(j).x + 75, posToCoords(j).y + i * 14, 20, 20);
+                    else if (j < 30)
+                        for (int i = 0; i < p.getHouses(); i++)
+                            spb.draw(house, posToCoords(j).x + i * 14, posToCoords(j).y + 3, 20, 20);
+                    else
+                        for (int i = 0; i < p.getHouses(); i++)
+                            spb.draw(house, posToCoords(j).x + 3, posToCoords(j).y + i * 14, 20, 20);
+                }
+            }
+        }
         spb.end();
+    }
+
+    public static Vector2 posToCoords(int pos) {
+        int width = 59 * Monopoly.HEIGHT / 720;
+        int height = 2 * Monopoly.HEIGHT / 15;
+
+        if (pos < 10)
+            return new Vector2(96 + (9 - pos) * 59, 0);
+        else if (pos < 20)
+            return new Vector2(0, 96 + (pos - 11) * 59);
+        else if (pos < 30)
+            return new Vector2(96 + (pos - 21) * 59, 624);
+        else if (pos < 40)
+            return new Vector2(624, 96 + (39 - pos) * 59);
+        return new Vector2(0, 0);
     }
 }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -17,7 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import screens.MainMenu;
 
 public class Monopoly extends Game {
-	public final static int WIDTH  = 1280;
+	public final static int WIDTH = 1280;
 	public final static int HEIGHT = 720;
 	public final static String TITLE  = "Monopoly";
 	public static BitmapFont kabelBlack;
@@ -27,6 +28,7 @@ public class Monopoly extends Game {
 	public static TextButton.TextButtonStyle btnStyle;
 	public static TextButton.TextButtonStyle btnStyleInvisible;
 	public static TextField.TextFieldStyle tflStyle;
+	public static CheckBox.CheckBoxStyle cbxStyle;
 	public static ShapeRenderer shapeRenderer;
 	public Music musicIntro;
 	public Music musicLoop;
@@ -63,6 +65,13 @@ public class Monopoly extends Game {
 		tflStyle.font = new BitmapFont(Gdx.files.internal("Kabel.fnt"));
 		tflStyle.font.getData().setScale(0.5f);
 		tflStyle.fontColor = Color.BLACK;
+
+		cbxStyle = new CheckBox.CheckBoxStyle();
+		cbxStyle.checkboxOff = skin.getDrawable("cbx_off");
+		cbxStyle.checkboxOn = skin.getDrawable("cbx_on");
+		cbxStyle.font = kabelBlack;
+		cbxStyle.fontColor = Color.BLACK;
+
 		shapeRenderer = new ShapeRenderer();
 
 		screen = new MainMenu(this);

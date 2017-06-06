@@ -52,7 +52,7 @@ public class PlayScreen implements Screen {
         squareScene = new SquareScene();
         viewingASquare = false;
 
-        stage = new Stage();
+        stage = new Stage(vp);
         tblButtons = new Table(Monopoly.skin);
         tblSquares = new Table(Monopoly.skin);
         tblSquares.setBounds(0, 0, Monopoly.HEIGHT, Monopoly.HEIGHT);
@@ -145,6 +145,8 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.input.setInputProcessor(stage);
+
+        vp.apply();
 
         board.render(game.spb);
 

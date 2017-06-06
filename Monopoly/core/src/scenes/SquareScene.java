@@ -31,6 +31,7 @@ public class SquareScene {
     private static TextButton btnExit, btnBuy, btnAuction, btnMortgage;
     private static Color set;
     private static Table tableInfo;
+    static int sqPos;
     private Stage stage;
     private Table tableButtons;
     private Texture bg;
@@ -65,7 +66,11 @@ public class SquareScene {
         btnBuy.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y)  {
-                GameData.getPlayer().purchase();
+                if (!sqWasBought) {
+                    GameData.getPlayer().purchase();
+                } else if (Board.getSquare(sqPos) instanceof Property){
+                    ((Property) Board.getSquare(sqPos)).addToHouses(1);
+                }
                 view(GameData.getPlayer().getPosition());
             }
         });
@@ -120,14 +125,19 @@ public class SquareScene {
         stage.addActor(tableButtons);
     }
 
+    private  static boolean sqWasBought;
+
     public static void view(int pos) {
         Square sq = Board.getSquare(pos);
         propNo.setText(String.valueOf(pos));
         if(sq instanceof Purchasable) {
+            sqWasBought = false;
             if(GameData.getPlayer().getID() == ((Purchasable) sq).getOwnerID()) {
                 btnBuy.setText("Improve");
-                //btnBuy.listener
-            }
+                sqPos = pos;
+                sqWasBought = true;
+            } else
+                btnBuy.setText("Acquire");
             tableInfo.getCells().get(3).getActor().setVisible(true);
             tableInfo.getCells().get(5).getActor().setVisible(true);
             lblCosts.setVisible(true);
