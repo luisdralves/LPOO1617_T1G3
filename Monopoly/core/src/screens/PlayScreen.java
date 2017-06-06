@@ -22,6 +22,7 @@ import logic.Board;
 import logic.GameData;
 import logic.Player;
 import scenes.BoardScene;
+import scenes.DiceScene;
 import scenes.Hud;
 import scenes.IndexedButton;
 import scenes.SquareScene;
@@ -29,12 +30,14 @@ import scenes.SquareScene;
 
 public class PlayScreen implements Screen {
     private static boolean viewingASquare;
+    private static boolean rollingDice;
     private Monopoly game;
     private OrthographicCamera cam;
     private Viewport vp;
     private Hud hud;
     private BoardScene board;
     private SquareScene squareScene;
+    private DiceScene diceScene;
     private Stage stage;
     private Table tblButtons;
     private Table tblSquares;
@@ -50,7 +53,9 @@ public class PlayScreen implements Screen {
         hud = new Hud(game.spb);
         board = new BoardScene();
         squareScene = new SquareScene();
+        diceScene = new DiceScene();
         viewingASquare = false;
+        rollingDice = false;
 
         stage = new Stage(vp);
         tblButtons = new Table(Monopoly.skin);
@@ -106,7 +111,8 @@ public class PlayScreen implements Screen {
         btnDice.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y)  {
-                moveLoop();
+                rollingDice = true;
+                //moveLoop();
             }
         });
 
@@ -158,6 +164,8 @@ public class PlayScreen implements Screen {
         stage.draw();
         if (viewingASquare)
             squareScene.render(game.spb);
+        else if (rollingDice)
+            diceScene.render(game.spb);
     }
 
     @Override
