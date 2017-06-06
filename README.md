@@ -28,6 +28,7 @@ The design pattern we decided to use is the **Abstract Factory Pattern** because
 - Rules
 - Exit
 #### Mock-up
+##### Imagens de apresentação meramente sugestivas.
 ![Main Menu](README_rsc/MonopolyMainMenu.jpg)
 ![Play Mode](README_rsc/MonopolyPlayMode.jpg)
 ## Test Design
