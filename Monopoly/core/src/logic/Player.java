@@ -158,6 +158,12 @@ public class Player {
 		roll2 = dice.nextInt(6) + 1;
 		dicesHaveBeenRolled = true;
 	}
+
+	public void rollDice(int i1, int i2) {
+		roll1 = i1;
+		roll2 = i2;
+		dicesHaveBeenRolled = true;
+	}
 	
 	public void move() {
 		int pos1 = square;

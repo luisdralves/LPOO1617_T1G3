@@ -29,8 +29,9 @@ import scenes.SquareScene;
 
 
 public class PlayScreen implements Screen {
-    private static boolean viewingASquare;
-    private static boolean rollingDice;
+    public static boolean viewingASquare;
+    public static boolean rollingDice;
+    public static boolean diceReady;
     private Monopoly game;
     private OrthographicCamera cam;
     private Viewport vp;
@@ -56,6 +57,7 @@ public class PlayScreen implements Screen {
         diceScene = new DiceScene();
         viewingASquare = false;
         rollingDice = false;
+        diceReady = false;
 
         stage = new Stage(vp);
         tblButtons = new Table(Monopoly.skin);
@@ -112,8 +114,8 @@ public class PlayScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y)  {
                 rollingDice = true;
-                diceScene.render(game.spb);
-                //moveLoop();
+                diceReady = false;
+                diceScene.initDice();
             }
         });
 
@@ -165,8 +167,13 @@ public class PlayScreen implements Screen {
         stage.draw();
         if (viewingASquare)
             squareScene.render(game.spb);
-        else if (rollingDice)
+        else if (rollingDice) {
+            Gdx.input.setInputProcessor(null);
             diceScene.render(game.spb);
+        } else if (diceReady) {
+            diceReady = false;
+            moveLoop();
+        }
     }
 
     @Override
@@ -216,7 +223,7 @@ public class PlayScreen implements Screen {
     private void moveLoop(){
         Player currentPlayer;
         currentPlayer = GameData.getPlayer();
-        currentPlayer.rollDice();
+        currentPlayer.rollDice((int)diceScene.results().x, (int)diceScene.results().y);
         currentPlayer.play(1, 0);
         int turnsRemaining = currentPlayer.getTurnsRemaining();
         int doubles = currentPlayer.getDoubles();
