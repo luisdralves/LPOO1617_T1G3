@@ -85,6 +85,7 @@ public class DiceScene {
 
     public void render(SpriteBatch spb) {
         debugRenderer.render(world, cam.combined);
+        world.setGravity(new Vector2(Gdx.input.getAccelerometerY(), -Gdx.input.getAccelerometerX()));
         sp1.rotate(-sp1.getRotation());
         sp1.rotate(180 * body.getAngle() / (float)Math.PI);
         sp1.setPosition(body.getPosition().x + (Monopoly.WIDTH - sp1.getWidth())/2, body.getPosition().y + (Monopoly.HEIGHT - sp1.getHeight())/2);
