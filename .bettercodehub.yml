@@ -1,19 +1,24 @@
+component_depth: 4
+languages:
+- java
+
 exclude:
-- /README_rsc/.*
+- /README_rsc/*
 - /README.md
-- /Monopoly/.gitignore/.*
-- /Monopoly/.gradle/.*
-- /Monopoly/.idea/.*
-- /Monopoly/android/.*
-- /Monopoly/build/.*
-- /Monopoly/build.gradle/.*
-- /Monopoly/desktop/.*
-- /Monopoly/gradle/.*
-- /Monopoly/gradle.properties/.*
-- /Monopoly/gradlew/.*
-- /Monopoly/gradlew.bat/.*
-- /Monopoly/html/.*
-- /Monopoly/ios/.*
-- /Monopoly/local.properties/.*
-- /Monopoly/Monopoly.iml/.*
-- /Monopoly/settings.gradle/.*
+- /Monopoly/1.txt
+- /Monopoly/android/*
+- /Monopoly/build/*
+- /Monopoly/build.gradle
+- /Monopoly/desktop/*
+- /Monopoly/gradle/*
+- /Monopoly/gradle.properties
+- /Monopoly/gradlew/*
+- /Monopoly/gradlew.bat
+- /Monopoly/html/*
+- /Monopoly/ios/*
+- /Monopoly/local.properties
+- /Monopoly/Monopoly.iml
+- /Monopoly/settings.gradle
+- /Monopoly/core/src/com/*
+- /Monopoly/core/src/scenes/*
+- /Monopoly/core/src/screens/*
