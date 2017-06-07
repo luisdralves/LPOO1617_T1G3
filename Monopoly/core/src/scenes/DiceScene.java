@@ -54,8 +54,6 @@ public class DiceScene {
             PlayScreen.diceReady = true;
         }
 
-        System.out.println((((sp1.getRotation()/60)%6)+1) + ", \t" + (((sp2.getRotation()/60)%6)+1));
-
         if (Gdx.input.getAccelerometerY() != 0.0f || Gdx.input.getAccelerometerX() != 0.0f)
             world.setGravity(new Vector2(Gdx.input.getAccelerometerY(), -Gdx.input.getAccelerometerX()));
 

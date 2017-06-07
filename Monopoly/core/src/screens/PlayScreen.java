@@ -1,5 +1,6 @@
 package screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -113,9 +114,12 @@ public class PlayScreen implements Screen {
         btnDice.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y)  {
-                rollingDice = true;
-                diceReady = false;
-                diceScene.initDice();
+                if(GameData.getPlayer().realDice()) {
+                    rollingDice = true;
+                    diceReady = false;
+                    diceScene.initDice();
+                } else
+                    moveLoop(0,0);
             }
         });
 
@@ -172,7 +176,7 @@ public class PlayScreen implements Screen {
             diceScene.render(game.spb);
         } else if (diceReady) {
             diceReady = false;
-            moveLoop();
+            moveLoop((int)diceScene.results().x, (int)diceScene.results().y);
         }
     }
 
@@ -220,10 +224,13 @@ public class PlayScreen implements Screen {
         resetUI();
     }
 
-    private void moveLoop(){
+    private void moveLoop(int i1, int i2){
         Player currentPlayer;
         currentPlayer = GameData.getPlayer();
-        currentPlayer.rollDice((int)diceScene.results().x, (int)diceScene.results().y);
+        if(i1 == 0 || i2 == 0)
+            currentPlayer.rollDice();
+        else
+            currentPlayer.rollDice(i1, i2);
         currentPlayer.play(1, 0);
         int turnsRemaining = currentPlayer.getTurnsRemaining();
         int doubles = currentPlayer.getDoubles();

@@ -18,6 +18,7 @@ public class Player {
 	private int id;
 	private String name;
 	private boolean isAI;
+	private boolean realDice;
 	private int square;
 	private int balance;
 	private int turnsInJail;
@@ -34,12 +35,13 @@ public class Player {
 	private Vector2 destination;
 	private Vector2 velocity;
 
-	public Player(boolean ai, String path) {
+	public Player(boolean ai, boolean rd, String path) {
 		id = playerNumber;
 		name = "Player ";
 		name += playerNumber;
 		playerNumber++;
 		isAI = ai;
+		realDice = rd;
 		square = 0;
 		balance = 1500;
 		turnsInJail = 0;
@@ -55,8 +57,8 @@ public class Player {
 		velocity = new Vector2(0, 0);
 	}
 
-	public Player(String name, boolean ai, String path) {
-		this(ai, path);
+	public Player(String name, boolean ai, boolean rd, String path) {
+		this(ai, rd, path);
 		this.name = name;
 	}
 
@@ -70,6 +72,10 @@ public class Player {
 
 	public boolean isAI() {
 		return isAI;
+	}
+
+	public boolean realDice() {
+		return realDice;
 	}
 
 	public List<Integer> getAcquired() {

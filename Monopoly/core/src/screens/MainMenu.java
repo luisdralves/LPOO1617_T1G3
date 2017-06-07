@@ -7,15 +7,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lpoo1617t1g3.Monopoly;
-
-import java.awt.image.renderable.ContextualRenderedImageFactory;
 
 public class MainMenu implements Screen {
     private Monopoly game;
@@ -38,7 +35,7 @@ public class MainMenu implements Screen {
         btnPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y)  {
-                game.setScreen(new PlayersScreen(game));
+                game.setScreen(new NewGameScreen(game));
             }
         });
 

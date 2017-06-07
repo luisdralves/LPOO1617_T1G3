@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import screens.PlayersScreen;
+import screens.NewGameScreen;
 
 
 public final class GameData {
@@ -27,8 +27,8 @@ public final class GameData {
 	
 	public static void initPlayers() {
 		players = new ArrayList<Player>();
-		for(int i = 0; i < PlayersScreen.playerCount; i++) {
-			players.add(new Player(PlayersScreen.playerNames.get(i).getText(), PlayersScreen.isAI.get(i).isChecked(), "token" + (i + 1) + ".png"));
+		for(int i = 0; i < NewGameScreen.playerCount; i++) {
+			players.add(new Player(NewGameScreen.playerNames.get(i).getText(), NewGameScreen.isAI.get(i).isChecked(), NewGameScreen.realDice.get(i).isChecked(), "token" + (i + 1) + ".png"));
 		}
 	}
 
