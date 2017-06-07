@@ -28,7 +28,7 @@ public class PlayersScreen implements Screen{
     private Viewport vp;
     private Stage stage;
     private Table table;
-    private TextButton btnPlay;
+    private TextButton btnPlay, btnBack;
     public static List<TextField> playerNames;
     public static List<CheckBox> isAI;
     public static int playerCount;
@@ -49,6 +49,13 @@ public class PlayersScreen implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y)  {
                 game.setScreen(new PlayScreen(game));
+            }
+        });
+        btnBack = new TextButton("Go Back", Monopoly.btnStyle);
+        btnBack.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y)  {
+                game.setScreen(new MainMenu(game));
             }
         });
 
@@ -87,7 +94,8 @@ public class PlayersScreen implements Screen{
                 table.getCells().get(3*(i+2)).getActor().setVisible(false);
             }
         }
-        table.add(btnPlay).padTop(20).colspan(3);
+        table.add(btnPlay).padTop(20);
+        table.add(btnBack).padTop(20);
 
         stage.addActor(table);
     }
