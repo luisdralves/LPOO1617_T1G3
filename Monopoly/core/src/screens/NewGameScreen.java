@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -34,6 +35,7 @@ public class NewGameScreen implements Screen{
     public static List<CheckBox> realDice;
     public static int playerCount;
     private TextField playerCountField;
+    private ImageButton playerCountMore, playerCountLess;
 
     public NewGameScreen(Monopoly m) {
         game = m;
@@ -72,36 +74,58 @@ public class NewGameScreen implements Screen{
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ENTER && Integer.parseInt(playerCountField.getText()) > 1 && Integer.parseInt(playerCountField.getText()) <= 8) {
-                    addPlayer();
+                    updatePlayers();
                 }
                 return false;
             }
         });
 
-        table.debug();
-        tableButtons.debug();
+        playerCountMore = new ImageButton(Monopoly.ibtnStyleRight);
+        playerCountLess = new ImageButton(Monopoly.ibtnStyleLeft);
+        playerCountMore.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y)  {
+                if (Integer.parseInt(playerCountField.getText()) > 1 && Integer.parseInt(playerCountField.getText()) <= 7) {
+                    playerCountField.setText(Integer.toString(Integer.parseInt(playerCountField.getText()) + 1));
+                    updatePlayers();
+                }
+            }
+        });
+        playerCountLess.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y)  {
+                if (Integer.parseInt(playerCountField.getText()) > 2 && Integer.parseInt(playerCountField.getText()) <= 8) {
+                    playerCountField.setText(Integer.toString(Integer.parseInt(playerCountField.getText()) - 1));
+                    updatePlayers();
+                }
+            }
+        });
+
         table.setBounds(0, 0, Monopoly.WIDTH, Monopoly.HEIGHT);
         tableInfo.add();
         tableInfo.add(new Label("Player number: ", Monopoly.lblStyle));
-        tableInfo.add(playerCountField).width(30).row();
+        tableInfo.add(playerCountLess).right();
+        tableInfo.add(playerCountField).width(30);
+        tableInfo.add(playerCountMore).left().row();
 
         tableInfo.add();
-        tableInfo.add(new Label("Name", Monopoly.lblStyle)).padTop(30);
+        tableInfo.add(new Label("Name", Monopoly.lblStyle)).colspan(2).padTop(30);
         tableInfo.add(new Label("AI", Monopoly.lblStyle)).padTop(30);
         tableInfo.add(new Label("RD", Monopoly.lblStyle)).padTop(30).row();
         for(int i = 0; i < 8; i++) {
             tableInfo.add(new Label("Player " + (i + 1) + ": ", Monopoly.lblStyle));
             playerNames.add(new TextField("Player " + (i + 1), Monopoly.tflStyle));
-            tableInfo.add(playerNames.get(i)).width(Monopoly.HEIGHT/3);
+            tableInfo.add(playerNames.get(i)).width(2*Monopoly.HEIGHT/5).colspan(2);
             isAI.add(new CheckBox("", Monopoly.cbxStyle));
             realDice.add(new CheckBox("", Monopoly.cbxStyle));
+            realDice.get(i).setChecked(true);
             tableInfo.add(isAI.get(i));
             tableInfo.add(realDice.get(i)).row();
             if (i > 1) {
                 playerNames.get(i).setVisible(false);
                 isAI.get(i).setVisible(false);
                 realDice.get(i).setVisible(false);
-                tableInfo.getCells().get(4*(i+2)-1).getActor().setVisible(false);
+                tableInfo.getCells().get(4*(i+2)+1).getActor().setVisible(false);
             }
         }
         tableButtons.add(btnPlay).padTop(30).width(300).padRight(30);
@@ -152,7 +176,7 @@ public class NewGameScreen implements Screen{
 
     }
 
-    private void addPlayer() {
+    private void updatePlayers() {
         int oldPlayerCount = playerCount - 1;
         playerCount = Integer.parseInt(playerCountField.getText());
 
@@ -161,14 +185,14 @@ public class NewGameScreen implements Screen{
                 playerNames.get(i).setVisible(true);
                 isAI.get(i).setVisible(true);
                 realDice.get(i).setVisible(true);
-                tableInfo.getCells().get(4*(i+2)-1).getActor().setVisible(true);
+                tableInfo.getCells().get(4*(i+2)+1).getActor().setVisible(true);
             }
         } else {
             for (int i = playerCount; i < 8; i++) {
                 playerNames.get(i).setVisible(false);
                 isAI.get(i).setVisible(false);
                 realDice.get(i).setVisible(false);
-                tableInfo.getCells().get(4*(i+2)-1).getActor().setVisible(false);
+                tableInfo.getCells().get(4*(i+2)+1).getActor().setVisible(false);
             }
         }
     }

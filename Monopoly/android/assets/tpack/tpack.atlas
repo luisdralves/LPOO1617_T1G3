@@ -8,8 +8,6 @@ btn_dis
   rotate: false
   xy: 104, 20
   size: 32, 32
-  split: 0, 32, 4, 3
-  pad: 4, 4, -1, -1
   orig: 32, 32
   offset: 0, 0
   index: -1
@@ -17,6 +15,7 @@ btn_dis
   rotate: false
   xy: 104, 20
   size: 32, 32
+  split: 4, 4, 4, 4
   orig: 32, 32
   offset: 0, 0
   index: -1
@@ -31,7 +30,7 @@ btn_down
   rotate: false
   xy: 172, 20
   size: 32, 32
-  split: 4, 4, 3, 4
+  split: 4, 4, 4, 4
   orig: 32, 32
   offset: 0, 0
   index: -1
@@ -91,8 +90,14 @@ btn_up
   rotate: false
   xy: 206, 20
   size: 32, 32
-  split: 4, 4, 0, 32
-  pad: -1, -1, 4, 4
+  split: 4, 4, 4, 4
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+btn_up_alpha
+  rotate: false
+  xy: 36, 20
+  size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
@@ -101,13 +106,6 @@ btn_up_alpha
   xy: 36, 20
   size: 32, 32
   split: 3, 3, 3, 3
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-btn_up_alpha
-  rotate: false
-  xy: 36, 20
-  size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1

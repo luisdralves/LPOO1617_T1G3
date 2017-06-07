@@ -12,8 +12,10 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -30,8 +32,11 @@ public class Monopoly extends Game {
 	public static Label.LabelStyle lblStyle;
 	public static TextButton.TextButtonStyle btnStyle;
 	public static TextButton.TextButtonStyle btnStyleInvisible;
+	public static ImageButton.ImageButtonStyle ibtnStyleRight;
+	public static ImageButton.ImageButtonStyle ibtnStyleLeft;
 	public static TextField.TextFieldStyle tflStyle;
 	public static CheckBox.CheckBoxStyle cbxStyle;
+	public static Slider.SliderStyle sldStyle;
 	public static ShapeRenderer shapeRenderer;
 	public Music musicIntro;
 	public Music musicLoop;
@@ -61,6 +66,16 @@ public class Monopoly extends Game {
 		btnStyleInvisible.over = skin.getDrawable("btn_hover_alpha");
 		btnStyleInvisible.font = kabelBlack;
 
+		ibtnStyleRight = new ImageButton.ImageButtonStyle();
+		// TODO: 07/06/2017 add to atlas
+		ibtnStyleRight.up = new TextureRegionDrawable(new TextureRegion(new Texture("ibtn_right.png")));
+		ibtnStyleRight.down = new TextureRegionDrawable(new TextureRegion(new Texture("ibtn_right_down.png")));
+
+		ibtnStyleLeft = new ImageButton.ImageButtonStyle();
+		// TODO: 07/06/2017 add to atlas
+		ibtnStyleLeft.up = new TextureRegionDrawable(new TextureRegion(new Texture("ibtn_left.png")));
+		ibtnStyleLeft.down = new TextureRegionDrawable(new TextureRegion(new Texture("ibtn_left_down.png")));
+
 		tflStyle = new TextField.TextFieldStyle();
 		tflStyle.cursor = skin.getDrawable("tfl_cur");
 		tflStyle.selection = skin.getDrawable("tfl_sel");
@@ -74,6 +89,11 @@ public class Monopoly extends Game {
 		cbxStyle.checkboxOn = skin.getDrawable("cbx_on");
 		cbxStyle.font = kabelBlack;
 		cbxStyle.fontColor = Color.BLACK;
+
+		sldStyle = new Slider.SliderStyle();
+		sldStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture("sld_bg.png")));
+		sldStyle.knobDown = new TextureRegionDrawable(new TextureRegion(new Texture("sld.png")));
+		sldStyle.knobOver = new TextureRegionDrawable(new TextureRegion(new Texture("sld.png")));
 
 		shapeRenderer = new ShapeRenderer();
 

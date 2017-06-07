@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -29,14 +31,20 @@ public class SquareScene {
     private static TextField propNo;
     private static Label lblTitle, lblCosts, lblRents, lblOwner;
     private static TextButton btnExit, btnBuy, btnAuction, btnMortgage;
+    private static ImageButton positionMore, positionLess;
     private static Color set;
     private static Table tableInfo;
-    static int sqPos;
+    private static Table tableHeader;
+    private static int sqPos;
+    private AuctionScene auctionScene;
+    private boolean auctioning;
     private Stage stage;
     private Table tableButtons;
     private Texture bg;
 
     public SquareScene() {
+        auctionScene = new AuctionScene();
+        auctioning = false;
         stage = new Stage();
         bg = new Texture("prop_bg.png");
         set = Color.BLACK;
@@ -78,16 +86,55 @@ public class SquareScene {
 
         btnAuction = new TextButton("Auction", Monopoly.btnStyle);
         btnAuction.getLabel().setFontScale(0.6f);
+        btnAuction.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y)  {
+                auctionScene.auction();
+                auctioning = true;
+            }
+        });
+
         btnMortgage = new TextButton("Mortgage", Monopoly.btnStyle);
         btnMortgage.getLabel().setFontScale(0.6f);
 
+        positionMore = new ImageButton(Monopoly.ibtnStyleRight);
+        positionLess = new ImageButton(Monopoly.ibtnStyleLeft);
+        positionMore.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y)  {
+                if (Integer.parseInt(propNo.getText()) >= 0) {
+                    propNo.setText(Integer.toString((Integer.parseInt(propNo.getText()) + 1) % 40));
+                    view(Integer.parseInt(propNo.getText()));
+                }
+            }
+        });
+        positionLess.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y)  {
+                if (Integer.parseInt(propNo.getText()) > 0) {
+                    propNo.setText(Integer.toString(Integer.parseInt(propNo.getText()) - 1));
+                    view(Integer.parseInt(propNo.getText()));
+                } else if (Integer.parseInt(propNo.getText()) == 0) {
+                    propNo.setText(Integer.toString(39));
+                    view(Integer.parseInt(propNo.getText()));
+                }
+            }
+        });
+
         int padding = 1 * bg.getHeight() / 16;
+
+
+        tableHeader = new Table();
+        tableHeader.right();
+        tableHeader.setBounds(Monopoly.WIDTH/2 + 32, Monopoly.HEIGHT/2 + bg.getHeight()/2 - 3, bg.getWidth()/2, propNo.getHeight());
+        tableHeader.add(positionLess);
+        tableHeader.add(propNo).width(30);
+        tableHeader.add(positionMore);
 
         tableInfo = new Table();
         tableInfo.top();
-        tableInfo.setBounds(0, (Monopoly.HEIGHT - bg.getHeight()) / 2, Monopoly.WIDTH, bg.getHeight() + propNo.getHeight() - 3);
+        tableInfo.setBounds(0, (Monopoly.HEIGHT - bg.getHeight())/2, Monopoly.WIDTH, bg.getHeight());
 
-        tableInfo.add(propNo).width(30).right().colspan(2).row();
         tableInfo.add(new Label("", Monopoly.lblStyle)).width(8 * bg.getWidth() / 10).height(padding).colspan(2).row();
 
         lblTitle = new Label("", Monopoly.lblStyle);
@@ -121,6 +168,7 @@ public class SquareScene {
         tableButtons.add(btnMortgage).width(8 * bg.getWidth() / 20 - padding/2).padTop(padding/2).padBottom(padding).padRight(padding/2);
         tableButtons.add(btnExit).width(8 * bg.getWidth() / 20 - padding/2).padTop(padding/2).padBottom(padding).padLeft(padding/2);
 
+        stage.addActor(tableHeader);
         stage.addActor(tableInfo);
         stage.addActor(tableButtons);
     }
@@ -132,8 +180,30 @@ public class SquareScene {
         propNo.setText(String.valueOf(pos));
         if(sq instanceof Purchasable) {
             sqWasBought = false;
+            if(GameData.getPlayer().getPosition() != pos) {
+                btnBuy.setDisabled(true);
+                btnMortgage.setDisabled(true);
+                btnAuction.setDisabled(true);
+                btnBuy.setTouchable(Touchable.disabled);
+                btnMortgage.setTouchable(Touchable.disabled);
+                btnAuction.setTouchable(Touchable.disabled);
+            } else {
+                btnBuy.setDisabled(false);
+                btnMortgage.setDisabled(false);
+                btnAuction.setDisabled(false);
+                btnBuy.setTouchable(Touchable.enabled);
+                btnMortgage.setTouchable(Touchable.enabled);
+                btnAuction.setTouchable(Touchable.enabled);
+            }
             if(GameData.getPlayer().getID() == ((Purchasable) sq).getOwnerID()) {
                 btnBuy.setText("Improve");
+                if(((Property) sq).getHouses() >= 5) {
+                    btnBuy.setDisabled(true);
+                    btnBuy.setTouchable(Touchable.disabled);
+                } else {
+                    btnBuy.setDisabled(false);
+                    btnBuy.setTouchable(Touchable.enabled);
+                }
                 sqPos = pos;
                 sqWasBought = true;
             } else
@@ -182,11 +252,12 @@ public class SquareScene {
         Monopoly.shapeRenderer.setColor(set);
         Monopoly.shapeRenderer.rect((Monopoly.WIDTH - bg.getWidth()) / 2, (Monopoly.HEIGHT - bg.getHeight()) / 2, bg.getWidth(), bg.getHeight());
         Monopoly.shapeRenderer.end();
-        Monopoly.shapeRenderer.end();
         spb.begin();
         spb.draw(bg, (Monopoly.WIDTH - bg.getWidth()) / 2, (Monopoly.HEIGHT - bg.getHeight()) / 2);
         spb.end();
         stage.act();
         stage.draw();
+        if(auctioning)
+            auctionScene.render();
     }
 }
