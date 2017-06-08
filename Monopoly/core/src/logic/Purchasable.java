@@ -13,8 +13,8 @@ public abstract class Purchasable extends Square {
 		rent = new int[]{0,0,0,0,0,0};
 	}
 	
-	public Purchasable(String name, int cost, int[] rent, int mortgage) {
-		super(name);
+	public Purchasable(int pos, String name, int cost, int[] rent, int mortgage) {
+		super(pos, name);
 		this.cost = cost;
 		this.rent = rent;
 		this.mortgage = mortgage;
@@ -47,10 +47,14 @@ public abstract class Purchasable extends Square {
 	}
 	
 	public void toggleMortgage() {
-		if (active)
+		if (active) {
 			active = false;
-		else
+			owner.mortgage(position);
+		}
+		else {
 			active = true;
+			owner.unmortgage(position);
+		}
 	}
 
 	public void setOwner(Player p) {
@@ -64,13 +68,17 @@ public abstract class Purchasable extends Square {
 	}
 
 	public int getOwnerID() {
-		return (owner != null ? owner.getID() : 0);
+		return (owner != null ? owner.getID() : -1);
 	}
 
 	public void suspend() {
 		active = false;
 	}
-	
+
+	public void activate() {
+		active = true;
+	}
+
 	public int getRent(int i) {
 		return rent[i];
 	}

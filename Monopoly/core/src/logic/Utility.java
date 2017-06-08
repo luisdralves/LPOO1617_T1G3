@@ -9,8 +9,8 @@ public class Utility extends Purchasable {
 		rent = new int[] {4, 10};
 	}
 	
-	public Utility(String name) {
-		super(name, 150, new int[] {4, 10}, 75);
+	public Utility(int pos, String name) {
+		super(pos, name, 150, new int[] {4, 10}, 75);
 	}
 	
 	public int getRent(int i, int diceRoll) {

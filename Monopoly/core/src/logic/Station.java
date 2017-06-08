@@ -9,13 +9,13 @@ public class Station extends Purchasable {
 		super();
 	}
 	
-	public Station(String name) {
-		super(name + " Station", 200, new int[]{25, 50, 100, 200}, 100);
+	public Station(int pos, String name) {
+		super(pos, name + " Station", 200, new int[]{25, 50, 100, 200}, 100);
 		totalStations = 0;
 	}
 	
-	public Station(String name, int cost, int[] rent, int mortgage) {
-		super(name + " Station", cost, rent, mortgage);
+	public Station(int pos, String name, int cost, int[] rent, int mortgage) {
+		super(pos, name + " Station", cost, rent, mortgage);
 		totalStations = 0;
 	}
 	

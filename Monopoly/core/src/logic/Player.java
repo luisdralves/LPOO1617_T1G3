@@ -279,6 +279,15 @@ public class Player {
 		}
 	}
 
+	public void unmortgage(int i) {
+		Square toUnmortgage = Board.getSquare(i);
+		if (toUnmortgage instanceof Purchasable) {
+			suspended.remove(suspended.indexOf(i));
+			balance -= ((Purchasable) toUnmortgage).getMortgage();
+			((Purchasable) toUnmortgage).activate();
+		}
+	}
+
 	public void update() {
 		position.add(velocity);
 	}

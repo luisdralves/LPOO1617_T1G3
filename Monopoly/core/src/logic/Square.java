@@ -2,12 +2,15 @@ package logic;
 
 public class Square {
 	protected String title;
+	protected int position;
 	
 	public Square() {
+		position = 0;
 		title = "";
 	}
 	
-	public Square(String title) {
+	public Square(int position, String title) {
+		this.position = position;
 		this.title = title;
 	}
 	

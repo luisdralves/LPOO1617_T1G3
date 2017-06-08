@@ -1,5 +1,6 @@
 package scenes;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -38,6 +39,7 @@ public class AuctionScene {
     private List<Label> amountText;
     private int min, max;
     public int winnerAmount, winnerID;
+    public boolean winnerFound;
 
     public AuctionScene() {
         stage = new Stage();
@@ -51,8 +53,14 @@ public class AuctionScene {
         btnNext.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y)  {
-                min = max;
-                max *= 4;
+                int bidMax = min - 1;
+                for (int i = 0; i < amountSliders.size(); i++) {
+                    if (amountSliders.get(i).getValue() > bidMax) {
+                        bidMax = (int) amountSliders.get(i).getValue();
+                    }
+                }
+                min = bidMax;
+                max = bidMax * 4;
                 initTable();
             }
         });
@@ -68,6 +76,21 @@ public class AuctionScene {
                         winnerID = is.id;
                     }
                 }
+
+                int tooManyWinners = 0;
+                for (IndexedSlider is : amountSliders) {
+                    if (is.getValue() == winnerAmount) {
+                        tooManyWinners++;
+                    }
+                }
+                if (tooManyWinners != 1) {
+                    GameData.getPlayer().purchase(GameData.getPlayer().getPosition(), 0);
+                } else {
+                    GameData.getPlayer(winnerID).purchase(GameData.getPlayer().getPosition(), winnerAmount);
+                }
+                winnerFound = true;
+                SquareScene.exitAuction();
+                SquareScene.view(GameData.getPlayer().getPosition());
             }
         });
 
@@ -113,6 +136,7 @@ public class AuctionScene {
             }
         }
         table.add(btnNext);
+        table.add(btnExit);
     }
 
     public void auction() {
@@ -120,6 +144,7 @@ public class AuctionScene {
         int bid = p.getLandCost() / 2;
         min = bid;
         max = bid * 4;
+        winnerFound = false;
         initTable();
     }
 }

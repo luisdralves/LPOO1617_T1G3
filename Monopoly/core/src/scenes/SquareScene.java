@@ -37,7 +37,7 @@ public class SquareScene {
     private static Table tableHeader;
     private static int sqPos;
     private AuctionScene auctionScene;
-    private boolean auctioning;
+    private static boolean auctioning;
     private Stage stage;
     private Table tableButtons;
     private Texture bg;
@@ -95,6 +95,13 @@ public class SquareScene {
         });
 
         btnMortgage = new TextButton("Mortgage", Monopoly.btnStyle);
+        btnMortgage.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y)  {
+                ((Purchasable)Board.getSquare(sqPos)).toggleMortgage();
+                view(sqPos);
+            }
+        });
         btnMortgage.getLabel().setFontScale(0.6f);
 
         positionMore = new ImageButton(Monopoly.ibtnStyleRight);
@@ -182,32 +189,50 @@ public class SquareScene {
             sqWasBought = false;
             if(GameData.getPlayer().getPosition() != pos) {
                 btnBuy.setDisabled(true);
+                btnAuction.setDisabled(true);
+                btnBuy.setTouchable(Touchable.disabled);
+                btnAuction.setTouchable(Touchable.disabled);
+            } else {
+                btnBuy.setDisabled(false);
+                btnAuction.setDisabled(false);
+                btnBuy.setTouchable(Touchable.enabled);
+                btnAuction.setTouchable(Touchable.enabled);
+            }
+            btnMortgage.setDisabled(true);
+            btnMortgage.setTouchable(Touchable.disabled);
+            if(GameData.getPlayer().getID() == ((Purchasable) sq).getOwnerID()) {
+                btnBuy.setText("Improve");
+                if (sq instanceof Property) {
+                    if (((Property) sq).getHouses() >= 5) {
+                        btnBuy.setDisabled(true);
+                        btnBuy.setTouchable(Touchable.disabled);
+                    } else {
+                        btnBuy.setDisabled(false);
+                        btnBuy.setTouchable(Touchable.enabled);
+                    }
+                } else {
+                    btnBuy.setDisabled(true);
+                    btnBuy.setTouchable(Touchable.disabled);
+                }
+                if(((Purchasable)sq).isActive())
+                    btnMortgage.setText("Mortgage");
+                else
+                    btnMortgage.setText("Unmortgage");
+                btnMortgage.setDisabled(false);
+                btnMortgage.setTouchable(Touchable.enabled);
+                btnAuction.setDisabled(true);
+                btnAuction.setTouchable(Touchable.disabled);
+                sqPos = pos;
+                sqWasBought = true;
+            } else if (((Purchasable) sq).isOwned()) {
+                btnBuy.setText("Acquire");
+                btnBuy.setDisabled(true);
                 btnMortgage.setDisabled(true);
                 btnAuction.setDisabled(true);
                 btnBuy.setTouchable(Touchable.disabled);
                 btnMortgage.setTouchable(Touchable.disabled);
                 btnAuction.setTouchable(Touchable.disabled);
-            } else {
-                btnBuy.setDisabled(false);
-                btnMortgage.setDisabled(false);
-                btnAuction.setDisabled(false);
-                btnBuy.setTouchable(Touchable.enabled);
-                btnMortgage.setTouchable(Touchable.enabled);
-                btnAuction.setTouchable(Touchable.enabled);
             }
-            if(GameData.getPlayer().getID() == ((Purchasable) sq).getOwnerID()) {
-                btnBuy.setText("Improve");
-                if(((Property) sq).getHouses() >= 5) {
-                    btnBuy.setDisabled(true);
-                    btnBuy.setTouchable(Touchable.disabled);
-                } else {
-                    btnBuy.setDisabled(false);
-                    btnBuy.setTouchable(Touchable.enabled);
-                }
-                sqPos = pos;
-                sqWasBought = true;
-            } else
-                btnBuy.setText("Acquire");
             tableInfo.getCells().get(3).getActor().setVisible(true);
             tableInfo.getCells().get(5).getActor().setVisible(true);
             lblCosts.setVisible(true);
@@ -259,5 +284,9 @@ public class SquareScene {
         stage.draw();
         if(auctioning)
             auctionScene.render();
+    }
+
+    public static void exitAuction() {
+        auctioning = false;
     }
 }

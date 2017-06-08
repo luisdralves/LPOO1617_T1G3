@@ -7,8 +7,8 @@ public class CardSquare extends Square {
 		type = true;
 	}
 	
-	public CardSquare(String title) {
-		super(title);
+	public CardSquare(int pos, String title) {
+		super(pos, title);
 		if (title == "Community Chest")
 			type = false;
 		else

@@ -15,8 +15,8 @@ public class Property extends Purchasable {
 		set = Color.BLACK;
 	}
 	
-	public Property(String name, int landCost, int[] rent, int mortgage, int houseCost, Color set) {
-		super(name, landCost, rent, mortgage);
+	public Property(int pos, String name, int landCost, int[] rent, int mortgage, int houseCost, Color set) {
+		super(pos, name, landCost, rent, mortgage);
 		houses = 0;
 		this.houseCost = houseCost;
 		this.set = set;

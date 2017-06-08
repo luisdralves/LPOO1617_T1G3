@@ -118,7 +118,7 @@ public class NewGameScreen implements Screen{
             tableInfo.add(playerNames.get(i)).width(2*Monopoly.HEIGHT/5).colspan(2);
             isAI.add(new CheckBox("", Monopoly.cbxStyle));
             realDice.add(new CheckBox("", Monopoly.cbxStyle));
-            realDice.get(i).setChecked(true);
+            realDice.get(i).setChecked(false);
             tableInfo.add(isAI.get(i));
             tableInfo.add(realDice.get(i)).row();
             if (i > 1) {
