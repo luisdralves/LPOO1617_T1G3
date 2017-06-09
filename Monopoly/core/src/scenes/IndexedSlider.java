@@ -14,7 +14,7 @@ public class IndexedSlider extends Slider {
     public int id;
 
     public IndexedSlider(int min, int max, int id) {
-        super(min, max, 10, false, Monopoly.sldStyle);
+        super(min, max, 5, false, Monopoly.sldStyle);
         this.id = id;
     }
 

@@ -187,6 +187,11 @@ public class Player {
 		velocity.add(-position.x, -position.y);
 		velocity.scl(velocity.len());
 	}
+	
+	//// TODO: 09/06/2017  
+	private void checkSpecialSquares() {
+		
+	}
 
 	private void checkGO() {
 		if (square >= 40) {

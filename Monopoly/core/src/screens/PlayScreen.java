@@ -22,6 +22,7 @@ import java.util.List;
 import logic.Board;
 import logic.GameData;
 import logic.Player;
+import logic.Purchasable;
 import scenes.BoardScene;
 import scenes.DiceScene;
 import scenes.Hud;
@@ -242,6 +243,11 @@ public class PlayScreen implements Screen {
             btnEndTurn.setTouchable(Touchable.enabled);
         }
         btnViewProp.setText(Board.getSquare(currentPlayer.getPosition()).getTitle());
+        if (Board.getSquare(currentPlayer.getPosition()) instanceof Purchasable)
+            if (!((Purchasable) Board.getSquare(currentPlayer.getPosition())).isOwned()) {
+                viewingASquare = true;
+                squareScene.view(currentPlayer.getPosition());
+            }
     }
 
     private void resetUI() {

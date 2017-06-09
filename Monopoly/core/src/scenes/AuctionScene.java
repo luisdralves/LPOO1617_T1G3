@@ -3,6 +3,8 @@ package scenes;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -31,7 +33,8 @@ import static com.badlogic.gdx.scenes.scene2d.ui.Table.Debug.actor;
 
 public class AuctionScene {
     private Stage stage;
-    private Table table;
+    private Table table, tableButtons;
+    private Texture bg;
     private TextButton btnNext;
     private TextButton btnExit;
     private List<IndexedSlider> amountSliders;
@@ -43,6 +46,8 @@ public class AuctionScene {
     public AuctionScene() {
         stage = new Stage();
         table = new Table();
+        tableButtons = new Table();
+        bg = new Texture("auction_bg.png");
         amountSliders = new ArrayList<IndexedSlider>();
         amountText = new ArrayList<Label>();
 
@@ -91,13 +96,13 @@ public class AuctionScene {
             }
         });
 
-        table.setBounds(0, 0, Monopoly.WIDTH, Monopoly.HEIGHT);
-        table.debug();
+        table.setBounds(0, (Monopoly.HEIGHT - bg.getHeight()) / 2 + bg.getHeight() / 4, Monopoly.WIDTH, 3 * bg.getHeight() / 4 - 20);
 
         stage.addActor(table);
+        stage.addActor(tableButtons);
     }
 
-    public void render() {
+    public void render(SpriteBatch spb) {
         Gdx.input.setInputProcessor(stage);
         Monopoly.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         Monopoly.shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 0.6f);
@@ -105,6 +110,11 @@ public class AuctionScene {
         Monopoly.shapeRenderer.setColor(Color.WHITE);
         Monopoly.shapeRenderer.rect(Monopoly.WIDTH/3, Monopoly.HEIGHT/3, Monopoly.WIDTH/3, Monopoly.HEIGHT/3);
         Monopoly.shapeRenderer.end();
+
+        spb.begin();
+        spb.draw(bg, (Monopoly.WIDTH - bg.getWidth()) / 2, (Monopoly.HEIGHT - bg.getHeight()) / 2);
+        spb.end();
+
         stage.act();
         stage.draw();
     }
@@ -115,8 +125,8 @@ public class AuctionScene {
         amountText.clear();
         for(int i = 0; i < GameData.getPlayers().size(); i++) {
             if (GameData.getPlayer().getID() -1 != i) {
-                table.add(new Label(GameData.getPlayer(i).getName(), Monopoly.lblStyle));
-                amountText.add(new Label("", Monopoly.lblStyle));
+                table.add(new Label(GameData.getPlayer(i).getName(), Monopoly.lblStyle)).padRight(50);
+                amountText.add(new Label("$" + min, Monopoly.lblStyle));
                 final IndexedSlider sldTmp = new IndexedSlider(min, max, i);
                 sldTmp.addListener(new ChangeListener() {
                     @Override
@@ -125,15 +135,16 @@ public class AuctionScene {
                     }
                 });
                 amountSliders.add(sldTmp);
-                table.add(amountSliders.get(i));
+                table.add(amountSliders.get(i)).width(256).padRight(50);
                 table.add(amountText.get(i)).width(80).row();
             } else {
                 amountText.add(new Label("", Monopoly.lblStyle));
                 amountSliders.add(new IndexedSlider(0, 300, -1));
             }
         }
-        table.add(btnNext);
-        table.add(btnExit);
+        tableButtons.setBounds(0, (Monopoly.HEIGHT - bg.getHeight()) / 2, Monopoly.WIDTH, 1 * bg.getHeight() / 4);
+        tableButtons.add(btnNext).width(300).padRight(25);
+        tableButtons.add(btnExit).width(300).padLeft(25);
     }
 
     public void auction() {

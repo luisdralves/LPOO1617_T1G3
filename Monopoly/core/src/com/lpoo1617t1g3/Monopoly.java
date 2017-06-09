@@ -92,8 +92,9 @@ public class Monopoly extends Game {
 
 		sldStyle = new Slider.SliderStyle();
 		sldStyle.background = new TextureRegionDrawable(new TextureRegion(new Texture("sld_bg.png")));
-		sldStyle.knobDown = new TextureRegionDrawable(new TextureRegion(new Texture("sld.png")));
-		sldStyle.knobOver = new TextureRegionDrawable(new TextureRegion(new Texture("sld.png")));
+		sldStyle.knobDown = new TextureRegionDrawable(new TextureRegion(new Texture("sld3.png")));
+		sldStyle.knobOver = new TextureRegionDrawable(new TextureRegion(new Texture("sld2.png")));
+		sldStyle.knob = new TextureRegionDrawable(new TextureRegion(new Texture("sld.png")));
 
 		shapeRenderer = new ShapeRenderer();
 

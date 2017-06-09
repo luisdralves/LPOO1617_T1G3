@@ -185,6 +185,7 @@ public class SquareScene {
 
     public static void view(int pos) {
         sqPos = pos;
+        propNo.setText(Integer.toString(sqPos));
         Square sq = Board.getSquare(pos);
         boolean isOwnedByOther = false;
         boolean isOwnedByCurrent = false;
@@ -192,7 +193,7 @@ public class SquareScene {
         boolean isProp = sq instanceof Property;
         boolean isStationOrUtil = (sq instanceof Purchasable && !isProp);
         boolean isActive = false;
-        if (isStationOrUtil || isProp && ((Purchasable) sq).isOwned()) {
+        if ((isStationOrUtil || isProp) && ((Purchasable) sq).isOwned()) {
             isOwnedByOther = ((Purchasable) sq).getOwnerID() != GameData.getPlayer().getID();
             isOwnedByCurrent = !isOwnedByOther;
         }
@@ -209,26 +210,21 @@ public class SquareScene {
         if (d || e) {
             updateLabels(pos);
             sqWasBought = false;
-            //make button buy visible
             if ((!a || !b) && (!a || d) && (!b || d)) {
                 btnBuy.setText("Acquire");
                 btnBuy.setVisible(true);
             }
-            //make button improve visible
             if ((!a || !b) && (a || b) && !d && e) {
                 btnBuy.setText("Improve");
                 btnBuy.setVisible(true);
                 sqWasBought = true;
             }
-            //make button mortgage visible
             if (f || (!a && !b))
                 btnMortgage.setText("Mortgage");
             else
                 btnMortgage.setText("Unmortgage");
             btnMortgage.setVisible(true);
-            //make button auction visible
             btnAuction.setVisible(true);
-            //make buttons buy or improve enabled
             if (!a && (!b || e) && (b || c)) {
                 btnBuy.setTouchable(Touchable.enabled);
                 btnBuy.setDisabled(false);
@@ -236,7 +232,6 @@ public class SquareScene {
                 btnBuy.setTouchable(Touchable.disabled);
                 btnBuy.setDisabled(true);
             }
-            //make button mortgage enabled
             if (b) {
                 btnMortgage.setTouchable(Touchable.enabled);
                 btnMortgage.setDisabled(false);
@@ -244,19 +239,22 @@ public class SquareScene {
                 btnMortgage.setTouchable(Touchable.disabled);
                 btnMortgage.setDisabled(true);
             }
-            //make button auction enabled
             if (!a && !b && c) {
                 btnAuction.setTouchable(Touchable.enabled);
                 btnAuction.setDisabled(false);
+                btnExit.setTouchable(Touchable.disabled);
+                btnExit.setDisabled(true);
             } else {
                 btnAuction.setTouchable(Touchable.disabled);
                 btnAuction.setDisabled(true);
+                btnExit.setTouchable(Touchable.enabled);
+                btnExit.setDisabled(false);
             }
         }
         else {
             set = Color.GRAY;
-            tableInfo.getCells().get(3).getActor().setVisible(false);
-            tableInfo.getCells().get(5).getActor().setVisible(false);
+            tableInfo.getCells().get(2).getActor().setVisible(false);
+            tableInfo.getCells().get(4).getActor().setVisible(false);
             lblCosts.setVisible(false);
             lblRents.setVisible(false);
             lblOwner.setVisible(false);
@@ -273,8 +271,8 @@ public class SquareScene {
     private static void updateLabels(int pos) {
         Square sq = Board.getSquare(pos);
         set = Color.GRAY;
-        tableInfo.getCells().get(3).getActor().setVisible(true);
-        tableInfo.getCells().get(5).getActor().setVisible(true);
+        tableInfo.getCells().get(2).getActor().setVisible(true);
+        tableInfo.getCells().get(4).getActor().setVisible(true);
         lblCosts.setVisible(true);
         lblRents.setVisible(true);
         lblOwner.setVisible(true);
@@ -310,7 +308,7 @@ public class SquareScene {
         stage.act();
         stage.draw();
         if(auctioning)
-            auctionScene.render();
+            auctionScene.render(spb);
     }
 
     public static void exitAuction() {
