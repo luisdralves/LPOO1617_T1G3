@@ -164,13 +164,13 @@ public class DiceScene {
         rightWallBody.createFixture(rightWallBox, 0.0f);
         rightWallBox.dispose();
 
-        BodyDef groundContainerBodyDef = new BodyDef();
-        groundContainerBodyDef.position.set(new Vector2((Monopoly.WIDTH/PIXELS_IN_A_METER)/2, 0));
-        Body groundContainerBody = world.createBody(groundContainerBodyDef);
-        PolygonShape groundContainerBox = new PolygonShape();
-        groundContainerBox.setAsBox((Monopoly.WIDTH/PIXELS_IN_A_METER)/2, 10/PIXELS_IN_A_METER);
-        groundContainerBody.createFixture(groundContainerBox, 0.0f);
-        groundContainerBox.dispose();
+        //BodyDef groundContainerBodyDef = new BodyDef();
+        //groundContainerBodyDef.position.set(new Vector2((Monopoly.WIDTH/PIXELS_IN_A_METER)/2, 0));
+        //Body groundContainerBody = world.createBody(groundContainerBodyDef);
+        //PolygonShape groundContainerBox = new PolygonShape();
+        //groundContainerBox.setAsBox((Monopoly.WIDTH/PIXELS_IN_A_METER)/2, 10/PIXELS_IN_A_METER);
+        //groundContainerBody.createFixture(groundContainerBox, 0.0f);
+        //groundContainerBox.dispose();
 
         BodyDef obstacleBodyDef = new BodyDef();
         obstacleBodyDef.position.set(new Vector2(0, (Monopoly.HEIGHT/PIXELS_IN_A_METER)/4));
@@ -189,14 +189,20 @@ public class DiceScene {
     }
 
     public Vector2 results() {
-        int negativeCorrection1 = (int)sp1.getRotation();
-        int negativeCorrection2 = (int)sp2.getRotation();
+        int negativeCorrection1 = (int)sp1.getRotation() + 30;
+        int negativeCorrection2 = (int)sp2.getRotation() + 30;
         while(negativeCorrection1 <= 0)
             negativeCorrection1 += 360;
         while(negativeCorrection2 <= 0)
             negativeCorrection2 += 360;
 
-        return new Vector2(Math.round(((negativeCorrection1/60)%6)+1),
-                Math.round(((negativeCorrection2/60)%6)+1));
+        int die1 = Math.round(((negativeCorrection1/60)%6)+1);
+        int die2 = Math.round(((negativeCorrection2/60)%6)+1);
+        if (die1 == 4 || die1 == 6)
+            die1 = 10 - die1;
+        if (die2 == 4 || die2 == 6)
+            die2 = 10 - die2;
+
+        return new Vector2(die1, die2);
     }
 }
