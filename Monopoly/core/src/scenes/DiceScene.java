@@ -43,7 +43,6 @@ public class DiceScene {
         sp1 = new Sprite(die);
         sp2 = new Sprite(die);
 
-
         debugRenderer = new Box2DDebugRenderer();
 
         boxIt();
