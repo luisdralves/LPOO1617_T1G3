@@ -29,6 +29,8 @@ public class Station extends Purchasable {
 			for(int i : owner.getAcquired())
 				if (i == 5 || i == 15 || i == 25 || i == 35)
 					totalStations++;
+		if (totalStations > 0)
+			totalStations--;
 	}
 	
 	@Override

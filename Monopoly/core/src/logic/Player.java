@@ -9,6 +9,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import scenes.BoardScene;
+import screens.PlayScreen;
 
 public class Player {
 	private static int playerNumber = 1;
@@ -188,7 +189,7 @@ public class Player {
 		velocity.scl(velocity.len());
 	}
 	
-	//// TODO: 09/06/2017  
+	//// TODO: 09/06/2017
 	private void checkSpecialSquares() {
 		
 	}
@@ -263,7 +264,10 @@ public class Player {
 			acquired.add(square);
 			addToBalance(-((Purchasable) toPurchase).getLandCost());
 			((Purchasable) toPurchase).setOwner(this);
+			if (toPurchase instanceof Property)
+				((Property) toPurchase).updateOwnerOwnsInSet();
 		}
+		PlayScreen.enableEndTurn();
 	}
 	
 	public void purchase(int position, int amount) {
@@ -272,7 +276,10 @@ public class Player {
 			acquired.add(position);
 			addToBalance(-amount);
 			((Purchasable) toPurchase).setOwner(this);
+			if (toPurchase instanceof Property)
+				((Property) toPurchase).updateOwnerOwnsInSet();
 		}
+		PlayScreen.enableEndTurn();
 	}
 
 	public void mortgage(int i) {

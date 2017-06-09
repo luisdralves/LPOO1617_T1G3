@@ -44,8 +44,8 @@ public class PlayScreen implements Screen {
     private Stage stage;
     private Table tblButtons;
     private Table tblSquares;
-    private TextButton btnEndTurn;
-    private TextButton btnDice;
+    private static TextButton btnEndTurn;
+    private static TextButton btnDice;
     private TextButton btnViewProp;
     private List<Button> btnSq;
 
@@ -246,8 +246,22 @@ public class PlayScreen implements Screen {
         if (Board.getSquare(currentPlayer.getPosition()) instanceof Purchasable)
             if (!((Purchasable) Board.getSquare(currentPlayer.getPosition())).isOwned()) {
                 viewingASquare = true;
+                btnDice.setDisabled(true);
+                btnDice.setTouchable(Touchable.disabled);
+                btnEndTurn.setDisabled(true);
+                btnEndTurn.setTouchable(Touchable.disabled);
                 squareScene.view(currentPlayer.getPosition());
             }
+    }
+
+    public static void enableEndTurn() {
+        if (GameData.getPlayer().getTurnsRemaining() > 0) {
+            btnDice.setDisabled(false);
+            btnDice.setTouchable(Touchable.enabled);
+        } else {
+            btnEndTurn.setDisabled(false);
+            btnEndTurn.setTouchable(Touchable.enabled);
+        }
     }
 
     private void resetUI() {

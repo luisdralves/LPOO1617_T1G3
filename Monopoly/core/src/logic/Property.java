@@ -6,20 +6,26 @@ import java.util.Arrays;
 
 public class Property extends Purchasable {
 	private Color set;
-	private int houseCost, houses;
+	private int houseCost, houses, ownerOwnsInSet, totalInSet;
+	private boolean setComplete;
 	
 	public Property() {
 		super();
 		houses = 0;
 		houseCost = 0;
+		ownerOwnsInSet = 0;
+		totalInSet = 0;
 		set = Color.BLACK;
+		setComplete = false;
 	}
 	
-	public Property(int pos, String name, int landCost, int[] rent, int mortgage, int houseCost, Color set) {
+	public Property(int pos, String name, int landCost, int[] rent, int mortgage, int houseCost, Color set, int totalInSet) {
 		super(pos, name, landCost, rent, mortgage);
 		houses = 0;
 		this.houseCost = houseCost;
 		this.set = set;
+		this.totalInSet = totalInSet;
+		setComplete = false;
 	}	
 	
 	public int getHouses() {
@@ -33,20 +39,30 @@ public class Property extends Purchasable {
 		}
 	}
 
+	public void updateOwnerOwnsInSet() {
+		if (!setComplete) {
+			ownerOwnsInSet = 0;
+			if (owner != null)
+				for (int i : owner.getAcquired())
+					if (i == 5 || i == 15 || i == 25 || i == 35)
+						ownerOwnsInSet++;
+			if (ownerOwnsInSet > 0)
+				ownerOwnsInSet--;
+		}
+		if (ownerOwnsInSet == totalInSet)
+			setComplete = true;
+	}
+
+	public boolean isSetComplete() {
+		return setComplete;
+	}
+
 	public int getHouseCost() {
 		return houseCost;
 	}
 
-	public void setHouseCost(int houseCost) {
-		this.houseCost = houseCost;
-	}
-
 	public Color getColourSet() {
 		return set;
-	}
-
-	public void setColourSet(Color set) {
-		this.set = set;
 	}
 	
 	@Override

@@ -193,20 +193,25 @@ public class SquareScene {
         boolean isProp = sq instanceof Property;
         boolean isStationOrUtil = (sq instanceof Purchasable && !isProp);
         boolean isActive = false;
+        boolean isFull = false;
+        boolean setComplete = false;
         if ((isStationOrUtil || isProp) && ((Purchasable) sq).isOwned()) {
             isOwnedByOther = ((Purchasable) sq).getOwnerID() != GameData.getPlayer().getID();
             isOwnedByCurrent = !isOwnedByOther;
         }
-        if (isOwnedByOther || isOwnedByCurrent) {
+        if (isOwnedByOther || isOwnedByCurrent)
             isActive = ((Purchasable) sq).isActive();
-        }
+        if (isProp && ((Property) sq).getHouses() >= 5)
+            isFull = true;
+        if (isProp && isOwnedByCurrent)
+            setComplete = ((Property) sq).isSetComplete();
 
         lblTitle.setText(sq.getTitle());
 
-        manageButtons(pos, isOwnedByOther, isOwnedByCurrent, playerIsOnIt, isStationOrUtil, isProp, isActive);
+        manageButtons(pos, isOwnedByOther, isOwnedByCurrent, playerIsOnIt, isStationOrUtil, isProp, isActive, isFull, setComplete);
     }
 
-    private static void manageButtons(int pos, boolean a, boolean b, boolean c, boolean d, boolean e, boolean f) {
+    private static void manageButtons(int pos, boolean a, boolean b, boolean c, boolean d, boolean e, boolean f, boolean g, boolean h) {
         if (d || e) {
             updateLabels(pos);
             sqWasBought = false;
@@ -225,12 +230,12 @@ public class SquareScene {
                 btnMortgage.setText("Unmortgage");
             btnMortgage.setVisible(true);
             btnAuction.setVisible(true);
-            if (!a && (!b || e) && (b || c)) {
-                btnBuy.setTouchable(Touchable.enabled);
-                btnBuy.setDisabled(false);
-            } else {
+            if (a || (b && !e) || (!b && !c) || g || (!h && b)) {
                 btnBuy.setTouchable(Touchable.disabled);
                 btnBuy.setDisabled(true);
+            } else {
+                btnBuy.setTouchable(Touchable.enabled);
+                btnBuy.setDisabled(false);
             }
             if (b) {
                 btnMortgage.setTouchable(Touchable.enabled);
@@ -242,13 +247,9 @@ public class SquareScene {
             if (!a && !b && c) {
                 btnAuction.setTouchable(Touchable.enabled);
                 btnAuction.setDisabled(false);
-                btnExit.setTouchable(Touchable.disabled);
-                btnExit.setDisabled(true);
             } else {
                 btnAuction.setTouchable(Touchable.disabled);
                 btnAuction.setDisabled(true);
-                btnExit.setTouchable(Touchable.enabled);
-                btnExit.setDisabled(false);
             }
         }
         else {
@@ -280,10 +281,10 @@ public class SquareScene {
         btnAuction.setVisible(true);
         btnMortgage.setVisible(true);
         lblTitle.setText(sq.getTitle());
-        lblCosts.setText(String.format("$%d/Land", ((Purchasable) sq).getLandCost()));
+        lblCosts.setText(String.format("$%d/Land\n$%d/Mort.", ((Purchasable) sq).getLandCost(), ((Purchasable) sq).getMortgage()));
         lblOwner.setText(((Purchasable) sq).getOwnerName());
         if(sq instanceof Property) {
-            lblCosts.setText(String.format("$%d/Land\n$%d/House", ((Purchasable) sq).getLandCost(), ((Property) sq).getHouseCost()));
+            lblCosts.setText(String.format("$%d/Land\n$%d/Mort.\n$%d/House", ((Purchasable) sq).getLandCost(), ((Purchasable) sq).getMortgage(), ((Property) sq).getHouseCost()));
             lblRents.setText(String.format("$%d\n$%d\n$%d\n$%d\n$%d\n$%d", ((Purchasable) sq).getRent(0), ((Purchasable) sq).getRent(1), ((Purchasable) sq).getRent(2), ((Purchasable) sq).getRent(3), ((Purchasable) sq).getRent(4), ((Purchasable) sq).getRent(5)));
             set = ((Property) sq).getColourSet();
         } else if(sq instanceof Station) {

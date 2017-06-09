@@ -23,6 +23,8 @@ public class Utility extends Purchasable {
 			for(int i : owner.getAcquired())
 				if (i == 12 || i == 28)
 					totalUtilities++;
+		if (totalUtilities > 0)
+			totalUtilities--;
 	}
 	
 	@Override

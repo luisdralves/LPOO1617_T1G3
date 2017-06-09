@@ -124,13 +124,13 @@ public class BoardScene {
                             spb.draw(house, posToCoords(j).x + i * 14, posToCoords(j).y + 75, 20, 20);
                     else if (j < 20)
                         for (int i = 0; i < p.getHouses(); i++)
-                            spb.draw(house, posToCoords(j).x + 75, posToCoords(j).y + i * 14, 20, 20);
+                            spb.draw(house, posToCoords(j).x + 75, posToCoords(j).y + 42 - i * 14, 20, 20);
                     else if (j < 30)
                         for (int i = 0; i < p.getHouses(); i++)
                             spb.draw(house, posToCoords(j).x + i * 14, posToCoords(j).y + 3, 20, 20);
                     else
                         for (int i = 0; i < p.getHouses(); i++)
-                            spb.draw(house, posToCoords(j).x + 3, posToCoords(j).y + i * 14, 20, 20);
+                            spb.draw(house, posToCoords(j).x + 3, posToCoords(j).y + 42 - i * 14, 20, 20);
                 }
             }
         }
