@@ -53,7 +53,7 @@ public class MainMenu implements Screen {
 
         background = new Texture("menu_bg.jpg");
 
-        table.setBounds(125, 0, Monopoly.WIDTH-270, Monopoly.HEIGHT);
+        table.setBounds(125, 0, Monopoly.WIDTH-250, Monopoly.HEIGHT);
         /*table.add(new Label("Monlpooy", Monopoly.lblStyle));
         table.row();
         Label subTitle = new Label("Versao MIEIC", Monopoly.lblStyle);

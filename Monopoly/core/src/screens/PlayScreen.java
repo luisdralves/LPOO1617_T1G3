@@ -161,14 +161,14 @@ public class PlayScreen implements Screen {
 
         vp.apply();
 
-        board.render(game.spb);
-
         hud.update(GameData.getPlayer());
         hud.render(game.spb);
         game.spb.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
         stage.act(delta);
         stage.draw();
+        board.render(game.spb);
+
         if (viewingASquare)
             squareScene.render(game.spb);
         else if (rollingDice) {

@@ -3,6 +3,7 @@ package scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -38,6 +39,7 @@ public class SquareScene {
     private static int sqPos;
     private AuctionScene auctionScene;
     private static boolean auctioning;
+    private static boolean sqWasBought;
     private Stage stage;
     private Table tableButtons;
     private Texture bg;
@@ -79,7 +81,7 @@ public class SquareScene {
                 } else if (Board.getSquare(sqPos) instanceof Property){
                     ((Property) Board.getSquare(sqPos)).addToHouses(1);
                 }
-                view(GameData.getPlayer().getPosition());
+                view(sqPos);
             }
         });
         btnBuy.getLabel().setFontScale(0.6f);
@@ -180,97 +182,122 @@ public class SquareScene {
         stage.addActor(tableButtons);
     }
 
-    private  static boolean sqWasBought;
 
     public static void view(int pos) {
+        sqPos = pos;
         Square sq = Board.getSquare(pos);
-        propNo.setText(String.valueOf(pos));
-        if(sq instanceof Purchasable) {
+        boolean isOwnedByOther = false;
+        boolean isOwnedByCurrent = false;
+        boolean playerIsOnIt = GameData.getPlayer().getPosition() == pos;
+        boolean isProp = sq instanceof Property;
+        boolean isStationOrUtil = (sq instanceof Purchasable && !isProp);
+        boolean isActive = false;
+        if (isStationOrUtil || isProp && ((Purchasable) sq).isOwned()) {
+            isOwnedByOther = ((Purchasable) sq).getOwnerID() != GameData.getPlayer().getID();
+            isOwnedByCurrent = !isOwnedByOther;
+        }
+        if (isOwnedByOther || isOwnedByCurrent) {
+            isActive = ((Purchasable) sq).isActive();
+        }
+
+        lblTitle.setText(sq.getTitle());
+
+        manageButtons(pos, isOwnedByOther, isOwnedByCurrent, playerIsOnIt, isStationOrUtil, isProp, isActive);
+    }
+
+    private static void manageButtons(int pos, boolean a, boolean b, boolean c, boolean d, boolean e, boolean f) {
+        if (d || e) {
+            updateLabels(pos);
             sqWasBought = false;
-            if(GameData.getPlayer().getPosition() != pos) {
-                btnBuy.setDisabled(true);
-                btnAuction.setDisabled(true);
-                btnBuy.setTouchable(Touchable.disabled);
-                btnAuction.setTouchable(Touchable.disabled);
-            } else {
-                btnBuy.setDisabled(false);
-                btnAuction.setDisabled(false);
-                btnBuy.setTouchable(Touchable.enabled);
-                btnAuction.setTouchable(Touchable.enabled);
-            }
-            btnMortgage.setDisabled(true);
-            btnMortgage.setTouchable(Touchable.disabled);
-            if(GameData.getPlayer().getID() == ((Purchasable) sq).getOwnerID()) {
-                btnBuy.setText("Improve");
-                if (sq instanceof Property) {
-                    if (((Property) sq).getHouses() >= 5) {
-                        btnBuy.setDisabled(true);
-                        btnBuy.setTouchable(Touchable.disabled);
-                    } else {
-                        btnBuy.setDisabled(false);
-                        btnBuy.setTouchable(Touchable.enabled);
-                    }
-                } else {
-                    btnBuy.setDisabled(true);
-                    btnBuy.setTouchable(Touchable.disabled);
-                }
-                if(((Purchasable)sq).isActive())
-                    btnMortgage.setText("Mortgage");
-                else
-                    btnMortgage.setText("Unmortgage");
-                btnMortgage.setDisabled(false);
-                btnMortgage.setTouchable(Touchable.enabled);
-                btnAuction.setDisabled(true);
-                btnAuction.setTouchable(Touchable.disabled);
-                sqPos = pos;
-                sqWasBought = true;
-            } else if (((Purchasable) sq).isOwned()) {
+            //make button buy visible
+            if ((!a || !b) && (!a || d) && (!b || d)) {
                 btnBuy.setText("Acquire");
-                btnBuy.setDisabled(true);
-                btnMortgage.setDisabled(true);
-                btnAuction.setDisabled(true);
-                btnBuy.setTouchable(Touchable.disabled);
-                btnMortgage.setTouchable(Touchable.disabled);
-                btnAuction.setTouchable(Touchable.disabled);
+                btnBuy.setVisible(true);
             }
-            tableInfo.getCells().get(3).getActor().setVisible(true);
-            tableInfo.getCells().get(5).getActor().setVisible(true);
-            lblCosts.setVisible(true);
-            lblRents.setVisible(true);
-            lblOwner.setVisible(true);
-            btnBuy.setVisible(true);
-            btnAuction.setVisible(true);
+            //make button improve visible
+            if ((!a || !b) && (a || b) && !d && e) {
+                btnBuy.setText("Improve");
+                btnBuy.setVisible(true);
+                sqWasBought = true;
+            }
+            //make button mortgage visible
+            if (f || (!a && !b))
+                btnMortgage.setText("Mortgage");
+            else
+                btnMortgage.setText("Unmortgage");
             btnMortgage.setVisible(true);
-            lblTitle.setText(sq.getTitle());
-            lblCosts.setText(String.format("$%d/Land", ((Purchasable) sq).getLandCost()));
-            lblOwner.setText(((Purchasable) sq).getOwnerName());
-            set = Color.GRAY;
-            if(sq instanceof Property) {
-                lblCosts.setText(String.format("$%d/Land\n$%d/House", ((Purchasable) sq).getLandCost(), ((Property) sq).getHouseCost()));
-                lblRents.setText(String.format("$%d\n$%d\n$%d\n$%d\n$%d\n$%d", ((Purchasable) sq).getRent(0), ((Purchasable) sq).getRent(1), ((Purchasable) sq).getRent(2), ((Purchasable) sq).getRent(3), ((Purchasable) sq).getRent(4), ((Purchasable) sq).getRent(5)));
-                set = ((Property) sq).getColourSet();
-            } else if(sq instanceof Station) {
-                lblRents.setText(String.format("$%d\n$%d\n$%d\n$%d", ((Purchasable) sq).getRent(0), ((Purchasable) sq).getRent(1), ((Purchasable) sq).getRent(2), ((Purchasable) sq).getRent(3)));
-            } else if(sq instanceof Utility) {
-                lblRents.setText(String.format("$%d\n$%d", ((Purchasable) sq).getRent(0), ((Purchasable) sq).getRent(1)));
+            //make button auction visible
+            btnAuction.setVisible(true);
+            //make buttons buy or improve enabled
+            if (!a && (!b || e) && (b || c)) {
+                btnBuy.setTouchable(Touchable.enabled);
+                btnBuy.setDisabled(false);
+            } else {
+                btnBuy.setTouchable(Touchable.disabled);
+                btnBuy.setDisabled(true);
             }
-        } else {
+            //make button mortgage enabled
+            if (b) {
+                btnMortgage.setTouchable(Touchable.enabled);
+                btnMortgage.setDisabled(false);
+            } else {
+                btnMortgage.setTouchable(Touchable.disabled);
+                btnMortgage.setDisabled(true);
+            }
+            //make button auction enabled
+            if (!a && !b && c) {
+                btnAuction.setTouchable(Touchable.enabled);
+                btnAuction.setDisabled(false);
+            } else {
+                btnAuction.setTouchable(Touchable.disabled);
+                btnAuction.setDisabled(true);
+            }
+        }
+        else {
             set = Color.GRAY;
             tableInfo.getCells().get(3).getActor().setVisible(false);
             tableInfo.getCells().get(5).getActor().setVisible(false);
-            lblTitle.setText(sq.getTitle());
-            lblTitle.setVisible(true);
             lblCosts.setVisible(false);
             lblRents.setVisible(false);
             lblOwner.setVisible(false);
+
             btnBuy.setVisible(false);
-            btnAuction.setVisible(false);
             btnMortgage.setVisible(false);
+            btnAuction.setVisible(false);
+            btnBuy.setTouchable(Touchable.disabled);
+            btnMortgage.setTouchable(Touchable.disabled);
+            btnAuction.setTouchable(Touchable.disabled);
+        }
+    }
+
+    private static void updateLabels(int pos) {
+        Square sq = Board.getSquare(pos);
+        set = Color.GRAY;
+        tableInfo.getCells().get(3).getActor().setVisible(true);
+        tableInfo.getCells().get(5).getActor().setVisible(true);
+        lblCosts.setVisible(true);
+        lblRents.setVisible(true);
+        lblOwner.setVisible(true);
+        btnBuy.setVisible(true);
+        btnAuction.setVisible(true);
+        btnMortgage.setVisible(true);
+        lblTitle.setText(sq.getTitle());
+        lblCosts.setText(String.format("$%d/Land", ((Purchasable) sq).getLandCost()));
+        lblOwner.setText(((Purchasable) sq).getOwnerName());
+        if(sq instanceof Property) {
+            lblCosts.setText(String.format("$%d/Land\n$%d/House", ((Purchasable) sq).getLandCost(), ((Property) sq).getHouseCost()));
+            lblRents.setText(String.format("$%d\n$%d\n$%d\n$%d\n$%d\n$%d", ((Purchasable) sq).getRent(0), ((Purchasable) sq).getRent(1), ((Purchasable) sq).getRent(2), ((Purchasable) sq).getRent(3), ((Purchasable) sq).getRent(4), ((Purchasable) sq).getRent(5)));
+            set = ((Property) sq).getColourSet();
+        } else if(sq instanceof Station) {
+            lblRents.setText(String.format("$%d\n$%d\n$%d\n$%d", ((Purchasable) sq).getRent(0), ((Purchasable) sq).getRent(1), ((Purchasable) sq).getRent(2), ((Purchasable) sq).getRent(3)));
+        } else if(sq instanceof Utility) {
+            lblRents.setText(String.format("$%d\n$%d", ((Purchasable) sq).getRent(0), ((Purchasable) sq).getRent(1)));
         }
     }
 
     public void render(SpriteBatch spb) {
         Gdx.input.setInputProcessor(this.stage);
+        Gdx.gl.glEnable(GL20.GL_BLEND);
         Monopoly.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         Monopoly.shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 0.6f);
         Monopoly.shapeRenderer.rect(0, 0, Monopoly.WIDTH, Monopoly.HEIGHT);

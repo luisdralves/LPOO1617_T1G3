@@ -20,7 +20,6 @@ import logic.Square;
 
 public class BoardScene {
     public Stage stage;
-    private Texture board;
     private Texture house, hotel;
     private List<Label> titles;
     private List<Label> costs;
@@ -29,7 +28,6 @@ public class BoardScene {
     private Table table;
 
     public BoardScene() {
-        board = new Texture("board.jpg");
         house = new Texture("house.png");
         hotel = new Texture("hotel.png");
         stage = new Stage();
@@ -102,7 +100,6 @@ public class BoardScene {
 
     public void render(SpriteBatch spb) {
         spb.begin();
-        spb.draw(board, 0, 0, Monopoly.HEIGHT, Monopoly.HEIGHT);
 
         for(Player p : GameData.getPlayers()) {
             spb.draw(p.getToken(), posToCoords(p.getPosition()).x, posToCoords(p.getPosition()).y);

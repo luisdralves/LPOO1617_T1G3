@@ -15,7 +15,7 @@ import logic.Player;
 public class Hud {
     public Stage stage;
     private Viewport vp;
-    private Texture bg;
+    private Texture bg, board;
     private Table table;
 
     private Label lblPlayerNo;
@@ -33,6 +33,7 @@ public class Hud {
     public Hud(SpriteBatch spb){
         vp = new FitViewport(Monopoly.WIDTH, Monopoly.HEIGHT, new OrthographicCamera());
         bg = new Texture("hud_bg.png");
+        board = new Texture("board.jpg");
         stage = new Stage(vp, spb);
         table = new Table();
         table.top();
@@ -91,6 +92,7 @@ public class Hud {
     public void render(SpriteBatch spb) {
         spb.begin();
         spb.draw(bg, 9 * Monopoly.WIDTH / 16, 0);
+        spb.draw(board, 0, 0, Monopoly.HEIGHT, Monopoly.HEIGHT);
         spb.end();
     }
 }

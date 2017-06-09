@@ -34,10 +34,9 @@ public class AuctionScene {
     private Table table;
     private TextButton btnNext;
     private TextButton btnExit;
-    private Label lblPlayerName;
     private List<IndexedSlider> amountSliders;
     private List<Label> amountText;
-    private int min, max;
+    private int min, max, firstBid;
     public int winnerAmount, winnerID;
     public boolean winnerFound;
 
@@ -46,8 +45,6 @@ public class AuctionScene {
         table = new Table();
         amountSliders = new ArrayList<IndexedSlider>();
         amountText = new ArrayList<Label>();
-
-        lblPlayerName = new Label("Player 1: ", Monopoly.lblStyle);
 
         btnNext = new TextButton("Raise the stakes", Monopoly.btnStyle);
         btnNext.addListener(new ClickListener() {
@@ -77,13 +74,13 @@ public class AuctionScene {
                     }
                 }
 
-                int tooManyWinners = 0;
+                int howManyWinners = 0;
                 for (IndexedSlider is : amountSliders) {
                     if (is.getValue() == winnerAmount) {
-                        tooManyWinners++;
+                        howManyWinners++;
                     }
                 }
-                if (tooManyWinners != 1) {
+                if (howManyWinners != 1 && winnerAmount <= firstBid) {
                     GameData.getPlayer().purchase(GameData.getPlayer().getPosition(), 0);
                 } else {
                     GameData.getPlayer(winnerID).purchase(GameData.getPlayer().getPosition(), winnerAmount);
@@ -141,9 +138,9 @@ public class AuctionScene {
 
     public void auction() {
         Purchasable p = (Purchasable) Board.getSquare(GameData.getPlayer().getPosition());
-        int bid = p.getLandCost() / 2;
-        min = bid;
-        max = bid * 4;
+        firstBid = p.getLandCost() / 2;
+        min = firstBid;
+        max = firstBid * 4;
         winnerFound = false;
         initTable();
     }
