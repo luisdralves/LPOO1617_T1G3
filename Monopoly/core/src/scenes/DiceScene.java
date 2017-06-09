@@ -43,6 +43,7 @@ public class DiceScene {
         sp1 = new Sprite(die);
         sp2 = new Sprite(die);
 
+
         debugRenderer = new Box2DDebugRenderer();
 
         boxIt();
@@ -182,10 +183,7 @@ public class DiceScene {
     }
 
     private boolean checkIt() {
-        if (bodyDie1.getPosition().y < 0 && bodyDie2.getPosition().y < 0 && bodyDie1.getLinearVelocity().len() + bodyDie1.getLinearVelocity().len() <= 0) {
-          return true;
-        }
-        return false;
+        return bodyDie1.getPosition().y < 0 && bodyDie2.getPosition().y < 0 && bodyDie1.getLinearVelocity().len() + bodyDie1.getLinearVelocity().len() <= 0;
     }
 
     public Vector2 results() {
