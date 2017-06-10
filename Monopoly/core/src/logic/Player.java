@@ -81,6 +81,10 @@ public class Player {
 	public List<Integer> getAcquired() {
 		return acquired;
 	}
+
+	private void removeAcquired(int i) {
+		acquired.remove(acquired.indexOf(i));
+	}
 	
 	public List<Integer> getSuspended() {
 		return suspended;
@@ -176,6 +180,7 @@ public class Player {
 		square += roll1 + roll2;
 
 		checkGO();
+		checkSpecialSquares();
 		Square currentSquare = Board.getSquare(square);
 		if (currentSquare instanceof CardSquare) {
 		} else if (currentSquare instanceof Purchasable) {
@@ -187,10 +192,19 @@ public class Player {
 		velocity.add(-position.x, -position.y);
 		velocity.scl(velocity.len());
 	}
-	
-	//// TODO: 09/06/2017
+
 	private void checkSpecialSquares() {
-		
+		switch (square) {
+			case 4:
+				balance -= 200;
+				break;
+			case 30:
+				goToJail();
+				break;
+			case 38:
+				balance -= 100;
+				break;
+		}
 	}
 
 	private void checkGO() {
@@ -272,8 +286,10 @@ public class Player {
 	public void purchase(int position, int amount) {
 		Square toPurchase = Board.getSquare(position);
 		if (toPurchase instanceof Purchasable) {
-			if (((Purchasable) toPurchase).getOwnerID() != -1)
+			if (((Purchasable) toPurchase).getOwnerID() != -1) {
+				((Purchasable) toPurchase).getOwner().removeAcquired(position);
 				this.transaction(((Purchasable) toPurchase).getOwner(), amount);
+			}
 			else
 				addToBalance(-amount);
 			acquired.add(position);

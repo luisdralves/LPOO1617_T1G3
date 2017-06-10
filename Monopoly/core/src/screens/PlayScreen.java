@@ -1,6 +1,5 @@
 package screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -34,6 +33,8 @@ public class PlayScreen implements Screen {
     public static boolean viewingASquare;
     public static boolean rollingDice;
     public static boolean diceReady;
+    private static TextButton btnEndTurn;
+    private static TextButton btnDice;
     private Monopoly game;
     private OrthographicCamera cam;
     private Viewport vp;
@@ -44,8 +45,7 @@ public class PlayScreen implements Screen {
     private Stage stage;
     private Table tblButtons;
     private Table tblSquares;
-    private static TextButton btnEndTurn;
-    private static TextButton btnDice;
+    private TextButton btnMyProps;
     private TextButton btnViewProp;
     private List<Button> btnSq;
 
@@ -111,6 +111,17 @@ public class PlayScreen implements Screen {
             }
         });
 
+        btnMyProps = new TextButton("My properties", Monopoly.btnStyle);
+        btnMyProps.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (!GameData.getPlayer().getAcquired().isEmpty()) {
+                    viewingASquare = true;
+                    SquareScene.view(0, GameData.getPlayer().getAcquired());
+                }
+            }
+        });
+
         btnDice = new TextButton("Roll dice", Monopoly.btnStyle);
         btnDice.addListener(new ClickListener() {
             @Override
@@ -137,9 +148,11 @@ public class PlayScreen implements Screen {
         tblButtons.top();
         tblButtons.add(btnViewProp).width(2 * Monopoly.WIDTH / 5);
         tblButtons.row();
-        tblButtons.add(btnDice).width(Monopoly.WIDTH / 5).padTop(1 * Monopoly.HEIGHT / 16);
+        tblButtons.add(btnDice).width(Monopoly.WIDTH / 4).padTop(1 * Monopoly.HEIGHT / 8);
         tblButtons.row();
-        tblButtons.add(btnEndTurn).width(Monopoly.WIDTH / 5);
+        tblButtons.add(btnMyProps).width(Monopoly.WIDTH / 4).padTop(1 * Monopoly.HEIGHT / 32);
+        tblButtons.row();
+        tblButtons.add(btnEndTurn).width(Monopoly.WIDTH / 4).padTop(1 * Monopoly.HEIGHT / 32);
         stage.addActor(tblButtons);
 
         gameCycle();
@@ -147,6 +160,16 @@ public class PlayScreen implements Screen {
 
     public static void exitPropertyScene() {
         viewingASquare = false;
+    }
+
+    public static void enableEndTurn() {
+        if (GameData.getPlayer().getTurnsRemaining() > 0) {
+            btnDice.setDisabled(false);
+            btnDice.setTouchable(Touchable.enabled);
+        } else {
+            btnEndTurn.setDisabled(false);
+            btnEndTurn.setTouchable(Touchable.enabled);
+        }
     }
 
     @Override
@@ -250,18 +273,8 @@ public class PlayScreen implements Screen {
                 btnDice.setTouchable(Touchable.disabled);
                 btnEndTurn.setDisabled(true);
                 btnEndTurn.setTouchable(Touchable.disabled);
-                squareScene.view(currentPlayer.getPosition());
+                SquareScene.view(currentPlayer.getPosition());
             }
-    }
-
-    public static void enableEndTurn() {
-        if (GameData.getPlayer().getTurnsRemaining() > 0) {
-            btnDice.setDisabled(false);
-            btnDice.setTouchable(Touchable.enabled);
-        } else {
-            btnEndTurn.setDisabled(false);
-            btnEndTurn.setTouchable(Touchable.enabled);
-        }
     }
 
     private void resetUI() {

@@ -19,6 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.lpoo1617t1g3.Monopoly;
 
+import java.util.List;
+
 import logic.Board;
 import logic.GameData;
 import logic.Property;
@@ -39,6 +41,8 @@ public class SquareScene {
     private static int sqPos;
     private static boolean auctioning;
     private static boolean flags[];
+    private static boolean viewingSelection;
+    private static List<Integer> viewable;
     private AuctionScene auctionScene;
     private Stage stage;
     private Table tableButtons;
@@ -78,7 +82,7 @@ public class SquareScene {
         btnBuy.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y)  {
-                if (!((!flags[0] || !flags[1]) && (flags[0] || flags[1]) && !flags[3] && flags[4])) {
+                if (!flags[0] && !flags[1] && flags[2] && (flags[3] || flags[4])) {
                     GameData.getPlayer().purchase();
                 } else if (flags[4] && flags[1]) {
                     ((Property) Board.getSquare(sqPos)).addToHouses(1);
@@ -116,7 +120,12 @@ public class SquareScene {
         positionMore.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y)  {
-                if (Integer.parseInt(propNo.getText()) >= 0) {
+                if (viewingSelection) {
+                    sqPos++;
+                    sqPos %= viewable.size();
+                    propNo.setText(Integer.toString(viewable.get(sqPos)));
+                    view(sqPos, viewable);
+                } else if (Integer.parseInt(propNo.getText()) >= 0) {
                     propNo.setText(Integer.toString((Integer.parseInt(propNo.getText()) + 1) % 40));
                     view(Integer.parseInt(propNo.getText()));
                 }
@@ -125,7 +134,13 @@ public class SquareScene {
         positionLess.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y)  {
-                if (Integer.parseInt(propNo.getText()) > 0) {
+                if (viewingSelection) {
+                    sqPos--;
+                    if (sqPos < 0)
+                        sqPos += viewable.size();
+                    propNo.setText(Integer.toString(viewable.get(sqPos)));
+                    view(sqPos, viewable);
+                } else if (Integer.parseInt(propNo.getText()) > 0) {
                     propNo.setText(Integer.toString(Integer.parseInt(propNo.getText()) - 1));
                     view(Integer.parseInt(propNo.getText()));
                 } else if (Integer.parseInt(propNo.getText()) == 0) {
@@ -189,6 +204,7 @@ public class SquareScene {
 
 
     public static void view(int pos) {
+        viewingSelection = false;
         sqPos = pos;
         propNo.setText(Integer.toString(sqPos));
         lblTitle.setText(Board.getSquare(pos).getTitle());
@@ -196,6 +212,18 @@ public class SquareScene {
         updateFlags(pos);
 
         manageButtons(pos);
+    }
+
+    public static void view(int i, List<Integer> pos) {
+        viewingSelection = true;
+        viewable = pos;
+        sqPos = i;
+        propNo.setText(Integer.toString(viewable.get(sqPos)));
+        lblTitle.setText(Board.getSquare(viewable.get(sqPos)).getTitle());
+
+        updateFlags(viewable.get(sqPos));
+
+        manageButtons(viewable.get(sqPos));
     }
 
     private static void updateFlags(int pos) {
