@@ -20,7 +20,7 @@ public class MainMenu implements Screen {
     private OrthographicCamera cam;
     private Stage stage;
     private Table table;
-    private TextButton btnPlay, btnRules, btnHighScore, btnExit;
+    private TextButton btnPlay, btnRules, btnResume, btnExit;
     private Texture background;
 
     public MainMenu(Monopoly m) {
@@ -41,7 +41,14 @@ public class MainMenu implements Screen {
 
         btnRules = new TextButton("Rules", Monopoly.btnStyle);
 
-        btnHighScore = new TextButton("High Scores", Monopoly.btnStyle);
+        btnResume = new TextButton("Continue game", Monopoly.btnStyle);
+        btnResume.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (game.isHappening)
+                    game.setScreen(new PlayScreen(game));
+            }
+        });
 
         btnExit = new TextButton("Exit", Monopoly.btnStyle);
         btnExit.addListener(new ClickListener() {
@@ -54,16 +61,11 @@ public class MainMenu implements Screen {
         background = new Texture("menu_bg.jpg");
 
         table.setBounds(125, 0, Monopoly.WIDTH-250, Monopoly.HEIGHT);
-        /*table.add(new Label("Monlpooy", Monopoly.lblStyle));
-        table.row();
-        Label subTitle = new Label("Versao MIEIC", Monopoly.lblStyle);
-        subTitle.setFontScale(0.6f);
-        table.add(subTitle);*/
         table.row();
         table.add(btnPlay).width(300).left().expand();
         table.add(btnRules).width(300).right().expand();
         table.row();
-        table.add(btnHighScore).width(300).left().expand();
+        table.add(btnResume).width(300).left().expand();
         table.add(btnExit).width(300).right().expand();
         stage.addActor(table);
     }

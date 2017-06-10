@@ -41,13 +41,14 @@ public class Monopoly extends Game {
 	public Music musicIntro;
 	public Music musicLoop;
 	public SpriteBatch spb;
+	public boolean isHappening;
 	private Screen screen;
-	private boolean gameOver;
 
 	@Override
 	public void create () {
 		spb = new SpriteBatch();
 		Gdx.gl.glClearColor(1, 1, 1, 1);
+		isHappening = false;
 
 		atlas = new TextureAtlas("tpack/tpack.atlas");
 		skin = new Skin(atlas);
@@ -100,7 +101,6 @@ public class Monopoly extends Game {
 
 		screen = new MainMenu(this);
 		setScreen(screen);
-		gameOver = false;
 		musicInit();
 	}
 

@@ -3,66 +3,20 @@ package scenes;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.lpoo1617t1g3.Monopoly;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import logic.Board;
 import logic.GameData;
 import logic.Player;
 import logic.Property;
-import logic.Purchasable;
-import logic.Square;
 
 public class BoardScene {
-    public Stage stage;
     private Texture house, hotel;
-    private List<Label> titles;
-    private List<Label> costs;
-    private List<Label> rents;
-    private List<Label> owners;
-    private Table table;
 
     public BoardScene() {
         house = new Texture("house.png");
         hotel = new Texture("hotel.png");
-        stage = new Stage();
-        table = new Table();
         int size = logic.Board.getSquares().size();
-        init(size);
-        update(size);
-
-        table.debug();
-        table.top().left();
-        table.setBounds(0, 0, Monopoly.WIDTH, Monopoly.HEIGHT);
-        for(int i = 20; i <= 30; i++)
-            table.add(titles.get(i));
-        table.row();
-        for(int i = 20; i <= 30; i++)
-            table.add(costs.get(i));
-        table.row();
-        for(int i = 20; i <= 30; i++)
-            table.add(rents.get(i));
-        table.row();
-        for(int i = 20; i <= 30; i++)
-            table.add(owners.get(i));
-        table.row();
-        for(int i = 10; i >= 0; i--)
-            table.add(titles.get(i));
-        table.row();
-        for(int i = 10; i >= 0; i--)
-            table.add(costs.get(i));
-        table.row();
-        for(int i = 10; i >= 0; i--)
-            table.add(rents.get(i));
-        table.row();
-        for(int i = 10; i >= 0; i--)
-            table.add(owners.get(i));
-        stage.addActor(table);
     }
 
     public static Vector2 posToCoords(int pos) {
@@ -78,39 +32,6 @@ public class BoardScene {
         else if (pos < 40)
             return new Vector2(624, 96 + (39 - pos) * 59);
         return new Vector2(0, 0);
-    }
-
-    private void init(int size) {
-        titles = new ArrayList<Label>(size);
-        costs = new ArrayList<Label>(size);
-        rents = new ArrayList<Label>(size);
-        owners = new ArrayList<Label>(size);
-        for(int i = 0; i < size; i++) {
-            titles.add(new Label("", Monopoly.lblStyle));
-            titles.get(i).setFontScale(0.4f);
-            costs.add(new Label("", Monopoly.lblStyle));
-            costs.get(i).setFontScale(0.4f);
-            rents.add(new Label("", Monopoly.lblStyle));
-            rents.get(i).setFontScale(0.4f);
-            owners.add(new Label("", Monopoly.lblStyle));
-            owners.get(i).setFontScale(0.4f);
-        }
-        for(int i = 0; i < size; i++) {
-            Square sq = logic.Board.getSquare(i);
-            titles.get(i).setText(sq.getTitle());
-            if (sq instanceof Purchasable)
-                costs.get(i).setText(String.format("Cost: $%d", ((Purchasable) sq).getLandCost()));
-        }
-    }
-
-    public void update(int size) {
-        for(int i = 0; i < size; i++) {
-            Square sq = logic.Board.getSquare(i);
-            if (sq instanceof Purchasable) {
-                rents.get(i).setText(String.format("Rent: $%d", ((Purchasable) sq).getRent()));
-                owners.get(i).setText(((Purchasable) sq).getOwnerName());
-            }
-        }
     }
 
     public void render(SpriteBatch spb) {

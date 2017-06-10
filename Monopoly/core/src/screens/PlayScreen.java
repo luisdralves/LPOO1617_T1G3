@@ -1,6 +1,7 @@
 package screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -47,10 +48,12 @@ public class PlayScreen implements Screen {
     private Table tblSquares;
     private TextButton btnMyProps;
     private TextButton btnViewProp;
+    private TextButton btnExit;
     private List<Button> btnSq;
 
     public PlayScreen(Monopoly m) {
         game = m;
+        game.isHappening = true;
         cam = new OrthographicCamera();
         vp = new FitViewport(Monopoly.WIDTH, Monopoly.HEIGHT, cam);
         hud = new Hud(game.spb);
@@ -111,6 +114,14 @@ public class PlayScreen implements Screen {
             }
         });
 
+        btnExit = new TextButton("Exit", Monopoly.btnStyle);
+        btnExit.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new MainMenu(game));
+            }
+        });
+
         btnMyProps = new TextButton("My properties", Monopoly.btnStyle);
         btnMyProps.addListener(new ClickListener() {
             @Override
@@ -153,6 +164,8 @@ public class PlayScreen implements Screen {
         tblButtons.add(btnMyProps).width(Monopoly.WIDTH / 4).padTop(1 * Monopoly.HEIGHT / 32);
         tblButtons.row();
         tblButtons.add(btnEndTurn).width(Monopoly.WIDTH / 4).padTop(1 * Monopoly.HEIGHT / 32);
+        tblButtons.row();
+        tblButtons.add(btnExit).width(Monopoly.WIDTH / 4).padTop(1 * Monopoly.HEIGHT / 10);
         stage.addActor(tblButtons);
 
         gameCycle();
@@ -202,6 +215,10 @@ public class PlayScreen implements Screen {
             diceReady = false;
             moveLoop((int)diceScene.results().x, (int)diceScene.results().y);
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            game.setScreen(new MainMenu(game));
+        }
+
     }
 
     @Override

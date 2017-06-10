@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -25,6 +24,7 @@ public class DiceScene {
     private Viewport vp;
     private World world;
     private Texture bg;
+    private Texture fg;
     private Texture die;
     private Sprite sp1;
     private Sprite sp2;
@@ -39,6 +39,7 @@ public class DiceScene {
         cam = new OrthographicCamera(Monopoly.WIDTH/PIXELS_IN_A_METER, Monopoly.HEIGHT/PIXELS_IN_A_METER);
         vp = new FitViewport(Monopoly.WIDTH/PIXELS_IN_A_METER, Monopoly.HEIGHT/PIXELS_IN_A_METER, cam);
         bg = new Texture("mat.jpg");
+        fg = new Texture("mat.png");
         die = new Texture("die.png");
         sp1 = new Sprite(die);
         sp2 = new Sprite(die);
@@ -49,7 +50,6 @@ public class DiceScene {
     }
 
     public void render(SpriteBatch spb) {
-        debugRenderer.render(world, cam.combined);
         if (checkIt()) {
             PlayScreen.rollingDice = false;
             PlayScreen.diceReady = true;
@@ -72,7 +72,9 @@ public class DiceScene {
         spb.draw(bg, 0,0, Monopoly.WIDTH, Monopoly.HEIGHT);
         sp1.draw(spb);
         sp2.draw(spb);
+        spb.draw(fg, 0, 0, Monopoly.WIDTH, Monopoly.HEIGHT);
         spb.end();
+        debugRenderer.render(world, cam.combined);
         world.step(1/60f, 6, 2);
     }
 
@@ -132,53 +134,76 @@ public class DiceScene {
     }
 
     private void boxIt() {
-        BodyDef groundBodyDef = new BodyDef();
-        groundBodyDef.position.set(new Vector2(0, -(Monopoly.HEIGHT/PIXELS_IN_A_METER)/2));
-        Body groundBody = world.createBody(groundBodyDef);
-        PolygonShape groundBox = new PolygonShape();
-        groundBox.setAsBox(Monopoly.WIDTH/PIXELS_IN_A_METER, 10/PIXELS_IN_A_METER);
-        groundBody.createFixture(groundBox, 0.0f);
-        groundBox.dispose();
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.position.set(new Vector2(0, -(Monopoly.HEIGHT / PIXELS_IN_A_METER) / 2));
+        Body groundBody = world.createBody(bodyDef);
+        PolygonShape box = new PolygonShape();
+        box.setAsBox(Monopoly.WIDTH / PIXELS_IN_A_METER, 1 / PIXELS_IN_A_METER);
+        groundBody.createFixture(box, 0.0f);
 
-        BodyDef leftWallDef = new BodyDef();
-        leftWallDef.position.set(new Vector2(-(Monopoly.WIDTH/PIXELS_IN_A_METER)/2, 0));
-        Body leftWallBody = world.createBody(leftWallDef);
-        PolygonShape leftWallBox = new PolygonShape();
-        leftWallBox.setAsBox(10/PIXELS_IN_A_METER, Monopoly.HEIGHT/PIXELS_IN_A_METER);
-        leftWallBody.createFixture(leftWallBox, 0.0f);
-        leftWallBox.dispose();
+        bodyDef.position.set(new Vector2(-(Monopoly.WIDTH / PIXELS_IN_A_METER) / 2 - 0.5f, 0));
+        Body leftWallBody = world.createBody(bodyDef);
+        box.setAsBox(1 / PIXELS_IN_A_METER, Monopoly.HEIGHT / PIXELS_IN_A_METER);
+        leftWallBody.createFixture(box, 0.0f);
 
-        BodyDef ceilingBodyDef = new BodyDef();
-        ceilingBodyDef.position.set(new Vector2(0, (Monopoly.HEIGHT/PIXELS_IN_A_METER)/2));
-        Body ceilingBody = world.createBody(ceilingBodyDef);
-        PolygonShape ceilingBox = new PolygonShape();
-        ceilingBox.setAsBox((Monopoly.WIDTH/PIXELS_IN_A_METER), 10/PIXELS_IN_A_METER);
-        ceilingBody.createFixture(ceilingBox, 0.0f);
-        ceilingBox.dispose();
+        bodyDef.position.set(new Vector2(0, (Monopoly.HEIGHT / PIXELS_IN_A_METER) / 2));
+        Body ceilingBody = world.createBody(bodyDef);
+        box.setAsBox((Monopoly.WIDTH / PIXELS_IN_A_METER), 10 / PIXELS_IN_A_METER);
+        ceilingBody.createFixture(box, 0.0f);
 
-        BodyDef rightWallDef = new BodyDef();
-        rightWallDef.position.set(new Vector2((Monopoly.WIDTH/PIXELS_IN_A_METER)/2, 0));
-        Body rightWallBody = world.createBody(rightWallDef);
-        PolygonShape rightWallBox = new PolygonShape();
-        rightWallBox.setAsBox(10/PIXELS_IN_A_METER, (Monopoly.HEIGHT/PIXELS_IN_A_METER));
-        rightWallBody.createFixture(rightWallBox, 0.0f);
-        rightWallBox.dispose();
+        bodyDef.position.set(new Vector2((Monopoly.WIDTH / PIXELS_IN_A_METER) / 2 + 0.5f, 0));
+        Body rightWallBody = world.createBody(bodyDef);
+        box.setAsBox(1 / PIXELS_IN_A_METER, (Monopoly.HEIGHT / PIXELS_IN_A_METER));
+        rightWallBody.createFixture(box, 0.0f);
 
-        //BodyDef groundContainerBodyDef = new BodyDef();
-        //groundContainerBodyDef.position.set(new Vector2((Monopoly.WIDTH/PIXELS_IN_A_METER)/2, 0));
-        //Body groundContainerBody = world.createBody(groundContainerBodyDef);
-        //PolygonShape groundContainerBox = new PolygonShape();
-        //groundContainerBox.setAsBox((Monopoly.WIDTH/PIXELS_IN_A_METER)/2, 10/PIXELS_IN_A_METER);
-        //groundContainerBody.createFixture(groundContainerBox, 0.0f);
-        //groundContainerBox.dispose();
+        PolygonShape shape = new PolygonShape();
+        Vector2[] vertices = new Vector2[4];
+        vertices[0] = new Vector2(0, 0);
+        vertices[1] = new Vector2(0, 0.3f);
+        vertices[2] = new Vector2((Monopoly.WIDTH / PIXELS_IN_A_METER) / 2, 1);
+        vertices[3] = new Vector2((Monopoly.WIDTH / PIXELS_IN_A_METER) / 2, 0.7f);
+        shape.set(vertices);
+        bodyDef.position.set(new Vector2(0, -0.15f));
+        Body groundContainerBody = world.createBody(bodyDef);
+        groundContainerBody.createFixture(shape, 0.0f);
 
-        BodyDef obstacleBodyDef = new BodyDef();
-        obstacleBodyDef.position.set(new Vector2(0, (Monopoly.HEIGHT/PIXELS_IN_A_METER)/4));
-        Body obstacleBody = world.createBody(obstacleBodyDef);
-        CircleShape obstacleCircle = new CircleShape();
-        obstacleCircle.setRadius(12/PIXELS_IN_A_METER);
-        obstacleBody.createFixture(obstacleCircle, 0.0f);
-        obstacleCircle.dispose();
+        vertices[0] = new Vector2((Monopoly.WIDTH / PIXELS_IN_A_METER) / 2 - 0.5f, (Monopoly.HEIGHT / PIXELS_IN_A_METER) / 2);
+        vertices[1] = new Vector2((Monopoly.WIDTH / PIXELS_IN_A_METER) / 2 + 0.5f, (Monopoly.HEIGHT / PIXELS_IN_A_METER) / 2);
+        vertices[2] = new Vector2((Monopoly.WIDTH / PIXELS_IN_A_METER) / 2 + 0.5f, 0.7f);
+        shape.set(vertices);
+        bodyDef.position.set(new Vector2(-0.8f, -0.15f));
+        Body wallContainerBody = world.createBody(bodyDef);
+        wallContainerBody.createFixture(shape, 0.0f);
+
+        vertices[0] = new Vector2(0, (Monopoly.HEIGHT / PIXELS_IN_A_METER) / 2);
+        vertices[1] = new Vector2(0, (Monopoly.HEIGHT / PIXELS_IN_A_METER) / 2 - 0.2f);
+        vertices[2] = new Vector2((Monopoly.WIDTH / PIXELS_IN_A_METER) / 2, (Monopoly.HEIGHT / PIXELS_IN_A_METER) / 2 - 0.2f);
+        vertices[3] = new Vector2((Monopoly.WIDTH / PIXELS_IN_A_METER) / 2, (Monopoly.HEIGHT / PIXELS_IN_A_METER) / 2);
+        shape.set(vertices);
+        bodyDef.position.set(new Vector2(-0.2f, 0));
+        Body topContainerBody = world.createBody(bodyDef);
+        topContainerBody.createFixture(shape, 0.0f);
+
+        vertices = new Vector2[3];
+        vertices[0] = new Vector2(0, 0);
+        vertices[1] = new Vector2(2f, 0.9f);
+        vertices[2] = new Vector2(2f, 0);
+        shape.set(vertices);
+        bodyDef.position.set(new Vector2((Monopoly.WIDTH / PIXELS_IN_A_METER) / 2 - 2.8f, 0.65f));
+        Body lowerCornerContainerBody = world.createBody(bodyDef);
+        lowerCornerContainerBody.createFixture(shape, 0.0f);
+
+
+        vertices[0] = new Vector2(0, (Monopoly.HEIGHT / PIXELS_IN_A_METER) / 2);
+        vertices[1] = new Vector2(2f, (Monopoly.HEIGHT / PIXELS_IN_A_METER) / 2 - 0.7f);
+        vertices[2] = new Vector2(2f, (Monopoly.HEIGHT / PIXELS_IN_A_METER) / 2);
+        shape.set(vertices);
+        bodyDef.position.set(new Vector2((Monopoly.WIDTH / PIXELS_IN_A_METER) / 2 - 2.9f, -0.2f));
+        Body upperCornerContainerBody = world.createBody(bodyDef);
+        upperCornerContainerBody.createFixture(shape, 0.0f);
+
+        box.dispose();
+        shape.dispose();
     }
 
     private boolean checkIt() {

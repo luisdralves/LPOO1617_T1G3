@@ -2,6 +2,7 @@ package scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -111,6 +112,7 @@ public class AuctionScene {
     }
 
     public void render(SpriteBatch spb) {
+        Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.input.setInputProcessor(stage);
         Monopoly.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         Monopoly.shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 0.6f);
