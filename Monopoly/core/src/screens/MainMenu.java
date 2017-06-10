@@ -34,7 +34,7 @@ public class MainMenu implements Screen {
         btnPlay = new TextButton("New game", Monopoly.btnStyle);
         btnPlay.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)  {
+            public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new NewGameScreen(game));
             }
         });
@@ -53,14 +53,14 @@ public class MainMenu implements Screen {
         btnExit = new TextButton("Exit", Monopoly.btnStyle);
         btnExit.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)  {
+            public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
             }
         });
 
         background = new Texture("menu_bg.jpg");
 
-        table.setBounds(125, 0, Monopoly.WIDTH-250, Monopoly.HEIGHT);
+        table.setBounds(125, 0, Monopoly.WIDTH - 250, Monopoly.HEIGHT);
         table.row();
         table.add(btnPlay).width(300).left().expand();
         table.add(btnRules).width(300).right().expand();

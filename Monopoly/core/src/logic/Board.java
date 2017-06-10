@@ -6,32 +6,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class Board {
-	private static List<Square> squares;
-	private static int houses, hotels;
+    private static List<Square> squares;
+    private static int houses, hotels;
 
-	static {
-		houses = 32;
-		hotels = 12;
+    static {
+        houses = 32;
+        hotels = 12;
 
-		initSquares();
-		initProperties();
-		initStations();
-		initUtilities();
-		initCardSquares();
-		initOtherSquares();
-	}
-	
-	private static void initSquares() {
-		squares = new ArrayList<Square>(0);
-		for (int i = 0; i < 40; i++) {
-			squares.add(new Square());
-		}
+        initSquares();
+        initProperties();
+        initStations();
+        initUtilities();
+        initCardSquares();
+        initOtherSquares();
+    }
 
-		squares.set(0, new Square(0, "GO"));
-	}
-	
-	private static void initProperties() {
-		squares.set( 1, new Property( 1, "Old Kent Road",			 60, new int[]{ 2,  10,  30,   90,  160,  250},  50,  30, Color.BROWN,	2));
+    private static void initSquares() {
+        squares = new ArrayList<Square>(0);
+        for (int i = 0; i < 40; i++) {
+            squares.add(new Square());
+        }
+
+        squares.set(0, new Square(0, "GO"));
+    }
+
+    private static void initProperties() {
+        squares.set( 1, new Property( 1, "Old Kent Road",			 60, new int[]{ 2,  10,  30,   90,  160,  250},  50,  30, Color.BROWN,	2));
 		squares.set( 3, new Property( 3, "Whitechapel Road",		 60, new int[]{ 4,  20,  60,  180,  360,  450},  50,  30, Color.BROWN,	2));
 		squares.set( 6, new Property( 6, "The Angel Islington",		100, new int[]{ 6,  30,  90,  270,  400,  550},  50,  50, Color.CYAN,	3));
 		squares.set( 8, new Property( 8, "Euston Road",				100, new int[]{ 6,  30,  90,  270,  400,  550},  50,  50, Color.CYAN,	3));
@@ -54,19 +54,19 @@ public final class Board {
 		squares.set(37, new Property(37, "Park Lane", 				350, new int[]{35, 175, 500, 1100, 1300, 1500}, 175, 200, Color.ROYAL,	2));
 		squares.set(39, new Property(39, "Mayfair", 				400, new int[]{50, 200, 600, 1400, 1700, 2000}, 200, 200, Color.ROYAL,	2));
 	}
-	
+
 	private static void initStations() {
 		squares.set( 5, new Station( 5, "King's Cross"));
 		squares.set(15, new Station(15, "Marylebone"));
 		squares.set(25, new Station(25, "Fenchurch Street"));
 		squares.set(35, new Station(35, "Liverpool Street"));
 	}
-	
+
 	private static void initUtilities() {
 		squares.set(12, new Utility(12, "Electric Company"));
 		squares.set(28, new Utility(28, "Water Works"));
 	}
-	
+
 	private static void initCardSquares() {
 		squares.set(2,  new CardSquare(2,  "Community Chest"));
 		squares.set(17, new CardSquare(17, "Community Chest"));
@@ -75,36 +75,36 @@ public final class Board {
 		squares.set(22, new CardSquare(22, "Chance"));
 		squares.set(36, new CardSquare(36, "Chance"));
 	}
-	
-	private static void initOtherSquares() {
+
+    private static void initOtherSquares() {
 		squares.set(4,  new Square(4,  "Income Tax (pay $200)"));
 		squares.set(38, new Square(38, "Super Tax (pay $100)"));
 		squares.set(10, new Square(10, "Jail"));
 		squares.set(20, new Square(20, "Free parking"));
 		squares.set(30, new Square(30, "Go to jail"));
-	}
-	
-	public static Square getSquare(int i) {
-		return squares.get(i);
-	}
-	
-	public static List<Square> getSquares() {
-		return squares;
-	}
+    }
 
-	public static int getHouses() {
-		return houses;
-	}
-	
-	public static void addToHouses(int amount) {
-		houses += amount;
-	}
+    public static Square getSquare(int i) {
+        return squares.get(i);
+    }
 
-	public static int getHotels() {
-		return hotels;
-	}
-	
-	public static void addToHotels(int amount) {
-		hotels += amount;
-	}
+    public static List<Square> getSquares() {
+        return squares;
+    }
+
+    public static int getHouses() {
+        return houses;
+    }
+
+    public static void addToHouses(int amount) {
+        houses += amount;
+    }
+
+    public static int getHotels() {
+        return hotels;
+    }
+
+    public static void addToHotels(int amount) {
+        hotels += amount;
+    }
 }

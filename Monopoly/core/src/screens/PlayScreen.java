@@ -109,7 +109,7 @@ public class PlayScreen implements Screen {
         btnEndTurn = new TextButton("End turn", Monopoly.btnStyle);
         btnEndTurn.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)  {
+            public void clicked(InputEvent event, float x, float y) {
                 gameCycle();
             }
         });
@@ -136,20 +136,20 @@ public class PlayScreen implements Screen {
         btnDice = new TextButton("Roll dice", Monopoly.btnStyle);
         btnDice.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)  {
-                if(GameData.getPlayer().realDice()) {
+            public void clicked(InputEvent event, float x, float y) {
+                if (GameData.getPlayer().realDice()) {
                     rollingDice = true;
                     diceReady = false;
                     diceScene.initDice();
                 } else
-                    moveLoop(0,0);
+                    moveLoop(0, 0);
             }
         });
 
         btnViewProp = new TextButton("GO", Monopoly.btnStyle);
         btnViewProp.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)  {
+            public void clicked(InputEvent event, float x, float y) {
                 viewingASquare = true;
                 SquareScene.view(GameData.getPlayer().getPosition());
             }
@@ -213,7 +213,7 @@ public class PlayScreen implements Screen {
             diceScene.render(game.spb);
         } else if (diceReady) {
             diceReady = false;
-            moveLoop((int)diceScene.results().x, (int)diceScene.results().y);
+            moveLoop((int) diceScene.results().x, (int) diceScene.results().y);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
             game.setScreen(new MainMenu(game));
@@ -256,19 +256,17 @@ public class PlayScreen implements Screen {
         int jailStatus = currentPlayer.checkJail();
         if (jailStatus == 0) {
 
-        }
-        else if (jailStatus == 1) {
+        } else if (jailStatus == 1) {
             currentPlayer.move();
-        }
-        else if (jailStatus == 2) {
+        } else if (jailStatus == 2) {
         }
         resetUI();
     }
 
-    private void moveLoop(int i1, int i2){
+    private void moveLoop(int i1, int i2) {
         Player currentPlayer;
         currentPlayer = GameData.getPlayer();
-        if(i1 == 0 || i2 == 0)
+        if (i1 == 0 || i2 == 0)
             currentPlayer.rollDice();
         else
             currentPlayer.rollDice(i1, i2);

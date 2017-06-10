@@ -36,8 +36,8 @@ public class DiceScene {
 
     public DiceScene() {
         world = new World(new Vector2(0, -9.8f), true);
-        cam = new OrthographicCamera(Monopoly.WIDTH/PIXELS_IN_A_METER, Monopoly.HEIGHT/PIXELS_IN_A_METER);
-        vp = new FitViewport(Monopoly.WIDTH/PIXELS_IN_A_METER, Monopoly.HEIGHT/PIXELS_IN_A_METER, cam);
+        cam = new OrthographicCamera(Monopoly.WIDTH / PIXELS_IN_A_METER, Monopoly.HEIGHT / PIXELS_IN_A_METER);
+        vp = new FitViewport(Monopoly.WIDTH / PIXELS_IN_A_METER, Monopoly.HEIGHT / PIXELS_IN_A_METER, cam);
         bg = new Texture("mat.jpg");
         fg = new Texture("mat.png");
         die = new Texture("die.png");
@@ -60,22 +60,22 @@ public class DiceScene {
 
         sp1.rotate(-sp1.getRotation());
         sp1.rotate(offsetAlpha1);
-        sp1.rotate(180 * bodyDie1.getAngle() / (float)Math.PI);
-        sp1.setPosition(bodyDie1.getPosition().x*PIXELS_IN_A_METER + (Monopoly.WIDTH - sp1.getWidth())/2, bodyDie1.getPosition().y*PIXELS_IN_A_METER + (Monopoly.HEIGHT - sp1.getHeight())/2);
+        sp1.rotate(180 * bodyDie1.getAngle() / (float) Math.PI);
+        sp1.setPosition(bodyDie1.getPosition().x * PIXELS_IN_A_METER + (Monopoly.WIDTH - sp1.getWidth()) / 2, bodyDie1.getPosition().y * PIXELS_IN_A_METER + (Monopoly.HEIGHT - sp1.getHeight()) / 2);
 
         sp2.rotate(-sp2.getRotation());
         sp2.rotate(offsetAlpha2);
-        sp2.rotate(180 * bodyDie2.getAngle() / (float)Math.PI);
-        sp2.setPosition(bodyDie2.getPosition().x*PIXELS_IN_A_METER + (Monopoly.WIDTH - sp2.getWidth())/2, bodyDie2.getPosition().y*PIXELS_IN_A_METER + (Monopoly.HEIGHT - sp2.getHeight())/2);
+        sp2.rotate(180 * bodyDie2.getAngle() / (float) Math.PI);
+        sp2.setPosition(bodyDie2.getPosition().x * PIXELS_IN_A_METER + (Monopoly.WIDTH - sp2.getWidth()) / 2, bodyDie2.getPosition().y * PIXELS_IN_A_METER + (Monopoly.HEIGHT - sp2.getHeight()) / 2);
 
         spb.begin();
-        spb.draw(bg, 0,0, Monopoly.WIDTH, Monopoly.HEIGHT);
+        spb.draw(bg, 0, 0, Monopoly.WIDTH, Monopoly.HEIGHT);
         sp1.draw(spb);
         sp2.draw(spb);
         spb.draw(fg, 0, 0, Monopoly.WIDTH, Monopoly.HEIGHT);
         spb.end();
         debugRenderer.render(world, cam.combined);
-        world.step(1/60f, 6, 2);
+        world.step(1 / 60f, 6, 2);
     }
 
     public void initDice() {
@@ -85,33 +85,33 @@ public class DiceScene {
         }
 
         int offsetX, offsetY;
-        offsetX = (int)(Math.random() * ((Monopoly.WIDTH/PIXELS_IN_A_METER)/2 - 150/PIXELS_IN_A_METER) + 75/PIXELS_IN_A_METER);
-        offsetY = (int)(Math.random() * ((Monopoly.HEIGHT/PIXELS_IN_A_METER)/2 - 150/PIXELS_IN_A_METER) + 75/PIXELS_IN_A_METER);
+        offsetX = (int) (Math.random() * ((Monopoly.WIDTH / PIXELS_IN_A_METER) / 2 - 150 / PIXELS_IN_A_METER) + 75 / PIXELS_IN_A_METER);
+        offsetY = (int) (Math.random() * ((Monopoly.HEIGHT / PIXELS_IN_A_METER) / 2 - 150 / PIXELS_IN_A_METER) + 75 / PIXELS_IN_A_METER);
 
         BodyDef bodyDef1 = new BodyDef();
         bodyDef1.type = BodyDef.BodyType.DynamicBody;
         bodyDef1.position.set(offsetX, offsetY);
         bodyDie1 = world.createBody(bodyDef1);
 
-        offsetX = (int)(Math.random() * ((Monopoly.WIDTH/PIXELS_IN_A_METER)/2 - 150/PIXELS_IN_A_METER) + 75/PIXELS_IN_A_METER);
-        offsetY = (int)(Math.random() * ((Monopoly.HEIGHT/PIXELS_IN_A_METER)/2 - 150/PIXELS_IN_A_METER) + 75/PIXELS_IN_A_METER);
+        offsetX = (int) (Math.random() * ((Monopoly.WIDTH / PIXELS_IN_A_METER) / 2 - 150 / PIXELS_IN_A_METER) + 75 / PIXELS_IN_A_METER);
+        offsetY = (int) (Math.random() * ((Monopoly.HEIGHT / PIXELS_IN_A_METER) / 2 - 150 / PIXELS_IN_A_METER) + 75 / PIXELS_IN_A_METER);
 
         BodyDef bodyDef2 = new BodyDef();
         bodyDef2.type = BodyDef.BodyType.DynamicBody;
         bodyDef2.position.set(offsetX, offsetY);
         bodyDie2 = world.createBody(bodyDef2);
 
-        offsetAlpha1 = (float)(Math.random() * 2 * Math.PI);
-        offsetAlpha2 = (float)(Math.random() * 2 * Math.PI);
+        offsetAlpha1 = (float) (Math.random() * 2 * Math.PI);
+        offsetAlpha2 = (float) (Math.random() * 2 * Math.PI);
 
         PolygonShape hexagon = new PolygonShape();
         Vector2[] vertices = new Vector2[6];
 
-        for(int i = 0; i < 6; i++) {
-            vertices[i] = new Vector2((float)((64/PIXELS_IN_A_METER)*Math.cos(i * Math.PI/3 + offsetAlpha1)),
-                    (float)((64/PIXELS_IN_A_METER)*Math.sin(i * Math.PI/3 + offsetAlpha1)));
+        for (int i = 0; i < 6; i++) {
+            vertices[i] = new Vector2((float) ((64 / PIXELS_IN_A_METER) * Math.cos(i * Math.PI / 3 + offsetAlpha1)),
+                    (float) ((64 / PIXELS_IN_A_METER) * Math.sin(i * Math.PI / 3 + offsetAlpha1)));
         }
-        offsetAlpha1 = (float)(offsetAlpha1 * 180/Math.PI);
+        offsetAlpha1 = (float) (offsetAlpha1 * 180 / Math.PI);
         hexagon.set(vertices);
 
         FixtureDef fixtureDef = new FixtureDef();
@@ -122,11 +122,11 @@ public class DiceScene {
 
         bodyDie1.createFixture(fixtureDef);
 
-        for(int i = 0; i < 6; i++) {
-            vertices[i] = new Vector2((float)((64/PIXELS_IN_A_METER)*Math.cos(i * Math.PI/3 + offsetAlpha2)),
-                    (float)((64/PIXELS_IN_A_METER)*Math.sin(i * Math.PI/3 + offsetAlpha2)));
+        for (int i = 0; i < 6; i++) {
+            vertices[i] = new Vector2((float) ((64 / PIXELS_IN_A_METER) * Math.cos(i * Math.PI / 3 + offsetAlpha2)),
+                    (float) ((64 / PIXELS_IN_A_METER) * Math.sin(i * Math.PI / 3 + offsetAlpha2)));
         }
-        offsetAlpha2 = (float)(offsetAlpha2 * 180/Math.PI);
+        offsetAlpha2 = (float) (offsetAlpha2 * 180 / Math.PI);
         hexagon.set(vertices);
         fixtureDef.shape = hexagon;
 
@@ -211,15 +211,15 @@ public class DiceScene {
     }
 
     public Vector2 results() {
-        int negativeCorrection1 = (int)sp1.getRotation() + 30;
-        int negativeCorrection2 = (int)sp2.getRotation() + 30;
-        while(negativeCorrection1 <= 0)
+        int negativeCorrection1 = (int) sp1.getRotation() + 30;
+        int negativeCorrection2 = (int) sp2.getRotation() + 30;
+        while (negativeCorrection1 <= 0)
             negativeCorrection1 += 360;
-        while(negativeCorrection2 <= 0)
+        while (negativeCorrection2 <= 0)
             negativeCorrection2 += 360;
 
-        int die1 = Math.round(((negativeCorrection1/60)%6)+1);
-        int die2 = Math.round(((negativeCorrection2/60)%6)+1);
+        int die1 = Math.round(((negativeCorrection1 / 60) % 6) + 1);
+        int die2 = Math.round(((negativeCorrection2 / 60) % 6) + 1);
         if (die1 == 4 || die1 == 6)
             die1 = 10 - die1;
         if (die2 == 4 || die2 == 6)

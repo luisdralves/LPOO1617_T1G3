@@ -37,7 +37,7 @@ public class BoardScene {
     public void render(SpriteBatch spb) {
         spb.begin();
 
-        for(Player p : GameData.getPlayers()) {
+        for (Player p : GameData.getPlayers()) {
             if (p.getPosition() < 10)
                 spb.draw(p.getToken(), posToCoords(p.getPosition()).x - 3, 0);
             else if (p.getPosition() < 20)
@@ -48,11 +48,11 @@ public class BoardScene {
                 spb.draw(p.getToken(), Monopoly.HEIGHT - p.getToken().getWidth(), posToCoords(p.getPosition()).y - 3);
         }
 
-        for(int j = 0; j < Board.getSquares().size(); j++) {
-            if(Board.getSquare(j) instanceof Property) {
+        for (int j = 0; j < Board.getSquares().size(); j++) {
+            if (Board.getSquare(j) instanceof Property) {
                 Property p = ((Property) Board.getSquare(j));
                 if (p.getHouses() == 5) {
-                    if(j < 10)
+                    if (j < 10)
                         spb.draw(hotel, posToCoords(j).x + 20, posToCoords(j).y + 75, 20, 20);
                     else if (j < 20)
                         spb.draw(hotel, posToCoords(j).x + 75, posToCoords(j).y + 20, 20, 20);
@@ -60,8 +60,7 @@ public class BoardScene {
                         spb.draw(hotel, posToCoords(j).x + 20, posToCoords(j).y + 3, 20, 20);
                     else
                         spb.draw(hotel, posToCoords(j).x + 3, posToCoords(j).y + 20, 20, 20);
-                }
-                else {
+                } else {
                     if (j < 10)
                         for (int i = 0; i < p.getHouses(); i++)
                             spb.draw(house, posToCoords(j).x + i * 14, posToCoords(j).y + 75, 20, 20);

@@ -30,7 +30,7 @@ public class Hud {
     private int playerDice1, playerDice2;
     private int playerPos;
 
-    public Hud(SpriteBatch spb){
+    public Hud(SpriteBatch spb) {
         vp = new FitViewport(Monopoly.WIDTH, Monopoly.HEIGHT, new OrthographicCamera());
         bg = new Texture("hud_bg.png");
         board = new Texture("board.jpg");
@@ -52,7 +52,7 @@ public class Hud {
         lblPlayerDice = new Label("game hasnt started yet!", Monopoly.lblStyle);
         lblPlayerPos = new Label("game hasnt started yet!", Monopoly.lblStyle);
 
-        int columnWidth = Monopoly.WIDTH/5;
+        int columnWidth = Monopoly.WIDTH / 5;
 
         table.setBounds(93 * Monopoly.WIDTH / 160, 0, 0, Monopoly.HEIGHT);
         table.left().top();
@@ -74,7 +74,7 @@ public class Hud {
         stage.addActor(table);
     }
 
-    public void update(Player p){
+    public void update(Player p) {
         playerNo = p.getID();
         playerName = p.getName();
         playerBalance = p.getBalance();

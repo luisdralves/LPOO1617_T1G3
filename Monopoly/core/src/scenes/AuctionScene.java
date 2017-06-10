@@ -52,7 +52,7 @@ public class AuctionScene {
         btnNext = new TextButton("Raise the stakes", Monopoly.btnStyle);
         btnNext.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)  {
+            public void clicked(InputEvent event, float x, float y) {
                 int bidMax = min - 1;
                 for (int i = 0; i < amountSliders.size(); i++) {
                     if (amountSliders.get(i).getValue() > bidMax) {
@@ -76,7 +76,7 @@ public class AuctionScene {
         btnAccept = new TextButton("Accept results", Monopoly.btnStyle);
         btnAccept.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)  {
+            public void clicked(InputEvent event, float x, float y) {
                 winnerAmount = 0;
                 for (IndexedSlider is : amountSliders) {
                     if (is.getValue() > winnerAmount) {
@@ -118,7 +118,7 @@ public class AuctionScene {
         Monopoly.shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 0.6f);
         Monopoly.shapeRenderer.rect(0, 0, Monopoly.WIDTH, Monopoly.HEIGHT);
         Monopoly.shapeRenderer.setColor(Color.WHITE);
-        Monopoly.shapeRenderer.rect(Monopoly.WIDTH/3, Monopoly.HEIGHT/3, Monopoly.WIDTH/3, Monopoly.HEIGHT/3);
+        Monopoly.shapeRenderer.rect(Monopoly.WIDTH / 3, Monopoly.HEIGHT / 3, Monopoly.WIDTH / 3, Monopoly.HEIGHT / 3);
         Monopoly.shapeRenderer.end();
 
         spb.begin();

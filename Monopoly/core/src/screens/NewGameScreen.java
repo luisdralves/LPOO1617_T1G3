@@ -23,17 +23,17 @@ import com.lpoo1617t1g3.Monopoly;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewGameScreen implements Screen{
+public class NewGameScreen implements Screen {
+    public static List<TextField> playerNames;
+    public static List<CheckBox> isAI;
+    public static List<CheckBox> realDice;
+    public static int playerCount;
     private Monopoly game;
     private Camera cam;
     private Viewport vp;
     private Stage stage;
     private Table table, tableInfo, tableButtons;
     private TextButton btnPlay, btnBack;
-    public static List<TextField> playerNames;
-    public static List<CheckBox> isAI;
-    public static List<CheckBox> realDice;
-    public static int playerCount;
     private TextField playerCountField;
     private ImageButton playerCountMore, playerCountLess;
 
@@ -52,14 +52,14 @@ public class NewGameScreen implements Screen{
         btnPlay = new TextButton("Play", Monopoly.btnStyle);
         btnPlay.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)  {
+            public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new PlayScreen(game));
             }
         });
         btnBack = new TextButton("Go Back", Monopoly.btnStyle);
         btnBack.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)  {
+            public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new MainMenu(game));
             }
         });
@@ -84,7 +84,7 @@ public class NewGameScreen implements Screen{
         playerCountLess = new ImageButton(Monopoly.ibtnStyleLeft);
         playerCountMore.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)  {
+            public void clicked(InputEvent event, float x, float y) {
                 if (Integer.parseInt(playerCountField.getText()) > 1 && Integer.parseInt(playerCountField.getText()) <= 7) {
                     playerCountField.setText(Integer.toString(Integer.parseInt(playerCountField.getText()) + 1));
                     updatePlayers();
@@ -93,7 +93,7 @@ public class NewGameScreen implements Screen{
         });
         playerCountLess.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)  {
+            public void clicked(InputEvent event, float x, float y) {
                 if (Integer.parseInt(playerCountField.getText()) > 2 && Integer.parseInt(playerCountField.getText()) <= 8) {
                     playerCountField.setText(Integer.toString(Integer.parseInt(playerCountField.getText()) - 1));
                     updatePlayers();
@@ -112,10 +112,10 @@ public class NewGameScreen implements Screen{
         tableInfo.add(new Label("Name", Monopoly.lblStyle)).colspan(2).padTop(30);
         tableInfo.add(new Label("AI", Monopoly.lblStyle)).padTop(30);
         tableInfo.add(new Label("RD", Monopoly.lblStyle)).padTop(30).row();
-        for(int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; i++) {
             tableInfo.add(new Label("Player " + (i + 1) + ": ", Monopoly.lblStyle));
             playerNames.add(new TextField("Player " + (i + 1), Monopoly.tflStyle));
-            tableInfo.add(playerNames.get(i)).width(2*Monopoly.HEIGHT/5).colspan(2);
+            tableInfo.add(playerNames.get(i)).width(2 * Monopoly.HEIGHT / 5).colspan(2);
             isAI.add(new CheckBox("", Monopoly.cbxStyle));
             realDice.add(new CheckBox("", Monopoly.cbxStyle));
             realDice.get(i).setChecked(false);
@@ -125,7 +125,7 @@ public class NewGameScreen implements Screen{
                 playerNames.get(i).setVisible(false);
                 isAI.get(i).setVisible(false);
                 realDice.get(i).setVisible(false);
-                tableInfo.getCells().get(4*(i+2)+1).getActor().setVisible(false);
+                tableInfo.getCells().get(4 * (i + 2) + 1).getActor().setVisible(false);
             }
         }
         tableButtons.add(btnPlay).padTop(30).width(300).padRight(30);
@@ -185,14 +185,14 @@ public class NewGameScreen implements Screen{
                 playerNames.get(i).setVisible(true);
                 isAI.get(i).setVisible(true);
                 realDice.get(i).setVisible(true);
-                tableInfo.getCells().get(4*(i+2)+1).getActor().setVisible(true);
+                tableInfo.getCells().get(4 * (i + 2) + 1).getActor().setVisible(true);
             }
         } else {
             for (int i = playerCount; i < 8; i++) {
                 playerNames.get(i).setVisible(false);
                 isAI.get(i).setVisible(false);
                 realDice.get(i).setVisible(false);
-                tableInfo.getCells().get(4*(i+2)+1).getActor().setVisible(false);
+                tableInfo.getCells().get(4 * (i + 2) + 1).getActor().setVisible(false);
             }
         }
     }

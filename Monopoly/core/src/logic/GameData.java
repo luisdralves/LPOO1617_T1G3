@@ -8,29 +8,29 @@ import screens.NewGameScreen;
 
 
 public final class GameData {
-	public static int currentPlayerInt;
-	public static boolean useGUI;
-	public static boolean gameOver;
-	private static List<Player> players;
-	private static List<Card> chanceCards;
-	private static List<Card> commCards;
-	
-	static {
-		currentPlayerInt = -1;
-		useGUI = true;
-		gameOver = false;
+    public static int currentPlayerInt;
+    public static boolean useGUI;
+    public static boolean gameOver;
+    private static List<Player> players;
+    private static List<Card> chanceCards;
+    private static List<Card> commCards;
 
-		initChanceCards();
-		initCommunityCards();
-		initPlayers();
-	}
-	
-	public static void initPlayers() {
-		players = new ArrayList<Player>();
-		for(int i = 0; i < NewGameScreen.playerCount; i++) {
-			players.add(new Player(NewGameScreen.playerNames.get(i).getText(), NewGameScreen.isAI.get(i).isChecked(), NewGameScreen.realDice.get(i).isChecked(), "token" + (i + 1) + ".png"));
-		}
-	}
+    static {
+        currentPlayerInt = -1;
+        useGUI = true;
+        gameOver = false;
+
+        initChanceCards();
+        initCommunityCards();
+        initPlayers();
+    }
+
+    public static void initPlayers() {
+        players = new ArrayList<Player>();
+        for (int i = 0; i < NewGameScreen.playerCount; i++) {
+            players.add(new Player(NewGameScreen.playerNames.get(i).getText(), NewGameScreen.isAI.get(i).isChecked(), NewGameScreen.realDice.get(i).isChecked(), "token" + (i + 1) + ".png"));
+        }
+    }
 
 	private static void initChanceCards() {
 		chanceCards = new ArrayList<Card>();
@@ -72,15 +72,17 @@ public final class GameData {
 		commCards.add(new Card("You are assessed for street repairs", "£40 per house, £115 per hotel"));																											//31
 		commCards.add(new Card("You have won second prize in a beauty contest", "Collect £10"));																													//32
 		Collections.shuffle(commCards);
-	}
+    }
 
-	public static Player getPlayer() { return players.get(currentPlayerInt); }
+    public static Player getPlayer() {
+        return players.get(currentPlayerInt);
+    }
 
-	public static Player getPlayer(int i) {
-		return players.get(i);
-	}
+    public static Player getPlayer(int i) {
+        return players.get(i);
+    }
 
-	public static List<Player> getPlayers() {
-		return players;
-	}
+    public static List<Player> getPlayers() {
+        return players;
+    }
 }

@@ -72,7 +72,7 @@ public class SquareScene {
         btnExit = new TextButton("Exit", Monopoly.btnStyle);
         btnExit.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)  {
+            public void clicked(InputEvent event, float x, float y) {
                 PlayScreen.exitPropertyScene();
             }
         });
@@ -81,7 +81,7 @@ public class SquareScene {
         btnBuy = new TextButton("Acquire", Monopoly.btnStyle);
         btnBuy.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)  {
+            public void clicked(InputEvent event, float x, float y) {
                 if (!flags[0] && !flags[1] && flags[2] && (flags[3] || flags[4])) {
                     GameData.getPlayer().purchase();
                 } else if (flags[4] && flags[1]) {
@@ -99,7 +99,7 @@ public class SquareScene {
         btnAuction.getLabel().setFontScale(0.6f);
         btnAuction.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)  {
+            public void clicked(InputEvent event, float x, float y) {
                 auctionScene.auction();
                 auctioning = true;
             }
@@ -108,8 +108,8 @@ public class SquareScene {
         btnMortgage = new TextButton("Mortgage", Monopoly.btnStyle);
         btnMortgage.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)  {
-                ((Purchasable)Board.getSquare(sqPos)).toggleMortgage();
+            public void clicked(InputEvent event, float x, float y) {
+                ((Purchasable) Board.getSquare(sqPos)).toggleMortgage();
                 view(sqPos);
             }
         });
@@ -119,7 +119,7 @@ public class SquareScene {
         positionLess = new ImageButton(Monopoly.ibtnStyleLeft);
         positionMore.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)  {
+            public void clicked(InputEvent event, float x, float y) {
                 if (viewingSelection) {
                     sqPos++;
                     sqPos %= viewable.size();
@@ -133,7 +133,7 @@ public class SquareScene {
         });
         positionLess.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)  {
+            public void clicked(InputEvent event, float x, float y) {
                 if (viewingSelection) {
                     sqPos--;
                     if (sqPos < 0)
@@ -155,14 +155,14 @@ public class SquareScene {
 
         tableHeader = new Table();
         tableHeader.right();
-        tableHeader.setBounds(Monopoly.WIDTH/2 + 32, Monopoly.HEIGHT/2 + bg.getHeight()/2 - 3, bg.getWidth()/2, propNo.getHeight());
+        tableHeader.setBounds(Monopoly.WIDTH / 2 + 32, Monopoly.HEIGHT / 2 + bg.getHeight() / 2 - 3, bg.getWidth() / 2, propNo.getHeight());
         tableHeader.add(positionLess);
         tableHeader.add(propNo).width(30);
         tableHeader.add(positionMore);
 
         tableInfo = new Table();
         tableInfo.top();
-        tableInfo.setBounds(0, (Monopoly.HEIGHT - bg.getHeight())/2, Monopoly.WIDTH, bg.getHeight());
+        tableInfo.setBounds(0, (Monopoly.HEIGHT - bg.getHeight()) / 2, Monopoly.WIDTH, bg.getHeight());
 
         tableInfo.add(new Label("", Monopoly.lblStyle)).width(8 * bg.getWidth() / 10).height(padding).colspan(2).row();
 
@@ -190,12 +190,12 @@ public class SquareScene {
         tableButtons.bottom();
         lblOwner = new Label("", Monopoly.lblStyle);
         lblOwner.setFontScale(0.6f);
-        tableButtons.add(lblOwner).colspan(2).padTop(2*padding/3).row();
+        tableButtons.add(lblOwner).colspan(2).padTop(2 * padding / 3).row();
 
-        tableButtons.add(btnBuy).width(8 * bg.getWidth() / 20 - padding/2).padTop(padding/2).padRight(padding/2);
-        tableButtons.add(btnAuction).width(8 * bg.getWidth() / 20 - padding/2).padTop(padding/2).padLeft(padding/2).row();
-        tableButtons.add(btnMortgage).width(8 * bg.getWidth() / 20 - padding/2).padTop(padding/2).padBottom(padding).padRight(padding/2);
-        tableButtons.add(btnExit).width(8 * bg.getWidth() / 20 - padding/2).padTop(padding/2).padBottom(padding).padLeft(padding/2);
+        tableButtons.add(btnBuy).width(8 * bg.getWidth() / 20 - padding / 2).padTop(padding / 2).padRight(padding / 2);
+        tableButtons.add(btnAuction).width(8 * bg.getWidth() / 20 - padding / 2).padTop(padding / 2).padLeft(padding / 2).row();
+        tableButtons.add(btnMortgage).width(8 * bg.getWidth() / 20 - padding / 2).padTop(padding / 2).padBottom(padding).padRight(padding / 2);
+        tableButtons.add(btnExit).width(8 * bg.getWidth() / 20 - padding / 2).padTop(padding / 2).padBottom(padding).padLeft(padding / 2);
 
         stage.addActor(tableHeader);
         stage.addActor(tableInfo);
@@ -283,8 +283,7 @@ public class SquareScene {
                 btnAuction.setTouchable(Touchable.disabled);
                 btnAuction.setDisabled(true);
             }
-        }
-        else {
+        } else {
             set = Color.GRAY;
             tableInfo.getCells().get(2).getActor().setVisible(false);
             tableInfo.getCells().get(4).getActor().setVisible(false);
@@ -315,13 +314,13 @@ public class SquareScene {
         lblTitle.setText(sq.getTitle());
         lblCosts.setText(String.format("$%d/Land\n$%d/Mort.", ((Purchasable) sq).getLandCost(), ((Purchasable) sq).getMortgage()));
         lblOwner.setText(((Purchasable) sq).getOwnerName());
-        if(sq instanceof Property) {
+        if (sq instanceof Property) {
             lblCosts.setText(String.format("$%d/Land\n$%d/Mort.\n$%d/House", ((Purchasable) sq).getLandCost(), ((Purchasable) sq).getMortgage(), ((Property) sq).getHouseCost()));
             lblRents.setText(String.format("$%d\n$%d\n$%d\n$%d\n$%d\n$%d", ((Purchasable) sq).getRent(0), ((Purchasable) sq).getRent(1), ((Purchasable) sq).getRent(2), ((Purchasable) sq).getRent(3), ((Purchasable) sq).getRent(4), ((Purchasable) sq).getRent(5)));
             set = ((Property) sq).getColourSet();
-        } else if(sq instanceof Station) {
+        } else if (sq instanceof Station) {
             lblRents.setText(String.format("$%d\n$%d\n$%d\n$%d", ((Purchasable) sq).getRent(0), ((Purchasable) sq).getRent(1), ((Purchasable) sq).getRent(2), ((Purchasable) sq).getRent(3)));
-        } else if(sq instanceof Utility) {
+        } else if (sq instanceof Utility) {
             lblRents.setText(String.format("$%d\n$%d", ((Purchasable) sq).getRent(0), ((Purchasable) sq).getRent(1)));
         }
     }
@@ -344,7 +343,7 @@ public class SquareScene {
         spb.end();
         stage.act();
         stage.draw();
-        if(auctioning)
+        if (auctioning)
             auctionScene.render(spb);
     }
 }
