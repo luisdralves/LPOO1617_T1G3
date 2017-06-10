@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 
 import scenes.BoardScene;
 import screens.PlayScreen;
@@ -273,8 +272,11 @@ public class Player {
 	public void purchase(int position, int amount) {
 		Square toPurchase = Board.getSquare(position);
 		if (toPurchase instanceof Purchasable) {
+			if (((Purchasable) toPurchase).getOwnerID() != -1)
+				this.transaction(((Purchasable) toPurchase).getOwner(), amount);
+			else
+				addToBalance(-amount);
 			acquired.add(position);
-			addToBalance(-amount);
 			((Purchasable) toPurchase).setOwner(this);
 			if (toPurchase instanceof Property)
 				((Property) toPurchase).updateOwnerOwnsInSet();

@@ -37,9 +37,9 @@ public class SquareScene {
     private static Table tableInfo;
     private static Table tableHeader;
     private static int sqPos;
-    private AuctionScene auctionScene;
     private static boolean auctioning;
-    private static boolean sqWasBought;
+    private static boolean flags[];
+    private AuctionScene auctionScene;
     private Stage stage;
     private Table tableButtons;
     private Texture bg;
@@ -50,6 +50,8 @@ public class SquareScene {
         stage = new Stage();
         bg = new Texture("prop_bg.png");
         set = Color.BLACK;
+
+        flags = new boolean[8];
 
         propNo = new TextField("", Monopoly.tflStyle);
         propNo.setTextFieldFilter(new TextField.TextFieldFilter.DigitsOnlyFilter());
@@ -76,10 +78,13 @@ public class SquareScene {
         btnBuy.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y)  {
-                if (!sqWasBought) {
+                if (!((!flags[0] || !flags[1]) && (flags[0] || flags[1]) && !flags[3] && flags[4])) {
                     GameData.getPlayer().purchase();
-                } else if (Board.getSquare(sqPos) instanceof Property){
+                } else if (flags[4] && flags[1]) {
                     ((Property) Board.getSquare(sqPos)).addToHouses(1);
+                } else if (flags[0] && (flags[3] || flags[4])) {
+                    auctionScene.negotiate(sqPos);
+                    auctioning = true;
                 }
                 view(sqPos);
             }
@@ -186,65 +191,64 @@ public class SquareScene {
     public static void view(int pos) {
         sqPos = pos;
         propNo.setText(Integer.toString(sqPos));
-        Square sq = Board.getSquare(pos);
-        boolean isOwnedByOther = false;
-        boolean isOwnedByCurrent = false;
-        boolean playerIsOnIt = GameData.getPlayer().getPosition() == pos;
-        boolean isProp = sq instanceof Property;
-        boolean isStationOrUtil = (sq instanceof Purchasable && !isProp);
-        boolean isActive = false;
-        boolean isFull = false;
-        boolean setComplete = false;
-        if ((isStationOrUtil || isProp) && ((Purchasable) sq).isOwned()) {
-            isOwnedByOther = ((Purchasable) sq).getOwnerID() != GameData.getPlayer().getID();
-            isOwnedByCurrent = !isOwnedByOther;
-        }
-        if (isOwnedByOther || isOwnedByCurrent)
-            isActive = ((Purchasable) sq).isActive();
-        if (isProp && ((Property) sq).getHouses() >= 5)
-            isFull = true;
-        if (isProp && isOwnedByCurrent)
-            setComplete = ((Property) sq).isSetComplete();
+        lblTitle.setText(Board.getSquare(pos).getTitle());
 
-        lblTitle.setText(sq.getTitle());
+        updateFlags(pos);
 
-        manageButtons(pos, isOwnedByOther, isOwnedByCurrent, playerIsOnIt, isStationOrUtil, isProp, isActive, isFull, setComplete);
+        manageButtons(pos);
     }
 
-    private static void manageButtons(int pos, boolean a, boolean b, boolean c, boolean d, boolean e, boolean f, boolean g, boolean h) {
-        if (d || e) {
+    private static void updateFlags(int pos) {
+        Square sq = Board.getSquare(pos);
+        flags[0] = false;
+        flags[1] = false;
+        flags[2] = GameData.getPlayer().getPosition() == pos;
+        flags[4] = sq instanceof Property;
+        flags[3] = (sq instanceof Purchasable && !flags[4]);
+        flags[5] = false;
+        flags[6] = false;
+        flags[7] = false;
+        if ((flags[3] || flags[4]) && ((Purchasable) sq).isOwned()) {
+            flags[0] = ((Purchasable) sq).getOwnerID() != GameData.getPlayer().getID();
+            flags[1] = !flags[0];
+        }
+        if (flags[0] || flags[1])
+            flags[5] = ((Purchasable) sq).isActive();
+        if (flags[4] && ((Property) sq).getHouses() >= 5)
+            flags[6] = true;
+        if (flags[4] && flags[1])
+            flags[7] = ((Property) sq).isSetComplete();
+    }
+
+    private static void manageButtons(int pos) {
+        if (flags[3] || flags[4]) {
             updateLabels(pos);
-            sqWasBought = false;
-            if ((!a || !b) && (!a || d) && (!b || d)) {
+            if (((!flags[0] || !flags[1]) && (!flags[0] || flags[3]) && (!flags[1] || flags[3])) || (flags[0] && (flags[3] || flags[4])))
                 btnBuy.setText("Acquire");
-                btnBuy.setVisible(true);
-            }
-            if ((!a || !b) && (a || b) && !d && e) {
+            else
                 btnBuy.setText("Improve");
-                btnBuy.setVisible(true);
-                sqWasBought = true;
-            }
-            if (f || (!a && !b))
+            btnBuy.setVisible(true);
+            if (flags[5] || (!flags[0] && !flags[1]))
                 btnMortgage.setText("Mortgage");
             else
                 btnMortgage.setText("Unmortgage");
             btnMortgage.setVisible(true);
             btnAuction.setVisible(true);
-            if (a || (b && !e) || (!b && !c) || g || (!h && b)) {
+            if ((flags[1] || flags[5] || !flags[2]) && (flags[5] || !flags[1] || !flags[4] || !flags[7]) && !(flags[0] && (flags[3] || flags[4]))) {
                 btnBuy.setTouchable(Touchable.disabled);
                 btnBuy.setDisabled(true);
             } else {
                 btnBuy.setTouchable(Touchable.enabled);
                 btnBuy.setDisabled(false);
             }
-            if (b) {
+            if (flags[1]) {
                 btnMortgage.setTouchable(Touchable.enabled);
                 btnMortgage.setDisabled(false);
             } else {
                 btnMortgage.setTouchable(Touchable.disabled);
                 btnMortgage.setDisabled(true);
             }
-            if (!a && !b && c) {
+            if (!flags[0] && !flags[1] && flags[2]) {
                 btnAuction.setTouchable(Touchable.enabled);
                 btnAuction.setDisabled(false);
             } else {
@@ -294,6 +298,10 @@ public class SquareScene {
         }
     }
 
+    public static void exitAuction() {
+        auctioning = false;
+    }
+
     public void render(SpriteBatch spb) {
         Gdx.input.setInputProcessor(this.stage);
         Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -310,9 +318,5 @@ public class SquareScene {
         stage.draw();
         if(auctioning)
             auctionScene.render(spb);
-    }
-
-    public static void exitAuction() {
-        auctioning = false;
     }
 }
