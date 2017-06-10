@@ -58,7 +58,8 @@ public class SquareScene {
         flags = new boolean[8];
 
         initActors();
-        initListeners();
+        initBtnListeners();
+        initArrowListeners();
         initTable();
     }
 
@@ -216,7 +217,7 @@ public class SquareScene {
         positionLess = new ImageButton(Monopoly.ibtnStyleLeft);
     }
 
-    private void initListeners() {
+    private void initBtnListeners() {
         propNo.addListener(new InputListener() {
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
@@ -264,7 +265,9 @@ public class SquareScene {
                 view(sqPos);
             }
         });
+    }
 
+    private void initArrowListeners() {
         positionMore.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
