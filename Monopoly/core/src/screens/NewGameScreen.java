@@ -49,6 +49,11 @@ public class NewGameScreen implements Screen {
 
         playerCount = 2;
 
+        initActors();
+        initTable();
+    }
+
+    private void initActors() {
         btnPlay = new TextButton("Play", Monopoly.btnStyle);
         btnPlay.addListener(new ClickListener() {
             @Override
@@ -100,7 +105,9 @@ public class NewGameScreen implements Screen {
                 }
             }
         });
+    }
 
+    private void initTable() {
         table.setBounds(0, 0, Monopoly.WIDTH, Monopoly.HEIGHT);
         tableInfo.add();
         tableInfo.add(new Label("Player number: ", Monopoly.lblStyle));

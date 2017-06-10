@@ -134,6 +134,11 @@ public class DiceScene {
     }
 
     private void boxIt() {
+        createWalls();
+        createContainer();
+    }
+
+    private void createWalls() {
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(new Vector2(0, -(Monopoly.HEIGHT / PIXELS_IN_A_METER) / 2));
         Body groundBody = world.createBody(bodyDef);
@@ -155,7 +160,11 @@ public class DiceScene {
         Body rightWallBody = world.createBody(bodyDef);
         box.setAsBox(1 / PIXELS_IN_A_METER, (Monopoly.HEIGHT / PIXELS_IN_A_METER));
         rightWallBody.createFixture(box, 0.0f);
+        box.dispose();
+    }
 
+    private void createContainer() {
+        BodyDef bodyDef = new BodyDef();
         PolygonShape shape = new PolygonShape();
         Vector2[] vertices = new Vector2[4];
         vertices[0] = new Vector2(0, 0);
@@ -201,8 +210,6 @@ public class DiceScene {
         bodyDef.position.set(new Vector2((Monopoly.WIDTH / PIXELS_IN_A_METER) / 2 - 2.9f, -0.2f));
         Body upperCornerContainerBody = world.createBody(bodyDef);
         upperCornerContainerBody.createFixture(shape, 0.0f);
-
-        box.dispose();
         shape.dispose();
     }
 

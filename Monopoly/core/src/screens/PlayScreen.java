@@ -65,11 +65,33 @@ public class PlayScreen implements Screen {
         diceReady = false;
 
         stage = new Stage(vp);
-        tblButtons = new Table(Monopoly.skin);
+
+        initSqTable();
+        initButtons();
+        initBtnTable();
+
+        gameCycle();
+    }
+
+    public static void exitPropertyScene() {
+        viewingASquare = false;
+    }
+
+    public static void enableEndTurn() {
+        if (GameData.getPlayer().getTurnsRemaining() > 0) {
+            btnDice.setDisabled(false);
+            btnDice.setTouchable(Touchable.enabled);
+        } else {
+            btnEndTurn.setDisabled(false);
+            btnEndTurn.setTouchable(Touchable.enabled);
+        }
+    }
+
+    private void initSqTable() {
+        btnSq = new ArrayList<Button>();
         tblSquares = new Table(Monopoly.skin);
         tblSquares.setBounds(0, 0, Monopoly.HEIGHT, Monopoly.HEIGHT);
 
-        btnSq = new ArrayList<Button>();
         for (int i = 0; i < 40; i++) {
             int width = 59 * Monopoly.HEIGHT / 720;
             int height = 2 * Monopoly.HEIGHT / 15;
@@ -104,8 +126,9 @@ public class PlayScreen implements Screen {
             }
         }
         stage.addActor(tblSquares);
+    }
 
-
+    private void initButtons() {
         btnEndTurn = new TextButton("End turn", Monopoly.btnStyle);
         btnEndTurn.addListener(new ClickListener() {
             @Override
@@ -154,7 +177,10 @@ public class PlayScreen implements Screen {
                 SquareScene.view(GameData.getPlayer().getPosition());
             }
         });
+    }
 
+    private void initBtnTable() {
+        tblButtons = new Table(Monopoly.skin);
         tblButtons.setBounds(9 * Monopoly.WIDTH / 16, 0, 7 * Monopoly.WIDTH / 16, 25 * Monopoly.HEIGHT / 36);
         tblButtons.top();
         tblButtons.add(btnViewProp).width(2 * Monopoly.WIDTH / 5);
@@ -167,22 +193,6 @@ public class PlayScreen implements Screen {
         tblButtons.row();
         tblButtons.add(btnExit).width(Monopoly.WIDTH / 4).padTop(1 * Monopoly.HEIGHT / 10);
         stage.addActor(tblButtons);
-
-        gameCycle();
-    }
-
-    public static void exitPropertyScene() {
-        viewingASquare = false;
-    }
-
-    public static void enableEndTurn() {
-        if (GameData.getPlayer().getTurnsRemaining() > 0) {
-            btnDice.setDisabled(false);
-            btnDice.setTouchable(Touchable.enabled);
-        } else {
-            btnEndTurn.setDisabled(false);
-            btnEndTurn.setTouchable(Touchable.enabled);
-        }
     }
 
     @Override

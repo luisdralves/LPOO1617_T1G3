@@ -49,7 +49,20 @@ public class AuctionScene {
         amountSliders = new ArrayList<IndexedSlider>();
         amountText = new ArrayList<Label>();
 
+        initButtons();
+
+        table.setBounds(0, (Monopoly.HEIGHT - bg.getHeight()) / 2 + bg.getHeight() / 4, Monopoly.WIDTH, 3 * bg.getHeight() / 4 - 20);
+        tableButtons.setBounds(0, (Monopoly.HEIGHT - bg.getHeight()) / 2, Monopoly.WIDTH, 1 * bg.getHeight() / 4);
+
+        stage.addActor(table);
+        stage.addActor(tableButtons);
+    }
+
+    private void initButtons() {
         btnNext = new TextButton("Raise the stakes", Monopoly.btnStyle);
+        btnExit = new TextButton("Cancel", Monopoly.btnStyle);
+        btnAccept = new TextButton("Accept results", Monopoly.btnStyle);
+
         btnNext.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -65,7 +78,6 @@ public class AuctionScene {
             }
         });
 
-        btnExit = new TextButton("Cancel", Monopoly.btnStyle);
         btnExit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -73,7 +85,6 @@ public class AuctionScene {
             }
         });
 
-        btnAccept = new TextButton("Accept results", Monopoly.btnStyle);
         btnAccept.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -103,12 +114,6 @@ public class AuctionScene {
                 SquareScene.view(sqPos);
             }
         });
-
-        table.setBounds(0, (Monopoly.HEIGHT - bg.getHeight()) / 2 + bg.getHeight() / 4, Monopoly.WIDTH, 3 * bg.getHeight() / 4 - 20);
-        tableButtons.setBounds(0, (Monopoly.HEIGHT - bg.getHeight()) / 2, Monopoly.WIDTH, 1 * bg.getHeight() / 4);
-
-        stage.addActor(table);
-        stage.addActor(tableButtons);
     }
 
     public void render(SpriteBatch spb) {
@@ -134,48 +139,56 @@ public class AuctionScene {
         amountSliders.clear();
         amountText.clear();
         if (!justNegotiating) {
-            for (int i = 0; i < GameData.getPlayers().size(); i++) {
-                if (GameData.getPlayer().getID() - 1 != i) {
-                    table.add(new Label(GameData.getPlayer(i).getName(), Monopoly.lblStyle)).padRight(50);
-                    amountText.add(new Label("$" + min, Monopoly.lblStyle));
-                    final IndexedSlider sldTmp = new IndexedSlider(min, max, i);
-                    sldTmp.addListener(new ChangeListener() {
-                        @Override
-                        public void changed(ChangeListener.ChangeEvent event, Actor actor) {
-                            amountText.get(sldTmp.id).setText("$" + Integer.toString((int) sldTmp.getValue()));
-                        }
-                    });
-                    amountSliders.add(sldTmp);
-                    table.add(amountSliders.get(i)).width(256).padRight(50);
-                    table.add(amountText.get(i)).width(80).row();
-                } else {
-                    amountText.add(new Label("", Monopoly.lblStyle));
-                    amountSliders.add(new IndexedSlider(0, 300, -1));
-                }
-            }
-            tableButtons.add(btnNext).width(300).padRight(25);
-            tableButtons.add(btnAccept).width(300).padLeft(25);
+            initSoloTable();
         } else {
-            table.add(new Label("Agree on a price:", Monopoly.lblStyle)).colspan(2).padBottom(100).row();
-            table.add(new Label(GameData.getPlayer().getName(), Monopoly.lblStyle)).padRight(50);
-            amountText.add(new Label("$" + min, Monopoly.lblStyle));
-            final IndexedSlider sldTmp = new IndexedSlider(min, max, 0);
-            sldTmp.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeListener.ChangeEvent event, Actor actor) {
-                    amountText.get(sldTmp.id).setText("$" + Integer.toString((int) sldTmp.getValue()));
-                }
-            });
-            amountSliders.add(sldTmp);
-            table.add(amountSliders.get(0)).width(256).padRight(50);
-            table.add(amountText.get(0)).width(80).row();
-            btnNext.getLabel().setFontScale(0.6f);
-            btnAccept.getLabel().setFontScale(0.6f);
-            btnExit.getLabel().setFontScale(0.6f);
-            tableButtons.add(btnNext).width(200).pad(10);
-            tableButtons.add(btnAccept).width(200).pad(10);
-            tableButtons.add(btnExit).width(200).pad(10);
+            initMultiTable();
         }
+    }
+
+    private void initSoloTable() {
+        for (int i = 0; i < GameData.getPlayers().size(); i++) {
+            if (GameData.getPlayer().getID() - 1 != i) {
+                table.add(new Label(GameData.getPlayer(i).getName(), Monopoly.lblStyle)).padRight(50);
+                amountText.add(new Label("$" + min, Monopoly.lblStyle));
+                final IndexedSlider sldTmp = new IndexedSlider(min, max, i);
+                sldTmp.addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+                        amountText.get(sldTmp.id).setText("$" + Integer.toString((int) sldTmp.getValue()));
+                    }
+                });
+                amountSliders.add(sldTmp);
+                table.add(amountSliders.get(i)).width(256).padRight(50);
+                table.add(amountText.get(i)).width(80).row();
+            } else {
+                amountText.add(new Label("", Monopoly.lblStyle));
+                amountSliders.add(new IndexedSlider(0, 300, -1));
+            }
+        }
+        tableButtons.add(btnNext).width(300).padRight(25);
+        tableButtons.add(btnAccept).width(300).padLeft(25);
+    }
+
+    private void initMultiTable() {
+        table.add(new Label("Agree on a price:", Monopoly.lblStyle)).colspan(2).padBottom(100).row();
+        table.add(new Label(GameData.getPlayer().getName(), Monopoly.lblStyle)).padRight(50);
+        amountText.add(new Label("$" + min, Monopoly.lblStyle));
+        final IndexedSlider sldTmp = new IndexedSlider(min, max, 0);
+        sldTmp.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+                amountText.get(sldTmp.id).setText("$" + Integer.toString((int) sldTmp.getValue()));
+            }
+        });
+        amountSliders.add(sldTmp);
+        table.add(amountSliders.get(0)).width(256).padRight(50);
+        table.add(amountText.get(0)).width(80).row();
+        btnNext.getLabel().setFontScale(0.6f);
+        btnAccept.getLabel().setFontScale(0.6f);
+        btnExit.getLabel().setFontScale(0.6f);
+        tableButtons.add(btnNext).width(200).pad(10);
+        tableButtons.add(btnAccept).width(200).pad(10);
+        tableButtons.add(btnExit).width(200).pad(10);
     }
 
     public void auction() {

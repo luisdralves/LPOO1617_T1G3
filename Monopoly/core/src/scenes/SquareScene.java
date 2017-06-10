@@ -57,151 +57,10 @@ public class SquareScene {
 
         flags = new boolean[8];
 
-        propNo = new TextField("", Monopoly.tflStyle);
-        propNo.setTextFieldFilter(new TextField.TextFieldFilter.DigitsOnlyFilter());
-        propNo.addListener(new InputListener() {
-            @Override
-            public boolean keyUp(InputEvent event, int keycode) {
-                if (keycode == Input.Keys.ENTER) {
-                    view(Integer.parseInt(propNo.getText()));
-                }
-                return false;
-            }
-        });
-
-        btnExit = new TextButton("Exit", Monopoly.btnStyle);
-        btnExit.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                PlayScreen.exitPropertyScene();
-            }
-        });
-        btnExit.getLabel().setFontScale(0.6f);
-
-        btnBuy = new TextButton("Acquire", Monopoly.btnStyle);
-        btnBuy.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (!flags[0] && !flags[1] && flags[2] && (flags[3] || flags[4])) {
-                    GameData.getPlayer().purchase();
-                } else if (flags[4] && flags[1]) {
-                    ((Property) Board.getSquare(sqPos)).addToHouses(1);
-                } else if (flags[0] && (flags[3] || flags[4])) {
-                    auctionScene.negotiate(sqPos);
-                    auctioning = true;
-                }
-                view(sqPos);
-            }
-        });
-        btnBuy.getLabel().setFontScale(0.6f);
-
-        btnAuction = new TextButton("Auction", Monopoly.btnStyle);
-        btnAuction.getLabel().setFontScale(0.6f);
-        btnAuction.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                auctionScene.auction();
-                auctioning = true;
-            }
-        });
-
-        btnMortgage = new TextButton("Mortgage", Monopoly.btnStyle);
-        btnMortgage.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                ((Purchasable) Board.getSquare(sqPos)).toggleMortgage();
-                view(sqPos);
-            }
-        });
-        btnMortgage.getLabel().setFontScale(0.6f);
-
-        positionMore = new ImageButton(Monopoly.ibtnStyleRight);
-        positionLess = new ImageButton(Monopoly.ibtnStyleLeft);
-        positionMore.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (viewingSelection) {
-                    sqPos++;
-                    sqPos %= viewable.size();
-                    propNo.setText(Integer.toString(viewable.get(sqPos)));
-                    view(sqPos, viewable);
-                } else if (Integer.parseInt(propNo.getText()) >= 0) {
-                    propNo.setText(Integer.toString((Integer.parseInt(propNo.getText()) + 1) % 40));
-                    view(Integer.parseInt(propNo.getText()));
-                }
-            }
-        });
-        positionLess.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (viewingSelection) {
-                    sqPos--;
-                    if (sqPos < 0)
-                        sqPos += viewable.size();
-                    propNo.setText(Integer.toString(viewable.get(sqPos)));
-                    view(sqPos, viewable);
-                } else if (Integer.parseInt(propNo.getText()) > 0) {
-                    propNo.setText(Integer.toString(Integer.parseInt(propNo.getText()) - 1));
-                    view(Integer.parseInt(propNo.getText()));
-                } else if (Integer.parseInt(propNo.getText()) == 0) {
-                    propNo.setText(Integer.toString(39));
-                    view(Integer.parseInt(propNo.getText()));
-                }
-            }
-        });
-
-        int padding = 1 * bg.getHeight() / 16;
-
-
-        tableHeader = new Table();
-        tableHeader.right();
-        tableHeader.setBounds(Monopoly.WIDTH / 2 + 32, Monopoly.HEIGHT / 2 + bg.getHeight() / 2 - 3, bg.getWidth() / 2, propNo.getHeight());
-        tableHeader.add(positionLess);
-        tableHeader.add(propNo).width(30);
-        tableHeader.add(positionMore);
-
-        tableInfo = new Table();
-        tableInfo.top();
-        tableInfo.setBounds(0, (Monopoly.HEIGHT - bg.getHeight()) / 2, Monopoly.WIDTH, bg.getHeight());
-
-        tableInfo.add(new Label("", Monopoly.lblStyle)).width(8 * bg.getWidth() / 10).height(padding).colspan(2).row();
-
-        lblTitle = new Label("", Monopoly.lblStyle);
-        lblTitle.setFontScale(0.7f);
-        tableInfo.add(lblTitle).colspan(2).row();
-
-        Label lblCost = new Label("Cost: ", Monopoly.lblStyle);
-        lblCost.setFontScale(0.6f);
-        tableInfo.add(lblCost).top().left().padTop(padding);
-        lblCosts = new Label("", Monopoly.lblStyle);
-        lblCosts.setFontScale(0.6f);
-        tableInfo.add(lblCosts).right().padTop(padding).row();
-
-        Label lblRent = new Label("Rent: ", Monopoly.lblStyle);
-        lblRent.setFontScale(0.6f);
-        tableInfo.add(lblRent).top().left().padTop(padding);
-        lblRents = new Label("", Monopoly.lblStyle);
-        lblRents.setFontScale(0.6f);
-        tableInfo.add(lblRents).right().padTop(padding).row();
-
-
-        tableButtons = new Table();
-        tableButtons.setBounds(0, (Monopoly.HEIGHT - bg.getHeight()) / 2, Monopoly.WIDTH, bg.getHeight());
-        tableButtons.bottom();
-        lblOwner = new Label("", Monopoly.lblStyle);
-        lblOwner.setFontScale(0.6f);
-        tableButtons.add(lblOwner).colspan(2).padTop(2 * padding / 3).row();
-
-        tableButtons.add(btnBuy).width(8 * bg.getWidth() / 20 - padding / 2).padTop(padding / 2).padRight(padding / 2);
-        tableButtons.add(btnAuction).width(8 * bg.getWidth() / 20 - padding / 2).padTop(padding / 2).padLeft(padding / 2).row();
-        tableButtons.add(btnMortgage).width(8 * bg.getWidth() / 20 - padding / 2).padTop(padding / 2).padBottom(padding).padRight(padding / 2);
-        tableButtons.add(btnExit).width(8 * bg.getWidth() / 20 - padding / 2).padTop(padding / 2).padBottom(padding).padLeft(padding / 2);
-
-        stage.addActor(tableHeader);
-        stage.addActor(tableInfo);
-        stage.addActor(tableButtons);
+        initActors();
+        initListeners();
+        initTable();
     }
-
 
     public static void view(int pos) {
         viewingSelection = false;
@@ -250,54 +109,62 @@ public class SquareScene {
 
     private static void manageButtons(int pos) {
         if (flags[3] || flags[4]) {
-            updateLabels(pos);
-            if (((!flags[0] || !flags[1]) && (!flags[0] || flags[3]) && (!flags[1] || flags[3])) || (flags[0] && (flags[3] || flags[4])))
-                btnBuy.setText("Acquire");
-            else
-                btnBuy.setText("Improve");
-            btnBuy.setVisible(true);
-            if (flags[5] || (!flags[0] && !flags[1]))
-                btnMortgage.setText("Mortgage");
-            else
-                btnMortgage.setText("Unmortgage");
-            btnMortgage.setVisible(true);
-            btnAuction.setVisible(true);
-            if ((flags[1] || flags[5] || !flags[2]) && (flags[5] || !flags[1] || !flags[4] || !flags[7]) && !(flags[0] && (flags[3] || flags[4]))) {
-                btnBuy.setTouchable(Touchable.disabled);
-                btnBuy.setDisabled(true);
-            } else {
-                btnBuy.setTouchable(Touchable.enabled);
-                btnBuy.setDisabled(false);
-            }
-            if (flags[1]) {
-                btnMortgage.setTouchable(Touchable.enabled);
-                btnMortgage.setDisabled(false);
-            } else {
-                btnMortgage.setTouchable(Touchable.disabled);
-                btnMortgage.setDisabled(true);
-            }
-            if (!flags[0] && !flags[1] && flags[2]) {
-                btnAuction.setTouchable(Touchable.enabled);
-                btnAuction.setDisabled(false);
-            } else {
-                btnAuction.setTouchable(Touchable.disabled);
-                btnAuction.setDisabled(true);
-            }
+            managePurchButtons(pos);
         } else {
-            set = Color.GRAY;
-            tableInfo.getCells().get(2).getActor().setVisible(false);
-            tableInfo.getCells().get(4).getActor().setVisible(false);
-            lblCosts.setVisible(false);
-            lblRents.setVisible(false);
-            lblOwner.setVisible(false);
-
-            btnBuy.setVisible(false);
-            btnMortgage.setVisible(false);
-            btnAuction.setVisible(false);
-            btnBuy.setTouchable(Touchable.disabled);
-            btnMortgage.setTouchable(Touchable.disabled);
-            btnAuction.setTouchable(Touchable.disabled);
+            manageSqaureButtons();
         }
+    }
+
+    private static void managePurchButtons(int pos) {
+        updateLabels(pos);
+        if (((!flags[0] || !flags[1]) && (!flags[0] || flags[3]) && (!flags[1] || flags[3])) || (flags[0] && (flags[3] || flags[4])))
+            btnBuy.setText("Acquire");
+        else
+            btnBuy.setText("Improve");
+        btnBuy.setVisible(true);
+        if (flags[5] || (!flags[0] && !flags[1]))
+            btnMortgage.setText("Mortgage");
+        else
+            btnMortgage.setText("Unmortgage");
+        btnMortgage.setVisible(true);
+        btnAuction.setVisible(true);
+        if ((flags[1] || flags[5] || !flags[2]) && (flags[5] || !flags[1] || !flags[4] || !flags[7]) && !(flags[0] && (flags[3] || flags[4]))) {
+            btnBuy.setTouchable(Touchable.disabled);
+            btnBuy.setDisabled(true);
+        } else {
+            btnBuy.setTouchable(Touchable.enabled);
+            btnBuy.setDisabled(false);
+        }
+        if (flags[1]) {
+            btnMortgage.setTouchable(Touchable.enabled);
+            btnMortgage.setDisabled(false);
+        } else {
+            btnMortgage.setTouchable(Touchable.disabled);
+            btnMortgage.setDisabled(true);
+        }
+        if (!flags[0] && !flags[1] && flags[2]) {
+            btnAuction.setTouchable(Touchable.enabled);
+            btnAuction.setDisabled(false);
+        } else {
+            btnAuction.setTouchable(Touchable.disabled);
+            btnAuction.setDisabled(true);
+        }
+    }
+
+    private static void manageSqaureButtons() {
+        set = Color.GRAY;
+        tableInfo.getCells().get(2).getActor().setVisible(false);
+        tableInfo.getCells().get(4).getActor().setVisible(false);
+        lblCosts.setVisible(false);
+        lblRents.setVisible(false);
+        lblOwner.setVisible(false);
+
+        btnBuy.setVisible(false);
+        btnMortgage.setVisible(false);
+        btnAuction.setVisible(false);
+        btnBuy.setTouchable(Touchable.disabled);
+        btnMortgage.setTouchable(Touchable.disabled);
+        btnAuction.setTouchable(Touchable.disabled);
     }
 
     private static void updateLabels(int pos) {
@@ -327,6 +194,161 @@ public class SquareScene {
 
     public static void exitAuction() {
         auctioning = false;
+    }
+
+    private void initActors() {
+        propNo = new TextField("", Monopoly.tflStyle);
+        propNo.setTextFieldFilter(new TextField.TextFieldFilter.DigitsOnlyFilter());
+
+        btnExit = new TextButton("Exit", Monopoly.btnStyle);
+        btnExit.getLabel().setFontScale(0.6f);
+
+        btnBuy = new TextButton("Acquire", Monopoly.btnStyle);
+        btnBuy.getLabel().setFontScale(0.6f);
+
+        btnAuction = new TextButton("Auction", Monopoly.btnStyle);
+        btnAuction.getLabel().setFontScale(0.6f);
+
+        btnMortgage = new TextButton("Mortgage", Monopoly.btnStyle);
+        btnMortgage.getLabel().setFontScale(0.6f);
+
+        positionMore = new ImageButton(Monopoly.ibtnStyleRight);
+        positionLess = new ImageButton(Monopoly.ibtnStyleLeft);
+    }
+
+    private void initListeners() {
+        propNo.addListener(new InputListener() {
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.ENTER) {
+                    view(Integer.parseInt(propNo.getText()));
+                }
+                return false;
+            }
+        });
+
+        btnExit.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                PlayScreen.exitPropertyScene();
+            }
+        });
+
+        btnBuy.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (!flags[0] && !flags[1] && flags[2] && (flags[3] || flags[4])) {
+                    GameData.getPlayer().purchase();
+                } else if (flags[4] && flags[1]) {
+                    ((Property) Board.getSquare(sqPos)).addToHouses(1);
+                } else if (flags[0] && (flags[3] || flags[4])) {
+                    auctionScene.negotiate(sqPos);
+                    auctioning = true;
+                }
+                view(sqPos);
+            }
+        });
+
+        btnAuction.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                auctionScene.auction();
+                auctioning = true;
+            }
+        });
+
+        btnMortgage.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Purchasable) Board.getSquare(sqPos)).toggleMortgage();
+                view(sqPos);
+            }
+        });
+
+        positionMore.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (viewingSelection) {
+                    sqPos++;
+                    sqPos %= viewable.size();
+                    propNo.setText(Integer.toString(viewable.get(sqPos)));
+                    view(sqPos, viewable);
+                } else if (Integer.parseInt(propNo.getText()) >= 0) {
+                    propNo.setText(Integer.toString((Integer.parseInt(propNo.getText()) + 1) % 40));
+                    view(Integer.parseInt(propNo.getText()));
+                }
+            }
+        });
+        positionLess.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (viewingSelection) {
+                    sqPos--;
+                    if (sqPos < 0)
+                        sqPos += viewable.size();
+                    propNo.setText(Integer.toString(viewable.get(sqPos)));
+                    view(sqPos, viewable);
+                } else if (Integer.parseInt(propNo.getText()) > 0) {
+                    propNo.setText(Integer.toString(Integer.parseInt(propNo.getText()) - 1));
+                    view(Integer.parseInt(propNo.getText()));
+                } else if (Integer.parseInt(propNo.getText()) == 0) {
+                    propNo.setText(Integer.toString(39));
+                    view(Integer.parseInt(propNo.getText()));
+                }
+            }
+        });
+    }
+
+    private void initTable() {
+        int padding = 1 * bg.getHeight() / 16;
+
+        tableHeader = new Table();
+        tableHeader.right();
+        tableHeader.setBounds(Monopoly.WIDTH / 2 + 32, Monopoly.HEIGHT / 2 + bg.getHeight() / 2 - 3, bg.getWidth() / 2, propNo.getHeight());
+        tableHeader.add(positionLess);
+        tableHeader.add(propNo).width(30);
+        tableHeader.add(positionMore);
+
+        tableInfo = new Table();
+        tableInfo.top();
+        tableInfo.setBounds(0, (Monopoly.HEIGHT - bg.getHeight()) / 2, Monopoly.WIDTH, bg.getHeight());
+
+        tableInfo.add(new Label("", Monopoly.lblStyle)).width(8 * bg.getWidth() / 10).height(padding).colspan(2).row();
+
+        lblTitle = new Label("", Monopoly.lblStyle);
+        lblTitle.setFontScale(0.7f);
+        tableInfo.add(lblTitle).colspan(2).row();
+
+        Label lblCost = new Label("Cost: ", Monopoly.lblStyle);
+        lblCost.setFontScale(0.6f);
+        tableInfo.add(lblCost).top().left().padTop(padding);
+        lblCosts = new Label("", Monopoly.lblStyle);
+        lblCosts.setFontScale(0.6f);
+        tableInfo.add(lblCosts).right().padTop(padding).row();
+
+        Label lblRent = new Label("Rent: ", Monopoly.lblStyle);
+        lblRent.setFontScale(0.6f);
+        tableInfo.add(lblRent).top().left().padTop(padding);
+        lblRents = new Label("", Monopoly.lblStyle);
+        lblRents.setFontScale(0.6f);
+        tableInfo.add(lblRents).right().padTop(padding).row();
+
+
+        tableButtons = new Table();
+        tableButtons.setBounds(0, (Monopoly.HEIGHT - bg.getHeight()) / 2, Monopoly.WIDTH, bg.getHeight());
+        tableButtons.bottom();
+        lblOwner = new Label("", Monopoly.lblStyle);
+        lblOwner.setFontScale(0.6f);
+        tableButtons.add(lblOwner).colspan(2).padTop(2 * padding / 3).row();
+
+        tableButtons.add(btnBuy).width(8 * bg.getWidth() / 20 - padding / 2).padTop(padding / 2).padRight(padding / 2);
+        tableButtons.add(btnAuction).width(8 * bg.getWidth() / 20 - padding / 2).padTop(padding / 2).padLeft(padding / 2).row();
+        tableButtons.add(btnMortgage).width(8 * bg.getWidth() / 20 - padding / 2).padTop(padding / 2).padBottom(padding).padRight(padding / 2);
+        tableButtons.add(btnExit).width(8 * bg.getWidth() / 20 - padding / 2).padTop(padding / 2).padBottom(padding).padLeft(padding / 2);
+
+        stage.addActor(tableHeader);
+        stage.addActor(tableInfo);
+        stage.addActor(tableButtons);
     }
 
     public void render(SpriteBatch spb) {
