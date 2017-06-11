@@ -28,5 +28,5 @@ public class PurchasableTest {
         assertEquals(true, p.isOwned());
     }
 
-    
+
 }

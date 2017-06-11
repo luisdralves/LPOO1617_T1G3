@@ -181,7 +181,75 @@ public class Player {
         Card card;
         if (square == 2 || square == 17 || square == 33) {
             card = GameData.getCommunityCard();
-        } else if (square == 7 || square == 22 || square == 36) {
+        } else
+            return;
+        switch (card.id) {
+            case 17:
+                square = 0;
+                break;
+            case 18:
+                balance += 200;
+                break;
+            case 19:
+                balance -= 50;
+                break;
+            case 20:
+                balance += 45;
+                break;
+            case 21:
+                yolo = true;
+                break;
+            case 22:
+                goToJail();
+                break;
+            case 23:
+                for (Player p : GameData.getPlayers())
+                    transaction(p, -50);
+                break;
+            case 28:
+            case 24:
+                balance -= 100;
+                break;
+            case 25:
+                balance += 20;
+                break;
+            case 26:
+                for (Player p : GameData.getPlayers())
+                    transaction(p, -10);
+                break;
+            case 27:
+                balance += 100;
+                break;
+            case 29:
+                balance -= 150;
+                break;
+            case 30:
+                balance += 25;
+                break;
+            case 31:
+                for (int i : acquired)
+                    if (Board.getSquare(i) instanceof Property) {
+                        if (((Property) Board.getSquare(i)).getHouses() < 5)
+                            balance -= 40;
+                        else
+                            balance -= 115;
+                    }
+                break;
+            case 32:
+                balance += 10;
+        }
+        status += "Community chest:\n";
+        status += card.getTitle() + '\n';
+        for (int i = 0; i < card.getDesc().length(); i++) {
+            status += card.getDesc().charAt(i);
+            if (i % 55 == 54)
+                status += '\n';
+        }
+    }
+
+    private void checkChanceCards() {
+        Card card;
+        if (square == 7 || square == 22 || square == 36) {
             card = GameData.getChanceCard();
         } else
             return;
@@ -251,76 +319,6 @@ public class Player {
             case 16:
                 balance += 150;
                 break;
-        }
-        status += "Community chest:\n";
-        status += card.getTitle() + '\n';
-        for (int i = 0; i < card.getDesc().length(); i++) {
-            status += card.getDesc().charAt(i);
-            if (i % 55 == 54)
-                status += '\n';
-        }
-    }
-
-    private void checkChanceCards() {
-        Card card;
-        if (square == 7 || square == 22 || square == 36) {
-            card = GameData.getChanceCard();
-        } else
-            return;
-        switch (card.id) {
-            case 17:
-                square = 0;
-                break;
-            case 18:
-                balance += 200;
-                break;
-            case 19:
-                balance -= 50;
-                break;
-            case 20:
-                balance += 45;
-                break;
-            case 21:
-                yolo = true;
-                break;
-            case 22:
-                goToJail();
-                break;
-            case 23:
-                for (Player p : GameData.getPlayers())
-                    transaction(p, -50);
-                break;
-            case 28:
-            case 24:
-                balance -= 100;
-                break;
-            case 25:
-                balance += 20;
-                break;
-            case 26:
-                for (Player p : GameData.getPlayers())
-                    transaction(p, -10);
-                break;
-            case 27:
-                balance += 100;
-                break;
-            case 29:
-                balance -= 150;
-                break;
-            case 30:
-                balance += 25;
-                break;
-            case 31:
-                for (int i : acquired)
-                    if (Board.getSquare(i) instanceof Property) {
-                        if (((Property) Board.getSquare(i)).getHouses() < 5)
-                            balance -= 40;
-                        else
-                            balance -= 115;
-                    }
-                break;
-            case 32:
-                balance += 10;
         }
         status += "Chance card:\n";
         status += card.getTitle() + '\n';
