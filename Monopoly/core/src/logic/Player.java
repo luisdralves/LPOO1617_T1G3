@@ -252,6 +252,7 @@ public class Player {
                 balance += 150;
                 break;
         }
+        status += "Community chest:\n";
         status += card.getTitle() + '\n';
         for (int i = 0; i < card.getDesc().length(); i++) {
             status += card.getDesc().charAt(i);
@@ -321,6 +322,7 @@ public class Player {
             case 32:
                 balance += 10;
         }
+        status += "Chance card:\n";
         status += card.getTitle() + '\n';
         for (int i = 0; i < card.getDesc().length(); i++) {
             status += card.getDesc().charAt(i);
