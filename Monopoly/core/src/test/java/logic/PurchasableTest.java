@@ -27,4 +27,6 @@ public class PurchasableTest {
         assertEquals(player, p.getOwner());
         assertEquals(true, p.isOwned());
     }
+
+    
 }
