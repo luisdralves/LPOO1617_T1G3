@@ -20,12 +20,10 @@ public class Player {
     private boolean yolo;
     private int square;
     private int balance;
-    private int turnsInJail;
-    private int turnsRemaining;
+    private int turnsInJail, turnsRemaining;
     private int doubles;
-    private boolean inJail;
+    private boolean inJail, diceHaveBeenRolled;
     private int roll1, roll2;
-    private boolean dicesHaveBeenRolled;
     private List<Integer> acquired;
     private List<Integer> suspended;
 
@@ -45,7 +43,7 @@ public class Player {
         yolo = false;
         roll1 = 0;
         roll2 = 0;
-        dicesHaveBeenRolled = false;
+        diceHaveBeenRolled = false;
         acquired = new ArrayList<Integer>();
         suspended = new ArrayList<Integer>();
 
@@ -83,10 +81,6 @@ public class Player {
         acquired.remove(acquired.indexOf(i));
     }
 
-    public List<Integer> getSuspended() {
-        return suspended;
-    }
-
     public List<Integer> getProperties() {
         List<Integer> ret = new ArrayList<Integer>();
         for (int i : acquired) {
@@ -98,31 +92,6 @@ public class Player {
         }
         return ret;
     }
-
-    public List<Integer> getStations() {
-        List<Integer> ret = new ArrayList<Integer>();
-        for (int i : acquired) {
-            for (int j : stations) {
-                if (i == j) {
-                    ret.add(i);
-                }
-            }
-        }
-        return ret;
-    }
-
-    public List<Integer> getUtilities() {
-        List<Integer> ret = new ArrayList<Integer>();
-        for (int i : acquired) {
-            for (int j : utilities) {
-                if (i == j) {
-                    ret.add(i);
-                }
-            }
-        }
-        return ret;
-    }
-
     public int getPosition() {
         return square;
     }
@@ -143,10 +112,6 @@ public class Player {
         return inJail;
     }
 
-    public boolean haveDicesBeenRolled() {
-        return dicesHaveBeenRolled;
-    }
-
     public int getDiceRoll() {
         return roll1 + roll2;
     }
@@ -163,7 +128,7 @@ public class Player {
         Random dice = new Random();
         roll1 = dice.nextInt(6) + 1;
         roll2 = dice.nextInt(6) + 1;
-        dicesHaveBeenRolled = true;
+        diceHaveBeenRolled = true;
         roll1 = 3;
         roll2 = 4;
     }
@@ -171,7 +136,7 @@ public class Player {
     public void rollDice(int i1, int i2) {
         roll1 = i1;
         roll2 = i2;
-        dicesHaveBeenRolled = true;
+        diceHaveBeenRolled = true;
     }
 
     public void move() {
@@ -402,7 +367,7 @@ public class Player {
         this.turnsInJail = turns;
         this.doubles = doubles;
         this.inJail = inJail;
-        dicesHaveBeenRolled = false;
+        diceHaveBeenRolled = false;
     }
 
     public void goToJail() {
@@ -428,7 +393,8 @@ public class Player {
             if (toPurchase instanceof Property)
                 ((Property) toPurchase).updateOwnerOwnsInSet();
         }
-        PlayScreen.enableEndTurn();
+        if (PlayScreen.initialized)
+            PlayScreen.enableEndTurn();
     }
 
     public void purchase(int position, int amount) {
@@ -444,7 +410,8 @@ public class Player {
             if (toPurchase instanceof Property)
                 ((Property) toPurchase).updateOwnerOwnsInSet();
         }
-        PlayScreen.enableEndTurn();
+        if (PlayScreen.initialized)
+            PlayScreen.enableEndTurn();
     }
 
     public void mortgage(int i) {
