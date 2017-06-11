@@ -178,7 +178,8 @@ public class Player {
         int pos1 = square;
         square += roll1 + roll2;
 
-        checkCards();
+        checkCommCards();
+        checkChanceCards();
         checkGO();
         checkSpecialSquares();
         Square currentSquare = Board.getSquare(square);
@@ -211,7 +212,7 @@ public class Player {
         }
     }
 
-    private void checkCards() {
+    private void checkCommCards() {
         Card card;
         if (square == 2 || square == 17 || square == 33) {
             card = GameData.getCommunityCard();
@@ -220,7 +221,6 @@ public class Player {
         } else
             return;
         switch (card.id) {
-            case 17:
             case 1:
                 square = 0;
                 break;
@@ -250,14 +250,12 @@ public class Player {
             case 7:
                 balance += 50;
                 break;
-            case 21:
             case 8:
                 yolo = true;
                 break;
             case 9:
                 square -= 3;
                 break;
-            case 22:
             case 10:
                 goToJail();
                 break;
@@ -288,6 +286,25 @@ public class Player {
             case 16:
                 balance += 150;
                 break;
+        }
+        status += card.getTitle() + '\n';
+        for (int i = 0; i < card.getDesc().length(); i++) {
+            status += card.getDesc().charAt(i);
+            if (i % 55 == 54)
+                status += '\n';
+        }
+    }
+
+    private void checkChanceCards() {
+        Card card;
+        if (square == 7 || square == 22 || square == 36) {
+            card = GameData.getChanceCard();
+        } else
+            return;
+        switch (card.id) {
+            case 17:
+                square = 0;
+                break;
             case 18:
                 balance += 200;
                 break;
@@ -296,6 +313,12 @@ public class Player {
                 break;
             case 20:
                 balance += 45;
+                break;
+            case 21:
+                yolo = true;
+                break;
+            case 22:
+                goToJail();
                 break;
             case 23:
                 for (Player p : GameData.getPlayers())
