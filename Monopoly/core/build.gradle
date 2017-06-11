@@ -9,3 +9,11 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 eclipse.project {
     name = appName + "-core"
 }
+repositories {
+    maven { url 'http://repo1.maven.org/maven2' }
+}
+dependencies {
+// Required -- JUnit 4 framework
+    testCompile 'junit:junit:4.12'
+    compile 'junit:junit:4.12'
+}

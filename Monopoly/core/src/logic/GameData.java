@@ -9,16 +9,12 @@ import screens.NewGameScreen;
 
 public final class GameData {
     public static int currentPlayerInt;
-    public static boolean useGUI;
-    public static boolean gameOver;
     private static List<Player> players;
     private static List<Card> chanceCards;
     private static List<Card> commCards;
 
     static {
         currentPlayerInt = -1;
-        useGUI = true;
-        gameOver = false;
 
         initChanceCards();
         initCommunityCards();
@@ -26,11 +22,21 @@ public final class GameData {
     }
 
     public static void initPlayers() {
-        players = new ArrayList<Player>();
-        for (int i = 0; i < NewGameScreen.playerCount; i++) {
-            players.add(new Player(NewGameScreen.playerNames.get(i).getText(), NewGameScreen.isAI.get(i).isChecked(), NewGameScreen.realDice.get(i).isChecked(), "token" + (i + 1) + ".png"));
-        }
-    }
+		players = new ArrayList<Player>();
+		Player.playerNumber = 1;
+		for (int i = 0; i < NewGameScreen.playerCount; i++) {
+			players.add(new Player(NewGameScreen.playerNames.get(i).getText(), NewGameScreen.isAI.get(i).isChecked(), NewGameScreen.realDice.get(i).isChecked(), "token" + (i + 1) + ".png"));
+		}
+	}
+
+	public static void initPlayersTest() {
+		currentPlayerInt = -1;
+		Player.playerNumber = 1;
+		players = new ArrayList<Player>();
+		for (int i = 0; i < 4; i++) {
+			players.add(new Player(false, false));
+		}
+	}
 
 	private static void initChanceCards() {
 		chanceCards = new ArrayList<Card>();

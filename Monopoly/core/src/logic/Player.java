@@ -11,7 +11,7 @@ import scenes.BoardScene;
 import screens.PlayScreen;
 
 public class Player {
-    private static int playerNumber = 1;
+    public static int playerNumber = 1;
     private static int[] properties = new int[]{3, 6, 8, 9, 11, 13, 14, 16, 18, 19, 21, 23, 24, 26, 27, 29, 31, 32, 34, 37, 39};
     private static int[] stations = new int[]{5, 15, 25, 35};
     private static int[] utilities = new int[]{12, 28};
@@ -35,7 +35,7 @@ public class Player {
     private Vector2 destination;
     private Vector2 velocity;
 
-    public Player(boolean ai, boolean rd, String path) {
+    public Player(boolean ai, boolean rd) {
         id = playerNumber;
         name = "Player ";
         name += playerNumber;
@@ -51,14 +51,15 @@ public class Player {
         acquired = new ArrayList<Integer>();
         suspended = new ArrayList<Integer>();
 
-        token = new Texture(path);
+//      token = new Texture("token" + id + ".png");
         position = new Vector2(0, 0);
         destination = new Vector2(0, 0);
         velocity = new Vector2(0, 0);
     }
 
     public Player(String name, boolean ai, boolean rd, String path) {
-        this(ai, rd, path);
+        this(ai, rd);
+        token = new Texture(path);
         this.name = name;
     }
 
