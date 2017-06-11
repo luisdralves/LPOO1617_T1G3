@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -32,8 +31,6 @@ public class DiceScene {
     private Body bodyDie2;
     private float offsetAlpha1, offsetAlpha2;
 
-    private Box2DDebugRenderer debugRenderer;
-
     public DiceScene() {
         world = new World(new Vector2(0, -9.8f), true);
         cam = new OrthographicCamera(Monopoly.WIDTH / PIXELS_IN_A_METER, Monopoly.HEIGHT / PIXELS_IN_A_METER);
@@ -43,8 +40,6 @@ public class DiceScene {
         die = new Texture("die.png");
         sp1 = new Sprite(die);
         sp2 = new Sprite(die);
-
-        debugRenderer = new Box2DDebugRenderer();
 
         boxIt();
     }
@@ -74,7 +69,6 @@ public class DiceScene {
         sp2.draw(spb);
         spb.draw(fg, 0, 0, Monopoly.WIDTH, Monopoly.HEIGHT);
         spb.end();
-        debugRenderer.render(world, cam.combined);
         world.step(1 / 60f, 6, 2);
     }
 

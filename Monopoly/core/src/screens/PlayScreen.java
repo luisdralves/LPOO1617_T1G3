@@ -34,6 +34,7 @@ public class PlayScreen implements Screen {
     public static boolean viewingASquare;
     public static boolean rollingDice;
     public static boolean diceReady;
+    public static boolean initialized = false;
     private static TextButton btnEndTurn;
     private static TextButton btnDice;
     private Monopoly game;
@@ -69,7 +70,7 @@ public class PlayScreen implements Screen {
         initSqTable();
         initButtons();
         initBtnTable();
-
+        initialized = true;
         gameCycle();
     }
 
