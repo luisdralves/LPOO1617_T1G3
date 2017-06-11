@@ -181,17 +181,17 @@ public class PlayScreen implements Screen {
 
     private void initBtnTable() {
         tblButtons = new Table(Monopoly.skin);
-        tblButtons.setBounds(9 * Monopoly.WIDTH / 16, 0, 7 * Monopoly.WIDTH / 16, 25 * Monopoly.HEIGHT / 36);
+        tblButtons.setBounds(9 * Monopoly.WIDTH / 16, 0, 7 * Monopoly.WIDTH / 16, 20 * Monopoly.HEIGHT / 36);
         tblButtons.top();
         tblButtons.add(btnViewProp).width(2 * Monopoly.WIDTH / 5);
         tblButtons.row();
-        tblButtons.add(btnDice).width(Monopoly.WIDTH / 4).padTop(1 * Monopoly.HEIGHT / 8);
+        tblButtons.add(btnDice).width(Monopoly.WIDTH / 4).padTop(1 * Monopoly.HEIGHT / 16);
         tblButtons.row();
-        tblButtons.add(btnMyProps).width(Monopoly.WIDTH / 4).padTop(1 * Monopoly.HEIGHT / 32);
+        tblButtons.add(btnMyProps).width(Monopoly.WIDTH / 4).padTop(1 * Monopoly.HEIGHT / 64);
         tblButtons.row();
-        tblButtons.add(btnEndTurn).width(Monopoly.WIDTH / 4).padTop(1 * Monopoly.HEIGHT / 32);
+        tblButtons.add(btnEndTurn).width(Monopoly.WIDTH / 4).padTop(1 * Monopoly.HEIGHT / 64);
         tblButtons.row();
-        tblButtons.add(btnExit).width(Monopoly.WIDTH / 4).padTop(1 * Monopoly.HEIGHT / 10);
+        tblButtons.add(btnExit).width(Monopoly.WIDTH / 4).padTop(1 * Monopoly.HEIGHT / 16);
         stage.addActor(tblButtons);
     }
 
@@ -276,6 +276,7 @@ public class PlayScreen implements Screen {
     private void moveLoop(int i1, int i2) {
         Player currentPlayer;
         currentPlayer = GameData.getPlayer();
+        currentPlayer.resetStatus();
         if (i1 == 0 || i2 == 0)
             currentPlayer.rollDice();
         else

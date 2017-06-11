@@ -1,13 +1,11 @@
 package logic;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import scenes.BoardScene;
 import screens.PlayScreen;
 
 public class Player {
@@ -19,6 +17,7 @@ public class Player {
     private String name;
     private boolean isAI;
     private boolean realDice;
+    private boolean yolo;
     private int square;
     private int balance;
     private int turnsInJail;
@@ -31,9 +30,7 @@ public class Player {
     private List<Integer> suspended;
 
     private Texture token;
-    private Vector2 position;
-    private Vector2 destination;
-    private Vector2 velocity;
+    private String status;
 
     public Player(boolean ai, boolean rd) {
         id = playerNumber;
@@ -45,6 +42,7 @@ public class Player {
         square = 0;
         balance = 1500;
         turnsInJail = 0;
+        yolo = false;
         roll1 = 0;
         roll2 = 0;
         dicesHaveBeenRolled = false;
@@ -52,9 +50,7 @@ public class Player {
         suspended = new ArrayList<Integer>();
 
 //      token = new Texture("token" + id + ".png");
-        position = new Vector2(0, 0);
-        destination = new Vector2(0, 0);
-        velocity = new Vector2(0, 0);
+        status = "";
     }
 
     public Player(String name, boolean ai, boolean rd, String path) {
@@ -168,6 +164,8 @@ public class Player {
         roll1 = dice.nextInt(6) + 1;
         roll2 = dice.nextInt(6) + 1;
         dicesHaveBeenRolled = true;
+        roll1 = 3;
+        roll2 = 4;
     }
 
     public void rollDice(int i1, int i2) {
@@ -180,6 +178,7 @@ public class Player {
         int pos1 = square;
         square += roll1 + roll2;
 
+        checkCards();
         checkGO();
         checkSpecialSquares();
         Square currentSquare = Board.getSquare(square);
@@ -187,11 +186,6 @@ public class Player {
         } else if (currentSquare instanceof Purchasable) {
             checkOwner((Purchasable) currentSquare);
         }
-        position = BoardScene.posToCoords(pos1);
-        destination = BoardScene.posToCoords(square);
-        velocity = new Vector2(destination.x, destination.y);
-        velocity.add(-position.x, -position.y);
-        velocity.scl(velocity.len());
     }
 
     private void checkSpecialSquares() {
@@ -214,6 +208,136 @@ public class Player {
                 balance += 200;
             balance += 200;
             square %= 40;
+        }
+    }
+
+    private void checkCards() {
+        Card card;
+        if (square == 2 || square == 17 || square == 33) {
+            card = GameData.getCommunityCard();
+        } else if (square == 7 || square == 22 || square == 36) {
+            card = GameData.getChanceCard();
+        } else
+            return;
+        switch (card.id) {
+            case 17:
+            case 1:
+                square = 0;
+                break;
+            case 2:
+                square = 24;
+                break;
+            case 3:
+                square = 11;
+                break;
+            case 4:
+                if (square < 12 || square > 28)
+                    square = 12;
+                else if (square < 28)
+                    square = 28;
+                break;
+            case 5:
+            case 6:
+                if (square < 5 || square > 35)
+                    square = 5;
+                else if (square < 15)
+                    square = 15;
+                else if (square < 25)
+                    square = 25;
+                else if (square < 35)
+                    square = 35;
+                break;
+            case 7:
+                balance += 50;
+                break;
+            case 21:
+            case 8:
+                yolo = true;
+                break;
+            case 9:
+                square -= 3;
+                break;
+            case 22:
+            case 10:
+                goToJail();
+                break;
+            case 11:
+                for (int i : acquired)
+                    if (Board.getSquare(i) instanceof Property) {
+                        if (((Property) Board.getSquare(i)).getHouses() < 5)
+                            balance -= 25;
+                        else
+                            balance -= 100;
+                    }
+                break;
+            case 12:
+                balance -= 15;
+                break;
+            case 13:
+                if (square > 5)
+                    balance += 200;
+                square = 5;
+                break;
+            case 14:
+                square = 39;
+                break;
+            case 15:
+                for (Player p : GameData.getPlayers())
+                    transaction(p, 50);
+                break;
+            case 16:
+                balance += 150;
+                break;
+            case 18:
+                balance += 200;
+                break;
+            case 19:
+                balance -= 50;
+                break;
+            case 20:
+                balance += 45;
+                break;
+            case 23:
+                for (Player p : GameData.getPlayers())
+                    transaction(p, -50);
+                break;
+            case 28:
+            case 24:
+                balance -= 100;
+                break;
+            case 25:
+                balance += 20;
+                break;
+            case 26:
+                for (Player p : GameData.getPlayers())
+                    transaction(p, -10);
+                break;
+            case 27:
+                balance += 100;
+                break;
+            case 29:
+                balance -= 150;
+                break;
+            case 30:
+                balance += 25;
+                break;
+            case 31:
+                for (int i : acquired)
+                    if (Board.getSquare(i) instanceof Property) {
+                        if (((Property) Board.getSquare(i)).getHouses() < 5)
+                            balance -= 40;
+                        else
+                            balance -= 115;
+                    }
+                break;
+            case 32:
+                balance += 10;
+        }
+        status += card.getTitle() + '\n';
+        for (int i = 0; i < card.getDesc().length(); i++) {
+            status += card.getDesc().charAt(i);
+            if (i % 55 == 54)
+                status += '\n';
         }
     }
 
@@ -318,11 +442,11 @@ public class Player {
         }
     }
 
-    public void update() {
-        position.add(velocity);
+    public String getStatus() {
+        return status;
     }
 
-    public Vector2 getPositionVec() {
-        return position;
+    public void resetStatus() {
+        status = "";
     }
 }

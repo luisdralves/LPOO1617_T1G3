@@ -23,6 +23,7 @@ public class Hud {
     private Label lblPlayerBalance;
     private Label lblPlayerDice;
     private Label lblPlayerPos;
+    private Label lblStatus;
 
     private int playerNo;
     private String playerName;
@@ -51,6 +52,8 @@ public class Hud {
         lblPlayerBalance = new Label("game hasnt started yet!", Monopoly.lblStyle);
         lblPlayerDice = new Label("game hasnt started yet!", Monopoly.lblStyle);
         lblPlayerPos = new Label("game hasnt started yet!", Monopoly.lblStyle);
+        lblStatus = new Label("game hasnt started yet!", Monopoly.lblStyle);
+        lblStatus.setFontScale(0.5f);
 
         int columnWidth = Monopoly.WIDTH / 5;
 
@@ -69,7 +72,8 @@ public class Hud {
         table.add(lblPlayerDice).right();
         table.row();
         table.add(new Label("Position", Monopoly.lblStyle)).width(columnWidth);
-        table.add(lblPlayerPos).right();
+        table.add(lblPlayerPos).right().row();
+        table.add(lblStatus).colspan(2);
 
         stage.addActor(table);
     }
@@ -87,6 +91,7 @@ public class Hud {
         lblPlayerBalance.setText(String.format("$ %05d", playerBalance));
         lblPlayerDice.setText(String.format("%01d + %01d", playerDice1, playerDice2));
         lblPlayerPos.setText(String.format("%01d", playerPos));
+        lblStatus.setText(p.getStatus());
     }
 
     public void render(SpriteBatch spb) {
