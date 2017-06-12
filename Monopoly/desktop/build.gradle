@@ -53,3 +53,15 @@ task afterEclipseImport(description: "Post processing after project generation",
     printer.print(classpath)
   }
 }
+task deleteJar(type: Delete) {
+    delete 'libs/monopoly.jar'
+}
+
+task createJar(type: Copy) {
+    from('build/intermediates/bundles/release/')
+    into('libs/jars/')
+    include('classes.jar')
+    rename('classes.jar', 'monopoly.jar')
+}
+
+createJar.dependsOn(deleteJar, build)
