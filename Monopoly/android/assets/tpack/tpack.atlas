@@ -114,7 +114,6 @@ cbx_off
   rotate: false
   xy: 2, 20
   size: 32, 32
-  split: 3, 3, 3, 3
   orig: 32, 32
   offset: 0, 0
   index: -1
@@ -122,6 +121,7 @@ cbx_off
   rotate: false
   xy: 2, 20
   size: 32, 32
+  split: 3, 3, 0, 32
   orig: 32, 32
   offset: 0, 0
   index: -1

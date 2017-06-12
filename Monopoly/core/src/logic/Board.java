@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public final class Board {
     private static List<Square> squares;
     private static int houses, hotels;

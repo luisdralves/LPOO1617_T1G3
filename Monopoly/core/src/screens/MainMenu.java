@@ -14,7 +14,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lpoo1617t1g3.Monopoly;
 
+import scenes.RulesScene;
+
 public class MainMenu implements Screen {
+    public static boolean viewingRules;
     private Monopoly game;
     private Viewport vp;
     private OrthographicCamera cam;
@@ -22,6 +25,7 @@ public class MainMenu implements Screen {
     private Table table;
     private TextButton btnPlay, btnRules, btnResume, btnExit;
     private Texture background;
+    private RulesScene rulesScene;
 
     public MainMenu(Monopoly m) {
         game = m;
@@ -30,6 +34,9 @@ public class MainMenu implements Screen {
         stage = new Stage(vp);
         Gdx.input.setInputProcessor(stage);
         table = new Table(Monopoly.skin);
+
+        viewingRules = false;
+        rulesScene = new RulesScene(game);
 
         btnPlay = new TextButton("New game", Monopoly.btnStyle);
         btnPlay.addListener(new ClickListener() {
@@ -40,6 +47,12 @@ public class MainMenu implements Screen {
         });
 
         btnRules = new TextButton("Rules", Monopoly.btnStyle);
+        btnRules.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                viewingRules = true;
+            }
+        });
 
         btnResume = new TextButton("Continue game", Monopoly.btnStyle);
         btnResume.addListener(new ClickListener() {
@@ -77,6 +90,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void render(float delta) {
+        Gdx.input.setInputProcessor(stage);
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.spb.begin();
@@ -84,6 +98,9 @@ public class MainMenu implements Screen {
         game.spb.end();
         stage.act(delta);
         stage.draw();
+
+        if (viewingRules)
+            rulesScene.render();
     }
 
     @Override
