@@ -72,3 +72,27 @@ With the time given, we did our best to make an almost complete, playable game. 
 We really enjoyed doing this project! After the presentation, maybe we will make a refined finished version.
 #### Work distribution
 Both of us worked together and equally, so we decide to assign 50% to each of us.
+## User Manual
+After opening the game's application, you will get to the
+#### Main Menu
+![RealMainMenu](README_rsc/RealMainMenu.png)
+- **New Game** button is for you to start a new game, and it'll take you to the "Players" Scene;
+- **Continue game** button will let you continue your last exited game;
+- **Rules** button is to show you the rules and how to play the game;
+- **Exit** button exits the application.
+#### Players Menu
+![RealNewGame](README_rsc/RealNewGame.png)
+##### This screen is for you to choose the **number of players**. It goes up to 8 players, and you add or withdraw players using the **arrows on the top of the screen**. You can **input a name** for each player, which will display during each player's turn and you can choose whether those players are real players or the **AI** controlling them, but checking the box. You can also choose if you want the dices to be automatically generated or to roll them by yourself using the device's **accelerometer**.
+##### Once the desired number of players is decided, you hit the **Play** button.
+#### Play Mode
+![RealPlayMode](README_rsc/RealPlayMode.png)
+##### This is the game itself, where you can see a **board** and a **HUD**. All the pawns start at the **Go** house and its the player 1's turn. On the HUD you can see the **player's turn name**, his **money balance**, his **dice roll** and his **position on the board** (positions start counting on the GO house as 0, and increment with each house you go through the board).
+##### Each turn starts by the player rolling the dices (generated automatically or manually). Then, the pawn will move from its current position to a house on the board by the sum of the numbers of the dice. When you land on a house, a windows will prompt with the informations of the landed house. If you land on a **card house** you will get the consequence of the card (a random card from a list of cards), if its a **property house** you will get several options at your disposal:
+-**Acquire** button lets you buy that property, and after acquiring it, the button will change to **Improve**, which lets you buy houses in that property (if you buy 5 houses, it'll become into a hotel);
+-**Auction** button lets you create an auction, in case you dont want to buy the property, and all the players can play the auction;
+-**Mortgage** button lets you sell the property and all of it's houses (if any) to the Bank, just in case if you need extra-money;
+-**Exit** button exits the house prompt.
+![RealCardMenu](README_rsc/RealCardMenu.png)
+##### If you have more doubts about how to play this game, check the
+#### Rules Section
+![RealRules](README_rsc/RealRules.png)
