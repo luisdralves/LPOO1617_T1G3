@@ -58,8 +58,10 @@ public class MainMenu implements Screen {
         btnResume.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (game.isHappening)
-                    game.setScreen(new PlayScreen(game));
+                if (game.isHappening) {
+                    game.setScreen(game.screen);
+                    game.screen.gameCycle();
+                }
             }
         });
 
@@ -93,6 +95,8 @@ public class MainMenu implements Screen {
         Gdx.input.setInputProcessor(stage);
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        vp.apply();
+        game.spb.setProjectionMatrix(cam.combined);
         game.spb.begin();
         game.spb.draw(background, 0, 0, Monopoly.WIDTH, Monopoly.HEIGHT);
         game.spb.end();

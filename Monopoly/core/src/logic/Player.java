@@ -129,8 +129,6 @@ public class Player {
         roll1 = dice.nextInt(6) + 1;
         roll2 = dice.nextInt(6) + 1;
         diceHaveBeenRolled = true;
-        roll1 = 3;
-        roll2 = 4;
     }
 
     public void rollDice(int i1, int i2) {

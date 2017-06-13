@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import screens.MainMenu;
+import screens.PlayScreen;
 
 public class Monopoly extends Game {
     public final static int WIDTH = 1280;
@@ -42,7 +43,7 @@ public class Monopoly extends Game {
     public Music musicLoop;
     public SpriteBatch spb;
     public boolean isHappening;
-    private Screen screen;
+    public PlayScreen screen;
 
     @Override
     public void create() {
@@ -68,12 +69,10 @@ public class Monopoly extends Game {
         btnStyleInvisible.font = kabelBlack;
 
         ibtnStyleRight = new ImageButton.ImageButtonStyle();
-        // TODO: 07/06/2017 add to atlas
         ibtnStyleRight.up = new TextureRegionDrawable(new TextureRegion(new Texture("ibtn_right.png")));
         ibtnStyleRight.down = new TextureRegionDrawable(new TextureRegion(new Texture("ibtn_right_down.png")));
 
         ibtnStyleLeft = new ImageButton.ImageButtonStyle();
-        // TODO: 07/06/2017 add to atlas
         ibtnStyleLeft.up = new TextureRegionDrawable(new TextureRegion(new Texture("ibtn_left.png")));
         ibtnStyleLeft.down = new TextureRegionDrawable(new TextureRegion(new Texture("ibtn_left_down.png")));
 
@@ -99,8 +98,8 @@ public class Monopoly extends Game {
 
         shapeRenderer = new ShapeRenderer();
 
-        screen = new MainMenu(this);
-        setScreen(screen);
+        screen = new PlayScreen(this);
+        setScreen(new MainMenu(this));
         musicInit();
     }
 

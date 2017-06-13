@@ -51,7 +51,7 @@ public class SquareScene {
     public SquareScene() {
         auctionScene = new AuctionScene();
         auctioning = false;
-        stage = new Stage();
+        stage = new Stage(PlayScreen.vp);
         bg = new Texture("prop_bg.png");
         set = Color.BLACK;
 
@@ -357,6 +357,8 @@ public class SquareScene {
     public void render(SpriteBatch spb) {
         Gdx.input.setInputProcessor(this.stage);
         Gdx.gl.glEnable(GL20.GL_BLEND);
+        PlayScreen.vp.apply();
+        Monopoly.shapeRenderer.setProjectionMatrix(spb.getProjectionMatrix());
         Monopoly.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         Monopoly.shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 0.6f);
         Monopoly.shapeRenderer.rect(0, 0, Monopoly.WIDTH, Monopoly.HEIGHT);

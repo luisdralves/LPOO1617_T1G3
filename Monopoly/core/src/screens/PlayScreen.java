@@ -38,8 +38,8 @@ public class PlayScreen implements Screen {
     private static TextButton btnEndTurn;
     private static TextButton btnDice;
     private Monopoly game;
-    private OrthographicCamera cam;
-    private Viewport vp;
+    public OrthographicCamera cam;
+    public static Viewport vp;
     private Hud hud;
     private BoardScene board;
     private SquareScene squareScene;
@@ -53,6 +53,7 @@ public class PlayScreen implements Screen {
     private List<Button> btnSq;
 
     public PlayScreen(Monopoly m) {
+        GameData.hardReset();
         game = m;
         game.isHappening = true;
         cam = new OrthographicCamera();
@@ -71,7 +72,6 @@ public class PlayScreen implements Screen {
         initButtons();
         initBtnTable();
         initialized = true;
-        gameCycle();
     }
 
     public static void exitPropertyScene() {
@@ -257,7 +257,7 @@ public class PlayScreen implements Screen {
 
     }
 
-    private void gameCycle() {
+    public void gameCycle() {
         GameData.currentPlayerInt++;
         GameData.currentPlayerInt %= GameData.getPlayers().size();
         Player currentPlayer = GameData.getPlayer();

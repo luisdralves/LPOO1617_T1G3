@@ -22,6 +22,7 @@ import java.util.List;
 import logic.Board;
 import logic.GameData;
 import logic.Purchasable;
+import screens.PlayScreen;
 
 /**
  * Created by up201405308 on 07/06/2017.
@@ -42,7 +43,7 @@ public class AuctionScene {
     private int sqPos;
 
     public AuctionScene() {
-        stage = new Stage();
+        stage = new Stage(PlayScreen.vp);
         table = new Table();
         tableButtons = new Table();
         bg = new Texture("auction_bg.png");
@@ -119,6 +120,8 @@ public class AuctionScene {
     public void render(SpriteBatch spb) {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.input.setInputProcessor(stage);
+        PlayScreen.vp.apply();
+        Monopoly.shapeRenderer.setProjectionMatrix(spb.getProjectionMatrix());
         Monopoly.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         Monopoly.shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 0.6f);
         Monopoly.shapeRenderer.rect(0, 0, Monopoly.WIDTH, Monopoly.HEIGHT);

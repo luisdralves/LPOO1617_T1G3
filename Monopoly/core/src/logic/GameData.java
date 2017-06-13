@@ -13,7 +13,7 @@ public final class GameData {
 	private static List<Card> chanceCards;
 	private static List<Card> commCards;
 
-	static {
+	public static void hardReset() {
 		currentPlayerInt = -1;
 
 		initChanceCards();
