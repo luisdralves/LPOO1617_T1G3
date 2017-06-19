@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -36,6 +37,7 @@ public class NewGameScreen implements Screen {
     private TextButton btnPlay, btnBack;
     private TextField playerCountField;
     private ImageButton playerCountMore, playerCountLess;
+    private Texture background;
 
     public NewGameScreen(Monopoly m) {
         game = m;
@@ -46,6 +48,7 @@ public class NewGameScreen implements Screen {
         table = new Table(Monopoly.skin);
         tableInfo = new Table(Monopoly.skin);
         tableButtons = new Table(Monopoly.skin);
+        background = new Texture("newgame_bg.jpg");
 
         playerCount = 2;
 
@@ -156,6 +159,9 @@ public class NewGameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         vp.apply();
         game.spb.setProjectionMatrix(cam.combined);
+        game.spb.begin();
+        game.spb.draw(background, 0, 0, Monopoly.WIDTH, Monopoly.HEIGHT);
+        game.spb.end();
         stage.act(delta);
         stage.draw();
     }
