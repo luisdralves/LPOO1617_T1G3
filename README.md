@@ -8,14 +8,14 @@ Miguel Rodrigues Pires, up201406989, up201406989@fe.up.pt
 
 ## Setup/ Installation procedures
 ### APK file:
-- Download the "monopoly.apk" file (only for Android, for now) on this branch or you can also download it here: https://feupload.fe.up.pt/get/2CiCjG0dzOwD6Rl;
+- Download the "monopoly.apk" file (only for Android, for now) on this branch;
 - Copy the .apk file into anywhere of your mobile device's storage;
 - Open your device's file manager, look for the .apk file that you copied;
 - Click on it and install the game;
 - Have fun!
 
 ### Jar file:
-(having difficulties creating it)
+- Just download and open the "monopoly.jar" file located on the path "Monopoly/executables" in this branch and play the game.
 ## Architecture Design
 #### Package and class diagram
 ![Package and class diagram](README_rsc/Classes.png)
